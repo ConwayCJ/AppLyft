@@ -1,4 +1,4 @@
-import { app, BrowserWindow, ipcMain } from 'electron'
+import { app, BrowserWindow, ipcMain, ipcRenderer } from 'electron'
 import path from 'node:path'
 import fs from 'fs'
 
@@ -52,16 +52,56 @@ app.on('activate', () => {
 
 app.whenReady().then(createWindow)
 
-ipcMain.on("saveData", (sender, data) => {
-  console.log(data)
-  const sData = JSON.stringify(data)
-  const curData = fs.readFileSync("data/chris.json")
+ipcMain.on("getProfiles", (sender) => {
 
-  console.log("Current Data: " + curData)
-  console.log("New data: " + sData)
+  const curData = fs.readFileSync(`data/existingProfiles.json`)
+  const profiles = JSON.parse(curData)
+  // ipcMain.('sendBackProfiles', profiles.profiles)
 
-  const testObj = JSON.stringify(curData)
+});
 
-  // fs.appendFileSync("data/chris.json", sData)
-  console.log("data saved: ", data)
+
+
+
+// Create a new profile if doesn't exist
+ipcMain.on("createProfile", (sender, profileName) => {
+  const defaultJson: string = `{"jobs": []}`
+
+
+  try {
+    fs.writeFileSync
+  } catch (e) {
+
+  }
+
+
 })
+
+// Add a new job to existing profile
+ipcMain.on("saveData", (sender, newJob, profile) => {
+
+
+  try {
+    const curData = fs.readFileSync(`data/profile.${profile}.json`)
+    const jobsKeyArray = JSON.parse(curData)
+    newJob.id = jobsKeyArray.jobs.length
+    jobsKeyArray.jobs.push(newJob)
+
+    fs.writeFileSync(`data/profile.${profile}.json`, JSON.stringify(jobsKeyArray))
+  } catch (jsonError) {
+    if (jsonError instanceof ENOENT) {
+      console.log("it works!")
+    } else {
+      console.log("it failed get rekt")
+    }
+  }
+})
+
+
+function checkIds(jobsArray: object[]) {
+  return jobsArray.forEach((job, index) => {
+    if (jobsArray[index].id != index) {
+      jobsArray[index].id = index
+    }
+  })
+}

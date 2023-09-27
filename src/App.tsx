@@ -1,33 +1,45 @@
 import { useState } from 'react'
 import './App.css'
 import NewJobForm from './components/NewJobForm'
+import Login from './components/Login'
 
 function App() {
   const [value, setValue] = useState("value")
-
-  // window.writeFile("hello world")
-  window.Bridge.saveData("front end job", "microsoft")
+  const [currentProfile, setCurrentProfile] = useState(null)
 
   const handleWrite = (e, data) => {
     e.preventDefault()
-    console.log("Submitting new job")
 
-    const fData = {
-      ...data,
-      dateApplied: new Date()
+    if (profile !== null) {
+      const fData = {
+        ...data,
+        dateApplied: new Date(),
+        status: 'Applied',
+        id: null,
+      }
+      console.log("Submitting new job")
+
+      window.Bridge.saveData(fData, profile)
+
+    } else {
+      alert('Please choose a profile!')
     }
-
-    window.Bridge.saveData(fData)
-
   }
 
+  const handleProfile = (p) => {
+    setCurrentProfile(p)
+  }
 
 
   return (
     <>
-      {/* <input onChange={(e) => setValue(e.target.value)} />
-      <button onClick={handleWrite}>Submit</button> */}
-      <NewJobForm handleWrite={handleWrite} />
+      {currentProfile ? (
+        <>
+          <input onChange={e => setCurrentProfile(e.target.value)} placeholder='Enter Profile Name' />
+          <NewJobForm handleWrite={handleWrite} />
+        </>
+      ) : <Login handleProfile={handleProfile} />}
+
     </>
   )
 }

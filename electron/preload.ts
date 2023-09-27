@@ -1,25 +1,26 @@
-import { contextBridge, ipcRenderer } from 'electron'
+import { contextBridge, ipcRenderer, ipcMain } from 'electron'
 
 
 // Save data to data.json file:
 
-const saveData = (jobName: string, jobTitle: string, company: string, URL: string, pointOfContact: string) => {
+const saveData = (newJob, profile) => {
 
-  const data = {
-    jobName,
-    jobTitle,
-    company,
-    URL,
-    pointOfContact,
-    dateApplied: new Date(),
-  }
 
-  ipcRenderer.send("saveData", data)
-
+  ipcRenderer.send("saveData", newJob, profile)
+  ipcMain.on("sendBackProfiles")
 }
+
+const getProfiles = () => {
+  ipcRenderer.send('getProfiles')
+  ipcMain.on('getBackProfiles', data => {
+    return data
+  })
+}
+
 
 const bridge = {
   saveData,
+  getProfiles,
 }
 
 contextBridge.exposeInMainWorld("Bridge", bridge)
