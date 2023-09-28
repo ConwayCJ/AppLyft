@@ -6,7 +6,4 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
   <App />
 )
 
-// Remove Preload scripts loading
-postMessage({ payload: 'removeLoading' }, '*')
-
 

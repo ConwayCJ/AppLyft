@@ -1,4 +1,4 @@
-import { app, BrowserWindow, ipcMain, ipcRenderer } from 'electron'
+import { app, BrowserWindow, ipcMain, Menu } from 'electron'
 import path from 'node:path'
 import fs from 'fs'
 
@@ -50,36 +50,48 @@ app.on('activate', () => {
   }
 })
 
-app.whenReady().then(createWindow)
+app.whenReady().then(() => {
+  ipcMain.handle('getProfiles', getProfiles)
+  createWindow();
+})
 
-ipcMain.on("getProfiles", (sender) => {
-
-  const curData = fs.readFileSync(`data/existingProfiles.json`)
-  const profiles = JSON.parse(curData)
-  // ipcMain.('sendBackProfiles', profiles.profiles)
-
-});
-
-
-
+//pain
+async function getProfiles() {
+  let profiles = fs.readFileSync("data/existingProfiles.json")
+  profiles = JSON.parse(profiles)
+  return profiles.profiles
+}
 
 // Create a new profile if doesn't exist
 ipcMain.on("createProfile", (sender, profileName) => {
+  console.log("Creating profile");
   const defaultJson: string = `{"jobs": []}`
 
 
   try {
-    fs.writeFileSync
+    const curData = fs.readFileSync(`data/existingProfiles.json`)
+    const profilesArray = JSON.parse(curData)
+
+
+
+    if (!profilesArray.profiles.includes(profileName)) {
+      profilesArray.profiles.push(profileName)
+      fs.writeFileSync(`data/existingProfiles.json`, JSON.stringify(profilesArray))
+
+      fs.writeFileSync(`data/profile.${profileName}.json`, defaultJson)
+      console.log('Successfully created new profile')
+    } else {
+      console.log('profile already exists')
+    }
+
   } catch (e) {
-
+    console.error(e)
   }
-
 
 })
 
 // Add a new job to existing profile
 ipcMain.on("saveData", (sender, newJob, profile) => {
-
 
   try {
     const curData = fs.readFileSync(`data/profile.${profile}.json`)
@@ -89,12 +101,9 @@ ipcMain.on("saveData", (sender, newJob, profile) => {
 
     fs.writeFileSync(`data/profile.${profile}.json`, JSON.stringify(jobsKeyArray))
   } catch (jsonError) {
-    if (jsonError instanceof ENOENT) {
-      console.log("it works!")
-    } else {
-      console.log("it failed get rekt")
-    }
+    console.error(jsonError)
   }
+
 })
 
 

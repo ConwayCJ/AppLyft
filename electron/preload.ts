@@ -1,25 +1,33 @@
-import { contextBridge, ipcRenderer, ipcMain } from 'electron'
+import { contextBridge, ipcRenderer } from 'electron'
 
+
+type Job = {
+  title: string,
+  company: string,
+  url: string,
+  pocname: string,
+  pocurl: string,
+  description: string,
+}
 
 // Save data to data.json file:
-
-const saveData = (newJob, profile) => {
-
-
+const saveData = (newJob: Job, profile: string) => {
   ipcRenderer.send("saveData", newJob, profile)
-  ipcMain.on("sendBackProfiles")
+}
+
+/* Profile Handlers */
+
+const createProfile = (profileName: string) => {
+  ipcRenderer.send("createProfile", profileName)
 }
 
 const getProfiles = () => {
-  ipcRenderer.send('getProfiles')
-  ipcMain.on('getBackProfiles', data => {
-    return data
-  })
+  return ipcRenderer.invoke("getProfiles")
 }
-
 
 const bridge = {
   saveData,
+  createProfile,
   getProfiles,
 }
 

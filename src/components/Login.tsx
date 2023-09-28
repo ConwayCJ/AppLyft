@@ -1,18 +1,32 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 
 export default function Login({ handleProfile }) {
 
   const [newProfileName, setNewProfileName] = useState("")
-  const existingProfiles = [];
-  console.log(window.Bridge.getProfiles());
-  //get a list of buttons
+  const [existingProfiles, setExistingProfiles] = useState([])
+
+
+
+
+  useEffect(() => {
+    const getProfiles = async () => {
+      const profiles = await window.Bridge.getProfiles();
+      setExistingProfiles(profiles)
+    }
+    getProfiles()
+  }, [])
+
+  const handleCreateProfile = (e: SubmitEvent, profileName: string) => {
+    e.preventDefault()
+    window.Bridge.createProfile(profileName)
+  }
 
   return (
     <div>
       <span>
         <h6>Choose an Existing Profile</h6>
         {existingProfiles.map(profile => (
-          <button onClick={e => handleProfile(e, profile)}>{profile}</button>
+          <button onClick={() => handleProfile(profile)}>{profile}</button>
         ))}
         {/* map over list of buttons for each existing profile */}
       </span>
@@ -20,9 +34,9 @@ export default function Login({ handleProfile }) {
 
       <span>
         <h6>Create New Profile</h6>
-        <form onSubmit={e => handleProfile(e, newProfileName)}>
+        <form onSubmit={e => handleCreateProfile(e, newProfileName)}>
           <input onChange={e => setNewProfileName(e.target.value)} />
-          <button>Create Profile</button>
+          <button type="submit">Create Profile</button>
         </form>
       </span>
 
