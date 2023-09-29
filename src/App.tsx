@@ -35,7 +35,7 @@ function App() {
 
 
   return (
-    <div className=' bg-gray-500 text-center text-white'>
+    <div>
       {currentProfile ? (
         <>
           <Navigation />

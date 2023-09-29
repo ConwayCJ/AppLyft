@@ -5,9 +5,6 @@ export default function Login({ handleProfile }) {
   const [newProfileName, setNewProfileName] = useState("")
   const [existingProfiles, setExistingProfiles] = useState([])
 
-
-
-
   useEffect(() => {
     const getProfiles = async () => {
       const profiles = await window.Bridge.getProfiles();
@@ -25,9 +22,13 @@ export default function Login({ handleProfile }) {
     <div>
       <span>
         <h6>Choose an Existing Profile</h6>
-        {existingProfiles.map(profile => (
-          <button onClick={() => handleProfile(profile)}>{profile}</button>
-        ))}
+        {existingProfiles.map(profile =>
+        (
+          <button onClick={() => handleProfile(profile)}>
+            {profile}
+          </button>
+        )
+        )}
         {/* map over list of buttons for each existing profile */}
       </span>
 
