@@ -1,4 +1,5 @@
-import { app, BrowserWindow, ipcMain, Menu } from 'electron'
+import { app, BrowserWindow, ipcMain } from 'electron'
+import { Job } from '../types'
 import path from 'node:path'
 import fs from 'fs'
 
@@ -11,6 +12,8 @@ const VITE_DEV_SERVER_URL = process.env['VITE_DEV_SERVER_URL']
 
 function createWindow() {
   win = new BrowserWindow({
+    minWidth: 620,
+    minHeight: 653,
     icon: path.join(process.env.VITE_PUBLIC, 'electron-vite.svg'),
     webPreferences: {
       nodeIntegration: true,
@@ -42,6 +45,17 @@ app.on('window-all-closed', () => {
   }
 })
 
+// app.on('ready', () => {
+//   session.defaultSession.webRequest.onHeadersReceived((details, callback) => {
+//     callback({
+//       responseHeaders: {
+//         ...details.responseHeaders,
+//         'Content-Security-Policy': ['default-src \'none\'']
+//       }
+//     })
+//   })
+// })
+
 app.on('activate', () => {
   // On OS X it's common to re-create a window in the app when the
   // dock icon is clicked and there are no other windows open.
@@ -57,19 +71,19 @@ app.whenReady().then(() => {
 
 //pain
 async function getProfiles() {
-  let profiles = fs.readFileSync("data/existingProfiles.json")
-  profiles = JSON.parse(profiles)
-  return profiles.profiles
+  const profiles = fs.readFileSync("data/existingProfiles.json", 'utf-8')
+  const jsonProfiles = JSON.parse(profiles);
+  return jsonProfiles.profiles
 }
 
 // Create a new profile if doesn't exist
-ipcMain.on("createProfile", (sender, profileName) => {
-  console.log("Creating profile");
+ipcMain.on("createProfile", (sender: Electron.IpcMainEvent, profileName: string) => {
+  console.log("Creating profile", sender);
   const defaultJson: string = `{"jobs": []}`
 
 
   try {
-    const curData = fs.readFileSync(`data/existingProfiles.json`)
+    const curData = fs.readFileSync(`data/existingProfiles.json`, 'utf-8')
     const profilesArray = JSON.parse(curData)
 
 
@@ -77,7 +91,6 @@ ipcMain.on("createProfile", (sender, profileName) => {
     if (!profilesArray.profiles.includes(profileName)) {
       profilesArray.profiles.push(profileName)
       fs.writeFileSync(`data/existingProfiles.json`, JSON.stringify(profilesArray))
-
       fs.writeFileSync(`data/profile.${profileName}.json`, defaultJson)
       console.log('Successfully created new profile')
     } else {
@@ -91,10 +104,11 @@ ipcMain.on("createProfile", (sender, profileName) => {
 })
 
 // Add a new job to existing profile
-ipcMain.on("saveData", (sender, newJob, profile) => {
+ipcMain.on("saveData", (sender: Electron.IpcMainEvent, newJob: Job, profile: string) => {
+  console.log('ipcMain saveData // sender: ', sender)
 
   try {
-    const curData = fs.readFileSync(`data/profile.${profile}.json`)
+    const curData = fs.readFileSync(`data/profile.${profile}.json`, 'utf-8')
     const jobsKeyArray = JSON.parse(curData)
     newJob.id = jobsKeyArray.jobs.length
     jobsKeyArray.jobs.push(newJob)
@@ -107,10 +121,10 @@ ipcMain.on("saveData", (sender, newJob, profile) => {
 })
 
 
-function checkIds(jobsArray: object[]) {
-  return jobsArray.forEach((job, index) => {
-    if (jobsArray[index].id != index) {
-      jobsArray[index].id = index
-    }
-  })
-}
+// function checkIds(jobsArray: object[]) {
+//   return jobsArray.forEach((job, index) => {
+//     if (jobsArray[index].id != index) {
+//       jobsArray[index].id = index
+//     }
+//   })
+// }

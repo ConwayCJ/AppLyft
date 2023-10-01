@@ -1,14 +1,7 @@
 import { contextBridge, ipcRenderer } from 'electron'
+import { Job } from '../types'
 
 
-type Job = {
-  title: string,
-  company: string,
-  url: string,
-  pocname: string,
-  pocurl: string,
-  description: string,
-}
 
 // Save data to data.json file:
 const saveData = (newJob: Job, profile: string) => {
