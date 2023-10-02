@@ -5,6 +5,7 @@ const defaultProfile = {
   allProfiles: window.Bridge.getProfiles(),
   methods: {
     postJob: window.Bridge.postJob,
+    getJobs: window.Bridge.getJobs,
     createProfile: window.Bridge.createProfile,
   }
 }

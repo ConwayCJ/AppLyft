@@ -66,8 +66,13 @@ app.on('activate', () => {
 
 app.whenReady().then(() => {
   ipcMain.handle('getProfiles', getProfiles)
+  ipcMain.handle('getJobs', getJobs)
   createWindow();
 })
+
+
+
+
 
 //pain
 async function getProfiles() {
@@ -75,6 +80,25 @@ async function getProfiles() {
   const jsonProfiles = JSON.parse(profiles);
   return jsonProfiles.profiles
 }
+
+
+async function getJobs(event: Electron.IpcMainInvokeEvent, username: string) {
+  console.log(username)
+  try {
+    const jobData = await fs.readFileSync(`data/profile.${username}.json`, "utf-8")
+    const jobsArray = await JSON.parse(jobData)
+
+    return jobsArray.jobs;
+
+  } catch (jsonError) {
+    console.error(jsonError)
+  }
+}
+
+
+
+
+
 
 // Create a new profile if doesn't exist
 ipcMain.on("createProfile", (sender: Electron.IpcMainEvent, profileName: string) => {
@@ -119,7 +143,6 @@ ipcMain.on("postJob", (sender: Electron.IpcMainEvent, newJob: Job, profile: stri
   }
 
 })
-
 
 // function checkIds(jobsArray: object[]) {
 //   return jobsArray.forEach((job, index) => {

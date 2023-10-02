@@ -16,10 +16,16 @@ const getProfiles = () => {
   return ipcRenderer.invoke("getProfiles")
 }
 
+const getJobs = (username: string) => {
+  console.log('preload:', username)
+  return ipcRenderer.invoke("getJobs", username)
+}
+
 const bridge = {
   postJob,
   createProfile,
   getProfiles,
+  getJobs,
 }
 
 contextBridge.exposeInMainWorld("Bridge", bridge)

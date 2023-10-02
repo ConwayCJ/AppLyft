@@ -17,7 +17,7 @@ export default function View({ username, feature }: ViewProps) {
         return <Home />
         break
       case 'table':
-        return <JobTable />
+        return <JobTable username={username} />
         break
       case 'newjob':
         return <NewJobForm />

@@ -30,8 +30,9 @@ function App() {
 
   function handleProfile(p: string | null) {
     setCurrentProfile(p ? p : '')
-    profile.username = currentProfile
   }
+
+
 
   return (
     <div>

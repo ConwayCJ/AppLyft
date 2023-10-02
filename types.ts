@@ -5,5 +5,6 @@ export type Job = {
   pocname: string,
   pocurl: string,
   description: string,
+  dateApplied: Date,
   id?: number
 }

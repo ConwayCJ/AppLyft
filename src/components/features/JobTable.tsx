@@ -1,138 +1,23 @@
-import heman from '../../../public/heman.png'
-export default function JobTable() {
+import { Job } from '../../../types';
+import { ProfileContext } from '../../ProfileContext';
+import heman from '../../assets/heman.png'
+import { useContext, useEffect, useState } from 'react';
+export default function JobTable({ username }: { username: string }) {
 
-  const data = [{
-    "title": "SWDE 1",
-    "company": "Microsoft",
-    "url": "www.microsoft.com",
-    "pocname": "Judy Rains",
-    "pocurl": "linkedin.com/judy",
-    "description": "Giga chad job with super giga chad giga chads",
-    "dateApplied": "2023-09-27T00:07:43.123Z",
-    "status": "Applied",
-    "id": 0
-  },
-  {
-    "title": "Data Test Engineer",
-    "company": "Linkedin",
-    "url": "linkedin.com",
-    "pocname": "Suzy Halls",
-    "pocurl": "linkedin.com/suzy",
-    "description": "giga chad testing wow java",
-    "dateApplied": "2023-09-27T00:07:59.194Z",
-    "status": "Applied",
-    "id": 1
-  },
-  {
-    "title": "Data Test Engineer",
-    "company": "Linkedin",
-    "url": "linkedin.com",
-    "pocname": "Suzy Halls",
-    "pocurl": "linkedin.com/suzy",
-    "description": "giga chad testing wow java",
-    "dateApplied": "2023-09-27T00:07:59.194Z",
-    "status": "Applied",
-    "id": 1
-  },
-  {
-    "title": "Data Test Engineer",
-    "company": "Linkedin",
-    "url": "linkedin.com",
-    "pocname": "Suzy Halls",
-    "pocurl": "linkedin.com/suzy",
-    "description": "giga chad testing wow java",
-    "dateApplied": "2023-09-27T00:07:59.194Z",
-    "status": "Applied",
-    "id": 1
-  },
-  {
-    "title": "Data Test Engineer",
-    "company": "Linkedin",
-    "url": "linkedin.com",
-    "pocname": "Suzy Halls",
-    "pocurl": "linkedin.com/suzy",
-    "description": "giga chad testing wow java",
-    "dateApplied": "2023-09-27T00:07:59.194Z",
-    "status": "Applied",
-    "id": 1
-  },
-  {
-    "title": "Data Test Engineer",
-    "company": "Linkedin",
-    "url": "linkedin.com",
-    "pocname": "Suzy Halls",
-    "pocurl": "linkedin.com/suzy",
-    "description": "giga chad testing wow java",
-    "dateApplied": "2023-09-27T00:07:59.194Z",
-    "status": "Applied",
-    "id": 1
-  },
-  {
-    "title": "Data Test Engineer",
-    "company": "Linkedin",
-    "url": "linkedin.com",
-    "pocname": "Suzy Halls",
-    "pocurl": "linkedin.com/suzy",
-    "description": "giga chad testing wow java",
-    "dateApplied": "2023-09-27T00:07:59.194Z",
-    "status": "Applied",
-    "id": 1
-  },
-  {
-    "title": "Data Test Engineer",
-    "company": "Linkedin",
-    "url": "linkedin.com",
-    "pocname": "Suzy Halls",
-    "pocurl": "linkedin.com/suzy",
-    "description": "giga chad testing wow java",
-    "dateApplied": "2023-09-27T00:07:59.194Z",
-    "status": "Applied",
-    "id": 1
-  },
-  {
-    "title": "Data Test Engineer",
-    "company": "Linkedin",
-    "url": "linkedin.com",
-    "pocname": "Suzy Halls",
-    "pocurl": "linkedin.com/suzy",
-    "description": "giga chad testing wow java",
-    "dateApplied": "2023-09-27T00:07:59.194Z",
-    "status": "Applied",
-    "id": 1
-  },
-  {
-    "title": "Data Test Engineer",
-    "company": "Linkedin",
-    "url": "linkedin.com",
-    "pocname": "Suzy Halls",
-    "pocurl": "linkedin.com/suzy",
-    "description": "giga chad testing wow java",
-    "dateApplied": "2023-09-27T00:07:59.194Z",
-    "status": "Applied",
-    "id": 1
-  },
-  {
-    "title": "Data Test Engineer",
-    "company": "Linkedin",
-    "url": "linkedin.com",
-    "pocname": "Suzy Halls",
-    "pocurl": "linkedin.com/suzy",
-    "description": "giga chad testing wow java",
-    "dateApplied": "2023-09-27T00:07:59.194Z",
-    "status": "Applied",
-    "id": 1
-  },
-  {
-    "title": "Data Test Engineer",
-    "company": "Linkedin",
-    "url": "linkedin.com",
-    "pocname": "Suzy Halls",
-    "pocurl": "linkedin.com/suzy",
-    "description": "giga chad testing wow java",
-    "dateApplied": "2023-09-27T00:07:59.194Z",
-    "status": "Applied",
-    "id": 1
-  }]
+  const [data, setData] = useState([]);
+
+  const profileOptions = useContext(ProfileContext)
+
+  const getJobs = async () => {
+    const jobs = await profileOptions.methods.getJobs(username);
+    setData(jobs)
+  }
+
+  useEffect(() => {
+    getJobs()
+  }, [])
+
+
 
   // const detailedTable = (jobdata: Job[]) => {
 
@@ -149,7 +34,6 @@ export default function JobTable() {
   return (
     <div className="overflow-x-auto overflow-y-auto h-screen">
       <table className="table">
-        {/* head */}
         <thead>
           <tr>
             <th>
@@ -166,7 +50,7 @@ export default function JobTable() {
           </tr>
         </thead>
         <tbody>
-          {data.map((job, index) => {
+          {data.map((job: Job, index) => {
 
             const date = new Date(job.dateApplied)
             const dateString = date.toLocaleDateString()
@@ -199,8 +83,8 @@ export default function JobTable() {
                 <td>{dateString}</td>
                 <td>{daysSince} days</td>
                 <td>
-                  <select className="select select-ghost w-full max-w-m">
-                    <option disabled defaultValue={"Status"}>Status</option>
+                  <select className="select select-sm select-ghost w-full max-w-m">
+                    <option disabled defaultValue={"Status"}></option>
                     <option>Applied</option>
                     <option>Emailed Followup</option>
                     <option>Interview Scheduled</option>

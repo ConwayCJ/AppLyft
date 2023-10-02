@@ -1,23 +1,23 @@
 {
   "jobs": [
     {
-      "title": "j",
-      "company": "j",
-      "url": "j",
-      "pocname": "j",
-      "pocurl": "j",
-      "description": "j",
+      "title": "Backend shit jobb",
+      "company": "oracler",
+      "url": "www.oracle.baddocumentation",
+      "pocname": "Duke deez",
+      "pocurl": "duke.org",
+      "description": "giga not chad job cause API structure",
       "dateApplied": "2023-09-27T00:07:43.123Z",
       "status": "Applied",
       "id": 0
     },
     {
-      "title": "g",
-      "company": "g",
-      "url": "g",
-      "pocname": "g",
-      "pocurl": "g",
-      "description": "g",
+      "title": "Data Test Engineer",
+      "company": "Linkedin",
+      "url": "linkedin.com",
+      "pocname": "Suzy Halls",
+      "pocurl": "linkedin.com/suzy",
+      "description": "giga chad testing wow java",
       "dateApplied": "2023-09-27T00:07:59.194Z",
       "status": "Applied",
       "id": 1
