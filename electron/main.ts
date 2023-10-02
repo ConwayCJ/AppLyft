@@ -104,7 +104,7 @@ ipcMain.on("createProfile", (sender: Electron.IpcMainEvent, profileName: string)
 })
 
 // Add a new job to existing profile
-ipcMain.on("saveData", (sender: Electron.IpcMainEvent, newJob: Job, profile: string) => {
+ipcMain.on("postJob", (sender: Electron.IpcMainEvent, newJob: Job, profile: string) => {
   console.log('ipcMain saveData // sender: ', sender)
 
   try {

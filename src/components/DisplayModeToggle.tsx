@@ -7,7 +7,7 @@ export default function DisplayModeToggle() {
 
     const currentMode = document.body.getAttribute('data-theme');
 
-    const newMode = currentMode === 'customdark' ? 'customlight' : 'customdark'
+    const newMode = currentMode === 'fantasy' ? 'dracula' : 'fantasy'
 
     body.setAttribute('data-theme', newMode)
   }

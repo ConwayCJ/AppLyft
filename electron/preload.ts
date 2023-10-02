@@ -1,11 +1,9 @@
 import { contextBridge, ipcRenderer } from 'electron'
 import { Job } from '../types'
 
-
-
 // Save data to data.json file:
-const saveData = (newJob: Job, profile: string) => {
-  ipcRenderer.send("saveData", newJob, profile)
+const postJob = (newJob: Job, profile: string) => {
+  ipcRenderer.send("postJob", newJob, profile)
 }
 
 /* Profile Handlers */
@@ -19,7 +17,7 @@ const getProfiles = () => {
 }
 
 const bridge = {
-  saveData,
+  postJob,
   createProfile,
   getProfiles,
 }

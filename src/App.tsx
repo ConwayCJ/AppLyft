@@ -1,14 +1,15 @@
-import { useState } from 'react'
+import { useContext, useState } from 'react'
 import './App.css'
-import NewJobForm from './components/NewJobForm'
 import Login from './components/Login'
-import Navigation from './components/Navigation'
+import Profile from './components/Profile'
+import { Job } from '../types'
+import { ProfileContext } from './ProfileContext'
 
 function App() {
-  const [value, setValue] = useState("value")
-  const [currentProfile, setCurrentProfile] = useState(null)
+  const profileData = useContext(ProfileContext)
+  const [currentProfile, setCurrentProfile] = useState<null | string>(profileData.username)
 
-  const handleWrite = (e, data) => {
+  const handleWrite = (e: React.FormEvent<SubmitEvent>, data: Job) => {
     e.preventDefault()
 
     if (currentProfile !== null) {
@@ -22,29 +23,26 @@ function App() {
       console.log(`Submitting new job for ${currentProfile}: 
         ${fData}
       `)
-
-      window.Bridge.saveData(fData, currentProfile)
+      profileData.methods.postJob(fData, currentProfile)
     } else {
       alert('Please choose a profile!')
     }
   }
 
   const handleProfile = (p: string) => {
-    setCurrentProfile(p)
+    setCurrentProfile(p ? p : null)
   }
 
 
   return (
     <div>
-      {currentProfile ? (
-        <>
-          <Navigation />
-          <span>
-            <NewJobForm handleWrite={handleWrite} />
-          </span>
-        </>
-      ) : <Login handleProfile={handleProfile} />}
-
+      {
+        currentProfile ? (
+          <ProfileContext.Provider value={profileData}>
+            <Profile logout={handleProfile} username={currentProfile} />
+          </ProfileContext.Provider>
+        ) : <Login handleProfile={handleProfile} />
+      }
     </div>
   )
 }

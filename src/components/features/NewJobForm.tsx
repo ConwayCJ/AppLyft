@@ -1,16 +1,6 @@
 import { useState } from 'react'
-type Job = {
-  title: string,
-  company: string,
-  url: string,
-  pocname: string,
-  pocurl: string,
-  description: string,
-}
 
-export default function NewJobForm(props) {
-
-  const { handleWrite } = props
+export default function NewJobForm() {
 
   const [formData, setFormData] = useState({
     title: "",
@@ -21,10 +11,10 @@ export default function NewJobForm(props) {
     description: "",
   })
 
-  const handleValueChange = (e, value: string) => {
+  const handleValueChange = (e: React.ChangeEvent<HTMLInputElement>, value: string) => {
     setFormData({
       ...formData,
-      [value]: e.target.value
+      [value]: e.currentTarget.value
     })
   }
 
