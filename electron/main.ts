@@ -81,7 +81,7 @@ async function getProfiles() {
   return jsonProfiles.profiles
 }
 
-
+//slightly less pain
 async function getJobs(event: Electron.IpcMainInvokeEvent, username: string) {
   console.log(username)
   try {

@@ -17,8 +17,6 @@ export default function JobTable({ username }: { username: string }) {
     getJobs()
   }, [])
 
-
-
   // const detailedTable = (jobdata: Job[]) => {
 
   // }
@@ -41,7 +39,7 @@ export default function JobTable({ username }: { username: string }) {
                 Checked
               </label>
             </th>
-            <th>Motivator</th>
+            {/* <th>Motivator</th> */}
             <th>Job</th>
             <th>📅 Applied</th>
             <th>📅 Past</th>
@@ -54,10 +52,7 @@ export default function JobTable({ username }: { username: string }) {
 
             const date = new Date(job.dateApplied)
             const dateString = date.toLocaleDateString()
-
             const daysSince = Math.round((new Date().getTime() - date.getTime()) / (1000 * 3600 * 24))
-
-
 
             return (
               <tr key={index}>
@@ -66,15 +61,15 @@ export default function JobTable({ username }: { username: string }) {
                     <input type="checkbox" className="checkbox" />
                   </label>
                 </th>
-                <td>
+                {/* <td>
                   <div className="flex items-center space-x-3">
                     <div className="avatar">
-                      <div className="mask mask-squircle w-12 h-12">
+                       <div className="mask mask-squircle w-12 h-12">
                         <img src={heman} alt="Job Picture" />
-                      </div>
+                      </div> 
                     </div>
                   </div>
-                </td>
+                </td> */}
                 <td>
                   {job.title}
                   <br />

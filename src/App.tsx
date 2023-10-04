@@ -8,31 +8,9 @@ function App() {
   const profile = useContext(ProfileContext)
   const [currentProfile, setCurrentProfile] = useState<string>(profile.username)
 
-  // const handleWrite = (e: React.FormEvent<SubmitEvent>, data: Job) => {
-  //   e.preventDefault()
-
-  //   if (currentProfile !== null) {
-
-  //     const fData = {
-  //       ...data,
-  //       dateApplied: new Date(),
-  //       status: 'Applied',
-  //       id: null,
-  //     }
-  //     console.log(`Submitting new job for ${currentProfile}: 
-  //       ${fData}
-  //     `)
-  //     profile.methods.postJob(fData, currentProfile)
-  //   } else {
-  //     alert('Please choose a profile!')
-  //   }
-  // }
-
   function handleProfile(p: string | null) {
     setCurrentProfile(p ? p : '')
   }
-
-
 
   return (
     <div>
@@ -41,7 +19,10 @@ function App() {
           <ProfileContext.Provider value={profile}>
             <Profile logout={handleProfile} username={currentProfile} />
           </ProfileContext.Provider>
-        ) : <Login handleProfile={handleProfile} />
+        ) :
+          <ProfileContext.Provider value={profile}>
+            <Login handleProfile={handleProfile} />
+          </ProfileContext.Provider>
       }
     </div>
   )

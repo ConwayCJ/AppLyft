@@ -1,22 +1,32 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useContext, useRef } from 'react'
 import DisplayModeToggle from './DisplayModeToggle'
+import { ProfileContext } from '../ProfileContext'
 
 export default function Login({ handleProfile }) {
 
   const [newProfileName, setNewProfileName] = useState("")
   const [existingProfiles, setExistingProfiles] = useState([])
+  const profileOptions = useContext(ProfileContext)
+
 
   useEffect(() => {
-    const getProfiles = async () => {
-      const profiles = await window.Bridge.getProfiles();
-      setExistingProfiles(profiles)
-    }
     getProfiles()
   }, [])
 
-  const handleCreateProfile = (e: SubmitEvent, profileName: string) => {
-    e.preventDefault()
-    window.Bridge.createProfile(profileName)
+  async function getProfiles() {
+    const profiles = await profileOptions.allProfiles;
+    setExistingProfiles(profiles)
+  }
+
+  const handleCreateProfile = () => {
+    const pName: string = newProfileName.toLowerCase()
+
+    if (profileOptions.allProfiles.includes(pName)) {
+      alert('Profile already exists, choose a unique name.')
+    } else {
+      profileOptions.methods.createProfile(pName)
+      getProfiles()
+    }
   }
 
   return (
@@ -44,7 +54,14 @@ export default function Login({ handleProfile }) {
                 )
                 )}
               </span>
-              <label htmlFor="my-drawer" className=" align-bottom drawer-button mt-4 text-secondary text-md">Create a Profile</label>
+
+              <label onClick={() => {
+                setTimeout(() => {
+                  document.getElementById('newProfileInput')?.focus()
+                }, 0)
+              }
+              }
+                htmlFor="my-drawer" className=" align-bottom drawer-button mt-4 text-secondary text-md">Create a Profile</label>
             </div>
             {/* Hero Section End */}
           </div>
@@ -59,9 +76,8 @@ export default function Login({ handleProfile }) {
               <div className="max-w-md">
                 <h1 className="text-5xl font-bold">Hello there</h1>
                 <p className="py-6">Let's get started.</p>
-                <form className='flex flex-col' onSubmit={e => handleCreateProfile(e, newProfileName)}>
-
-                  <input className='input input-bordered input-accent input-sm mb-2' placeholder="Profile Name" onChange={e => setNewProfileName(e.target.value)} />
+                <form className='flex flex-col' onSubmit={handleCreateProfile}>
+                  <input id="newProfileInput" autoFocus className='input input-bordered input-info input-sm mb-2' placeholder="Profile Name" onChange={e => setNewProfileName(e.target.value)} />
                   <button className='btn btn-sm outline outline-1'>Create Profile</button>
                 </form>
               </div>

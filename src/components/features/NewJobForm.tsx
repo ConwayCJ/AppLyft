@@ -1,4 +1,5 @@
-import { useContext, useState } from 'react'
+import { useState } from 'react'
+import { Job } from '../../../types'
 
 export default function NewJobForm() {
 
@@ -9,6 +10,7 @@ export default function NewJobForm() {
     pocname: "",
     pocurl: "",
     description: "",
+    dateApplied: new Date(),
   })
 
   const handleValueChange = (e: React.ChangeEvent<HTMLInputElement>, value: string) => {
@@ -16,6 +18,10 @@ export default function NewJobForm() {
       ...formData,
       [value]: e.currentTarget.value
     })
+  }
+
+  const handleWrite = (e: React.FormEvent<HTMLFormElement>, newJob: Job) => {
+    console.log(e, { ...newJob, dateApplied: new Date() })
   }
 
   return (
