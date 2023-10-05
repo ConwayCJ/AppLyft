@@ -1,7 +1,7 @@
 import fs from "fs";
 import { Job } from "../types";
 
-// export function checkIds(jobsArray: object[]) {
+// function checkIds(jobsArray: object[]) {
 //   return jobsArray.forEach((job, index) => {
 //     if (jobsArray[index].id != index) {
 //       jobsArray[index].id = index;
@@ -9,18 +9,18 @@ import { Job } from "../types";
 //   });
 // }
 
-export function removeJob(jobId: number, profile: string) {
+export function removeJob(jobIds: number[], profile: string) {
   try {
     const curData = fs.readFileSync(`data/profile.${profile}.json`, "utf-8");
     const dataArray = JSON.parse(curData);
 
     for (let i = 0; i < dataArray.length; i++) {
-      if (dataArray[i].id == jobId) {
+      if (dataArray[i].id == jobIds) {
         dataArray.splice(i);
       }
     }
   } catch (jsonError) {
-    console.log("Removejob Error: ", jsonError);
+    console.log("Remove Job Error: ", jsonError);
   }
 }
 
@@ -36,7 +36,7 @@ export function addJob(newJob: Job, profile: string){
       JSON.stringify(jobsKeyArray)
     );
   } catch (jsonError) {
-    console.error(jsonError);
+    console.error("Add Job Error: ", jsonError);
   }
 }
 
