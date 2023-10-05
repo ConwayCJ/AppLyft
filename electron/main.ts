@@ -2,7 +2,7 @@ import { app, BrowserWindow, ipcMain } from "electron";
 import { Job } from "../types";
 import path from "node:path";
 
-import * as "jsonHandler" from jsonHandler/jsonHandler.ts"
+import * as jsonDataHandler from './jsonHandler.ts'
 
 
 process.env.DIST = path.join(__dirname, "../dist");
@@ -74,45 +74,34 @@ app.whenReady().then(() => {
   createWindow();
 });
 
+
+
 //pain
 async function getProfiles() {
-  const profiles = fs.readFileSync("data/existingProfiles.json", "utf-8");
-  const jsonProfiles = JSON.parse(profiles);
-  return jsonProfiles.profiles;
+  return jsonDataHandler.getProfiles();
 }
 
 //slightly less pain
 async function getJobs(event: Electron.IpcMainInvokeEvent, username: string) {
-  console.log(username);
-  try {
-    const jobData = await fs.readFileSync(
-      `data/profile.${username}.json`,
-      "utf-8"
-    );
-    const jobsArray = await JSON.parse(jobData);
-
-    return jobsArray.jobs;
-  } catch (jsonError) {
-    console.error(jsonError);
-  }
+  return jsonDataHandler.getAllJobs(username);
 }
 
 // Create a new profile if doesn't exist
 ipcMain.on("createProfile", (sender: Electron.IpcMainEvent, profileName: string) => {
 
-  createProfile(profileName);
+  jsonDataHandler.createProfile(profileName);
 
-);
+});
 
 // Add a new job to existing profile
 ipcMain.on("postJob",(sender: Electron.IpcMainEvent, newJob: Job, profile: string) => {
     
-  addJob(newJob, profile);
+  jsonDataHandler.addJob(newJob, profile);
 
   });
 
-ipcMain.on("removeJob", (jobId, profile) => {
+ipcMain.on("removeJob", (sender: Electron.IpcMainEvent, jobId:number, profile:string) => {
 
-  removeJob(jobId, profile);
+  jsonDataHandler.removeJob(jobId, profile);
 
 });

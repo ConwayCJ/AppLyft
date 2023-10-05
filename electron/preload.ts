@@ -7,11 +7,9 @@ const postJob = (newJob: Job, profile: string) => {
 }
 
 /* Profile Handlers */
-
 const createProfile = (profileName: string) => {
   ipcRenderer.send("createProfile", profileName)
 }
-
 
 //get all profiles
 const getProfiles = () => {
