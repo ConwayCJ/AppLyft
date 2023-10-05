@@ -23,9 +23,9 @@ const getJobs = (username: string) => {
   return ipcRenderer.invoke("getJobs", username)
 }
 
-//remove a single job based based on the ID we send
-const removeJob = (jobId: number) => {
-  ipcRenderer.send("removeJob", jobId)
+//remove a single job based based on the ID we send on the given profile, return nothing
+const removeJob = (jobId: number, profile: string) => {
+  ipcRenderer.send("removeJob", jobId, profile)
 }
 const bridge = {
   postJob,
