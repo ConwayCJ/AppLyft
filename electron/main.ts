@@ -144,6 +144,33 @@ ipcMain.on("postJob", (sender: Electron.IpcMainEvent, newJob: Job, profile: stri
 
 })
 
+//remove a specified profile's job based on the ID, then reformat all of our ID's to ensure consistancy
+ipcMain.on("removeJob", (jobId, profile) => {
+  try{
+    const curData = fs.readFileSync(`data/profile.${profile}.json`)
+    let dataArray = JSON.parse(curData)
+
+    for(let i = 0; i < dataArray.length; i++){
+      if(dataArray[i].id == jobId){
+        dataArray.splice(i)
+      }
+    }
+
+
+  }catch(jsonError){
+    console.log("Removejob Error: ",jsonError)
+  }
+
+
+})
+
+
+// todo: refactor all of main so that all of our functions 
+// for messing with Json are in functions that get called by the .on or .invoke calls
+// this way we can reuse a lot of our code, most of this is just rewrites of eachother, and more complex logic will
+// add more unnecessary overhead and technical debt
+
+
 // function checkIds(jobsArray: object[]) {
 //   return jobsArray.forEach((job, index) => {
 //     if (jobsArray[index].id != index) {

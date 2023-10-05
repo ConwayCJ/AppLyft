@@ -12,20 +12,27 @@ const createProfile = (profileName: string) => {
   ipcRenderer.send("createProfile", profileName)
 }
 
+
+//get all profiles
 const getProfiles = () => {
   return ipcRenderer.invoke("getProfiles")
 }
 
+//get all jobs from the intended username
 const getJobs = (username: string) => {
-  console.log('preload:', username)
   return ipcRenderer.invoke("getJobs", username)
 }
 
+//remove a single job based based on the ID we send
+const removeJob = (jobId: number) => {
+  ipcRenderer.send("removeJob", jobId)
+}
 const bridge = {
   postJob,
   createProfile,
   getProfiles,
   getJobs,
+  removeJob
 }
 
 contextBridge.exposeInMainWorld("Bridge", bridge)
