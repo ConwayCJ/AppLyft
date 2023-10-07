@@ -1,12 +1,13 @@
-import { useState, useEffect, useContext, useRef } from 'react'
+import { useState, useEffect, useContext, FormEvent } from 'react'
 import DisplayModeToggle from './DisplayModeToggle'
 import { ProfileContext } from '../ProfileContext'
 
-export default function Login({ handleProfile }) {
+export default function Login({ loginAs }: { loginAs: (profileName: string) => void }) {
 
-  const [newProfileName, setNewProfileName] = useState("")
-  const [existingProfiles, setExistingProfiles] = useState([])
+  const [newProfileName, setNewProfileName] = useState<string>("")
+  const [existingProfiles, setExistingProfiles] = useState<string[]>([])
   const profileOptions = useContext(ProfileContext)
+  const [loginMessage, setLoginMessage] = useState(<label>What's your name?</label>)
 
 
   useEffect(() => {
@@ -16,16 +17,22 @@ export default function Login({ handleProfile }) {
   async function getProfiles() {
     const profiles = await profileOptions.allProfiles;
     setExistingProfiles(profiles)
+    console.log(profiles)
+    return profiles
   }
 
-  const handleCreateProfile = () => {
-    const pName: string = newProfileName.toLowerCase()
+  const handleCreateProfile = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
 
-    if (profileOptions.allProfiles.includes(pName)) {
-      alert('Profile already exists, choose a unique name.')
+    const formattedProfileName = newProfileName.toLowerCase()
+
+    if (existingProfiles.includes(formattedProfileName)) {
+      setLoginMessage(<p className=' text-red-600 animate-bounce'>They already exist 💔</p>)
     } else {
-      profileOptions.methods.createProfile(pName)
-      getProfiles()
+      profileOptions.methods.createProfile(formattedProfileName)
+
+      setExistingProfiles([...existingProfiles, newProfileName])
+
     }
   }
 
@@ -48,20 +55,14 @@ export default function Login({ handleProfile }) {
               <span className='join'>
                 {existingProfiles.map((profile, index) =>
                 (
-                  <button className='btn join-item border-primary' onClick={() => handleProfile(profile)} key={index}>
+                  <button className='btn join-item border-primary' onClick={() => loginAs(profile)} key={index}>
                     {profile}
                   </button>
                 )
                 )}
               </span>
 
-              <label onClick={() => {
-                setTimeout(() => {
-                  document.getElementById('newProfileInput')?.focus()
-                }, 0)
-              }
-              }
-                htmlFor="my-drawer" className=" align-bottom drawer-button mt-4 text-secondary text-md">Create a Profile</label>
+              <label htmlFor="my-drawer" className=" align-bottom drawer-button mt-4 text-secondary text-md">Create a Profile</label>
             </div>
             {/* Hero Section End */}
           </div>
@@ -77,7 +78,9 @@ export default function Login({ handleProfile }) {
                 <h1 className="text-5xl font-bold">Hello there</h1>
                 <p className="py-6">Let's get started.</p>
                 <form className='flex flex-col' onSubmit={handleCreateProfile}>
-                  <input id="newProfileInput" autoFocus className='input input-bordered input-info input-sm mb-2' placeholder="Profile Name" onChange={e => setNewProfileName(e.target.value)} />
+                  {loginMessage}
+                  <p className='mb-1'>🔻</p>
+                  <input required id="newProfileInput" autoFocus className='input input-bordered input-info input-sm mb-2' value={newProfileName} onChange={e => setNewProfileName(e.target.value)} />
                   <button className='btn btn-sm outline outline-1'>Create Profile</button>
                 </form>
               </div>

@@ -8,7 +8,7 @@ function App() {
   const profile = useContext(ProfileContext)
   const [currentProfile, setCurrentProfile] = useState<string>(profile.username)
 
-  function handleProfile(p: string | null) {
+  function handleLoginLogout(p: string | null) {
     setCurrentProfile(p ? p : '')
   }
 
@@ -17,11 +17,11 @@ function App() {
       {
         currentProfile ? (
           <ProfileContext.Provider value={profile}>
-            <Profile logout={handleProfile} username={currentProfile} />
+            <Profile logout={handleLoginLogout} username={currentProfile} />
           </ProfileContext.Provider>
         ) :
           <ProfileContext.Provider value={profile}>
-            <Login handleProfile={handleProfile} />
+            <Login loginAs={handleLoginLogout} />
           </ProfileContext.Provider>
       }
     </div>
