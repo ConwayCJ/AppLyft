@@ -1,7 +1,8 @@
-import { useState } from 'react'
+import { useContext, useState } from 'react'
 import { Job } from '../../../types'
+import { ProfileContext } from '../../ProfileContext'
 
-export default function NewJobForm() {
+export default function NewJobForm({ username }: { username: string }) {
 
   const [formData, setFormData] = useState({
     title: "",
@@ -10,8 +11,9 @@ export default function NewJobForm() {
     pocname: "",
     pocurl: "",
     description: "",
-    dateApplied: new Date(),
   })
+
+  const profileOptions = useContext(ProfileContext)
 
   const handleValueChange = (e: React.ChangeEvent<HTMLInputElement>, value: string) => {
     setFormData({
@@ -20,12 +22,20 @@ export default function NewJobForm() {
     })
   }
 
-  const handleWrite = (e: React.FormEvent<HTMLFormElement>, newJob: Job) => {
-    console.log(e, { ...newJob, dateApplied: new Date() })
+  const handleWrite = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+
+    const newJob: Job = {
+      ...formData,
+      dateApplied: new Date()
+    }
+
+    profileOptions.methods.postJob(newJob, username)
+
   }
 
   return (
-    <form onSubmit={e => handleWrite(e, formData)}>
+    <form onSubmit={e => handleWrite(e)}>
       <span>
         <label htmlFor='title'>Job Title </label>
         <input onChange={e => handleValueChange(e, 'title')} id="title" placeholder="Software Developer" />

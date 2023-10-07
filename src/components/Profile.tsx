@@ -11,25 +11,6 @@ type ProfileProps = {
 
 export default function Profile({ logout, username }: ProfileProps) {
 
-  // const postNewJob = (e, data) => {
-  //   e.preventDefault()
-
-  //   if (currentProfile !== null) {
-
-  //     const fData = {
-  //       ...data,
-  //       dateApplied: new Date(),
-  //       status: 'Applied',
-  //       id: null,
-  //     }
-  //     console.log(`Submitting new job for ${currentProfile}: 
-  //       ${fData}
-  //     `)
-
-  //     window.Bridge.saveData(fData, currentProfile)
-  //   }
-  // }
-
   const [feature, setFeature] = useState('home')
 
   function toggleFeature(feature: string): void {

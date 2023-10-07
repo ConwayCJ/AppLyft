@@ -10,9 +10,15 @@ import { Job } from "../types";
 // }
 
 export function removeJob(jobIds: number[], profile: string) {
+
+
+
+
   try {
     const curData = fs.readFileSync(`data/profile.${profile}.json`, "utf-8");
     const dataArray = JSON.parse(curData);
+
+
 
     for (let i = 0; i < dataArray.length; i++) {
       if (dataArray[i].id == jobIds) {
@@ -24,8 +30,8 @@ export function removeJob(jobIds: number[], profile: string) {
   }
 }
 
-export function addJob(newJob: Job, profile: string){
-    try {
+export function addJob(newJob: Job, profile: string) {
+  try {
     const curData = fs.readFileSync(`data/profile.${profile}.json`, "utf-8");
     const jobsKeyArray = JSON.parse(curData);
     newJob.id = jobsKeyArray.jobs.length;
@@ -40,7 +46,7 @@ export function addJob(newJob: Job, profile: string){
   }
 }
 
-export async function getAllJobs(profileName:string){
+export async function getAllJobs(profileName: string) {
   try {
     const jobData = await fs.readFileSync(
       `data/profile.${profileName}.json`,
@@ -54,13 +60,13 @@ export async function getAllJobs(profileName:string){
   }
 }
 
-export async function getProfiles(){
+export async function getProfiles() {
   const profiles = fs.readFileSync("data/existingProfiles.json", "utf-8");
   const jsonProfiles = JSON.parse(profiles);
   return jsonProfiles.profiles;
 }
 
-export function createProfile(profileName: string){
+export function createProfile(profileName: string) {
   console.log("Creating profile");
   const defaultJson: string = `{"jobs": []}`;
 

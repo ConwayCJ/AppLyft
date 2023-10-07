@@ -20,7 +20,7 @@ export default function View({ username, feature }: ViewProps) {
         return <JobTable username={username} />
         break
       case 'newjob':
-        return <NewJobForm />
+        return <NewJobForm username={username} />
     }
   }
 
