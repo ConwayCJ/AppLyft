@@ -94,13 +94,13 @@ ipcMain.on("createProfile", (_sender: Electron.IpcMainEvent, profileName: string
 });
 
 // Add a new job to existing profile
-ipcMain.on("postJob",(_sender: Electron.IpcMainEvent, newJob: Job, profile: string) => {
-    
+ipcMain.on("postJob", (_sender: Electron.IpcMainEvent, newJob: Job, profile: string) => {
+
   jsonDataHandler.addJob(newJob, profile);
 
-  });
+});
 
-ipcMain.on("removeJob", (_sender: Electron.IpcMainEvent, jobId:number, profile:string) => {
+ipcMain.on("removeJob", (_sender: Electron.IpcMainEvent, jobId: number[], profile: string) => {
 
   jsonDataHandler.removeJob(jobId, profile);
 

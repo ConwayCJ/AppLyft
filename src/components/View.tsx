@@ -1,6 +1,6 @@
 import NewJobForm from "./features/NewJobForm";
 import Home from "./features/Home";
-import JobTable from "./features/JobTable";
+import JobTable from "./features/table/JobTable";
 
 type ViewProps = {
   username: string,
@@ -25,7 +25,7 @@ export default function View({ username, feature }: ViewProps) {
   }
 
   return (
-    <div>
+    <div className="w-full">
       {handleView(feature)}
     </div>
   )
