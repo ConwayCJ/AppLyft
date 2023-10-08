@@ -8,7 +8,7 @@ export default function JobTable({ username }: { username: string }) {
   const profileOptions = useContext(ProfileContext)
 
   const [jobList, setJobList] = useState([]);
-  let selectedJobs = [];
+  let selectedJobs: number[] = [];
 
   const getJobs = async () => {
     const jobs = await profileOptions.methods.getJobs(username);
@@ -30,7 +30,8 @@ export default function JobTable({ username }: { username: string }) {
 
   const deleteSelectedJobs = () => {
     profileOptions.methods.removeJobs(selectedJobs, username)
-
+    selectedJobs.length = 0;
+    getJobs()
   }
   useEffect(() => {
     getJobs()
