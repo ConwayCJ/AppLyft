@@ -9,7 +9,7 @@ import { Job } from "../types";
 //   });
 // }
 
-export function removeJob(jobIds: number[], profile: string) {
+export function removeJobs(jobIds: number[], profile: string) {
 
 
 

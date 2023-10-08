@@ -22,15 +22,15 @@ const getJobs = (username: string) => {
 }
 
 //remove a single job based based on the ID we send on the given profile, return nothing
-const removeJob = (jobId: number, profile: string) => {
-  ipcRenderer.send("removeJob", jobId, profile)
+const removeJobs = (jobId: number[], profile: string) => {
+  ipcRenderer.send("removeJobs", jobId, profile)
 }
 const bridge = {
   postJob,
   createProfile,
   getProfiles,
   getJobs,
-  removeJob
+  removeJobs
 }
 
 contextBridge.exposeInMainWorld("Bridge", bridge)
