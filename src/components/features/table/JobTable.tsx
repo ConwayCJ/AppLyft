@@ -15,10 +15,10 @@ export default function JobTable({ username }: { username: string }) {
     setJobList(jobs)
   }
 
-  const jobDeletionCheckboxChange = (jobId?:number) => {
+  const jobDeletionCheckboxChange = (jobId?: number) => {
     //if it already exists in the array, remove it
     console.log("adding job with id: " + jobId)
-    if(selectedJobs.includes(jobId)){
+    if (selectedJobs.includes(jobId)) {
       selectedJobs = (selectedJobs.filter((id) => id !== jobId))
       console.log(selectedJobs)
     } else {
@@ -37,7 +37,7 @@ export default function JobTable({ username }: { username: string }) {
     getJobs()
   }, [])
 
-  
+
   // const detailedTable = (jobList: Job[]) => {
 
   // }
@@ -56,6 +56,25 @@ export default function JobTable({ username }: { username: string }) {
       <TableStats jobList={jobList} />
 
       <div className="overflow-x-auto overflow-y-auto h-screen">
+        <div className='join'>
+          <div>
+            <input className='input input-sm input-bordered join-item' placeholder='🔎 Search' disabled />
+          </div>
+          <select disabled className='select select-sm select-bordered join-item'>
+            <option disabled selected>Filter</option>
+            <option>All</option>
+            <option>Applied</option>
+            <option>Emailed Followup</option>
+            <option>Past 7 days</option>
+          </select>
+          <div className="join">
+            <div>
+              <button className="btn btn-sm border-secondary join-item">Small</button>
+              <button className="btn btn-sm border-secondary join-item">Medium</button>
+              <button className="btn btn-sm border-secondary join-item">Large</button>
+            </div>
+          </div>
+        </div>
         <table className="table">
           <thead>
             <tr>
@@ -83,7 +102,7 @@ export default function JobTable({ username }: { username: string }) {
                 <tr key={index}>
                   <th>
                     <label>
-                      <input type="checkbox" className="checkbox" onClick={()=>jobDeletionCheckboxChange(job.id)}/>
+                      <input type="checkbox" className="checkbox" onClick={() => jobDeletionCheckboxChange(job.id)} />
                     </label>
                   </th>
                   <td>
@@ -129,14 +148,11 @@ export default function JobTable({ username }: { username: string }) {
           <tfoot>
             <tr>
               <th></th>
-              <th>Name</th>
               <th>Job</th>
               <th>📅 Applied</th>
               <th>📅 Past</th>
               <th>Status</th>
-              <th>URL</th>
-              <th>Job Description</th>
-              <th>Contact</th>
+              <th>Details</th>
             </tr>
           </tfoot>
         </table>
