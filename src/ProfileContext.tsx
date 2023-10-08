@@ -2,7 +2,7 @@ import { createContext } from 'react'
 
 const defaultProfile = {
   username: '',
-  allProfiles: window.Bridge.getProfiles(),
+  allProfiles: window.Bridge.getProfiles,
   methods: {
     postJob: window.Bridge.postJob,
     getJobs: window.Bridge.getJobs,

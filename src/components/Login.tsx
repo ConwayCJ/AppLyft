@@ -8,17 +8,15 @@ export default function Login({ loginAs }: { loginAs: (profileName: string) => v
   const [existingProfiles, setExistingProfiles] = useState<string[]>([])
   const profileOptions = useContext(ProfileContext)
   const [loginMessage, setLoginMessage] = useState(<label>What's your name?</label>)
-
+  const [newProfileCreated, setNewProfileCreated] = useState(false)
 
   useEffect(() => {
     getProfiles()
-  }, [])
+  }, [newProfileCreated])
 
   async function getProfiles() {
-    const profiles = await profileOptions.allProfiles;
+    const profiles = await profileOptions.allProfiles();
     setExistingProfiles(profiles)
-    console.log(profiles)
-    return profiles
   }
 
   const handleCreateProfile = async (e: FormEvent<HTMLFormElement>) => {
@@ -30,9 +28,7 @@ export default function Login({ loginAs }: { loginAs: (profileName: string) => v
       setLoginMessage(<p className=' text-red-600 animate-bounce'>They already exist 💔</p>)
     } else {
       profileOptions.methods.createProfile(formattedProfileName)
-
-      setExistingProfiles([...existingProfiles, newProfileName])
-
+      setNewProfileCreated(true)
     }
   }
 
