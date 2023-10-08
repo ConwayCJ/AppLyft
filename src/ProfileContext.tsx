@@ -7,6 +7,7 @@ const defaultProfile = {
     postJob: window.Bridge.postJob,
     getJobs: window.Bridge.getJobs,
     createProfile: window.Bridge.createProfile,
+    removeJobs: window.Bridge.removeJobs,
   }
 }
 

@@ -8,18 +8,35 @@ export default function JobTable({ username }: { username: string }) {
   const profileOptions = useContext(ProfileContext)
 
   const [jobList, setJobList] = useState([]);
-
+  let selectedJobs = [];
 
   const getJobs = async () => {
     const jobs = await profileOptions.methods.getJobs(username);
     setJobList(jobs)
   }
 
+  const jobDeletionCheckboxChange = (jobId?:number) => {
+    //if it already exists in the array, remove it
+    console.log("adding job with id: " + jobId)
+    if(selectedJobs.includes(jobId)){
+      selectedJobs = (selectedJobs.filter((id) => id !== jobId))
+      console.log(selectedJobs)
+    } else {
+      //otherwise just set the selected jobs to be the old array with the new id added on
+      selectedJobs = [...selectedJobs, jobId]
+      console.log(selectedJobs)
+    }
+  }
+
+  const deleteSelectedJobs = () => {
+    profileOptions.methods.removeJobs(selectedJobs, username)
+
+  }
   useEffect(() => {
     getJobs()
   }, [])
 
-
+  
   // const detailedTable = (jobList: Job[]) => {
 
   // }
@@ -51,6 +68,7 @@ export default function JobTable({ username }: { username: string }) {
               <th>📅 Past</th>
               <th>Status</th>
               <th>Details</th>
+              <th><button onClick={deleteSelectedJobs}>Delete Checked Jobs</button></th>
             </tr>
           </thead>
           <tbody>
@@ -64,7 +82,7 @@ export default function JobTable({ username }: { username: string }) {
                 <tr key={index}>
                   <th>
                     <label>
-                      <input type="checkbox" className="checkbox" />
+                      <input type="checkbox" className="checkbox" onClick={()=>jobDeletionCheckboxChange(job.id)}/>
                     </label>
                   </th>
                   <td>

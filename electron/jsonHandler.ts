@@ -10,21 +10,14 @@ import { Job } from "../types";
 // }
 
 export function removeJobs(jobIds: number[], profile: string) {
-
-
-
-
   try {
     const curData = fs.readFileSync(`data/profile.${profile}.json`, "utf-8");
     const dataArray = JSON.parse(curData);
+    
+    dataArray.jobs = dataArray.jobs.filter((job) => !jobIds.includes(job.id));
 
+    fs.writeFileSync(`data/profile.${profile}.json`,JSON.stringify(dataArray))
 
-
-    for (let i = 0; i < dataArray.length; i++) {
-      if (dataArray[i].id == jobIds) {
-        dataArray.splice(i);
-      }
-    }
   } catch (jsonError) {
     console.log("Remove Job Error: ", jsonError);
   }

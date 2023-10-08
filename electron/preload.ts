@@ -23,6 +23,7 @@ const getJobs = (username: string) => {
 
 //remove a single job based based on the ID we send on the given profile, return nothing
 const removeJobs = (jobId: number[], profile: string) => {
+  console.log("Preload told to remove jobs with id: ", jobId, " on profile ", profile)
   ipcRenderer.send("removeJobs", jobId, profile)
 }
 const bridge = {
