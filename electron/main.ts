@@ -100,8 +100,12 @@ ipcMain.on("postJob", (_sender: Electron.IpcMainEvent, newJob: Job, profile: str
 
 });
 
-ipcMain.on("removeJobs", (_sender: Electron.IpcMainEvent, jobId: number[], profile: string) => {
+ipcMain.on("removeJobs", (_sender: Electron.IpcMainEvent, jobIds: number[], profile: string) => {
 
-  jsonDataHandler.removeJobs(jobId, profile);
+  jsonDataHandler.removeJobs(jobIds, profile);
 
+});
+
+ipcMain.on("updateJobsStatus", (_sender: Electron.IpcMainEvent, jobIds: number[], profile: string) => {
+  jsonDataHandler.updateJobsStatus(jobIds, profile)
 });

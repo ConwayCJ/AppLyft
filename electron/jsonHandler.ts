@@ -13,10 +13,10 @@ export function removeJobs(jobIds: number[], profile: string) {
   try {
     const curData = fs.readFileSync(`data/profile.${profile}.json`, "utf-8");
     const dataArray = JSON.parse(curData);
-    
+
     dataArray.jobs = dataArray.jobs.filter((job) => !jobIds.includes(job.id));
 
-    fs.writeFileSync(`data/profile.${profile}.json`,JSON.stringify(dataArray))
+    fs.writeFileSync(`data/profile.${profile}.json`, JSON.stringify(dataArray))
 
   } catch (jsonError) {
     console.log("Remove Job Error: ", jsonError);

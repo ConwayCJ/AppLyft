@@ -22,16 +22,23 @@ const getJobs = (username: string) => {
 }
 
 //remove a single job based based on the ID we send on the given profile, return nothing
-const removeJobs = (jobId: number[], profile: string) => {
+const removeJobs = (jobIds: number[], profile: string) => {
   console.log("Preload told to remove jobs with id: ", jobId, " on profile ", profile)
-  ipcRenderer.send("removeJobs", jobId, profile)
+  ipcRenderer.send("removeJobs", jobIds, profile)
 }
+
+const changeJobsStatus = (jobIds: number[], profile: string) => {
+  console.log("updaing jobs with ids: ", jobIds)
+  ipcRenderer.send("updateJobsStatus", jobIds, profile)
+}
+
 const bridge = {
   postJob,
   createProfile,
   getProfiles,
   getJobs,
-  removeJobs
+  removeJobs,
+  changeJobsStatus
 }
 
 contextBridge.exposeInMainWorld("Bridge", bridge)

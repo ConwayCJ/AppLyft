@@ -1,8 +1,8 @@
 import Navigation from "./Navigation";
 import View from "./View";
 import Themes from "./Themes";
-import { useContext, useState } from 'react'
-import { ProfileContext } from "../ProfileContext";
+import { useState } from 'react'
+
 
 type ProfileProps = {
   logout: (p: string | null) => void,
