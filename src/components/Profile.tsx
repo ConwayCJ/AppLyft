@@ -22,8 +22,8 @@ export default function Profile({ logout, username }: ProfileProps) {
   }
 
   return (
-    <div className="flex w-full">
-      <div className="grid h-screen bg-base-300 px-2 py-3">
+    <div className="flex h-screen w-full">
+      <div className="grid bg-base-300 px-2 py-3">
         <span className="place-self-start justify-self-center text-center w-full">
           <span className="">
             <p className="pt-6 text-xl font-bold text-secondary">Job Tracker</p>
@@ -40,7 +40,7 @@ export default function Profile({ logout, username }: ProfileProps) {
         </span>
       </div>
       <div className="divider divider-horizontal "></div>
-      <div className="grid h-screen flex-grow card place-items-center">
+      <div className="grid h-screen flex-grow card">
         <View username={username} feature={feature} />
       </div>
     </div>

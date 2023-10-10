@@ -27,6 +27,7 @@ export default function NewJobForm({ username }: { username: string }) {
 
     const newJob: Job = {
       ...formData,
+      status: 'applied',
       dateApplied: new Date()
     }
 
