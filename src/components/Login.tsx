@@ -33,7 +33,7 @@ export default function Login({ loginAs }: { loginAs: (profileName: string) => v
   }
 
   return (
-    <div className='drawer relative flex flex-col items-center justify-center h-full w-full'>
+    <div className='drawer h-full w-full'>
       <div className='absolute top-0 right-0 p-6 '>
         <DisplayModeToggle />
       </div>

@@ -42,8 +42,33 @@ export default function JobTable({ username }: { username: string }) {
     setJobList(updatedJobList)
   }
 
-  const updateSelectedJobs = async () => {
+  async function filterBy(filterOption: string) {
 
+    let jobList = await profileOptions.methods.getJobs(username)
+    jobList = jobList.map((job: Job) => ({ ...job, checked: false }))
+
+    if (filterOption == 'all') {
+      setJobList(jobList)
+    } else {
+
+      setJobList(jobList.filter((job: Job & { checked: boolean }) => job.status == filterOption.toLowerCase()))
+    }
+  }
+  const updateSelectedJobs = async () => {
+    if (updateFormRadio) {
+      const selectedJobs = jobList.map(job => {
+        if (job.checked) {
+          job.status = updateFormRadio
+        }
+        return job
+      })
+      console.log(selectedJobs)
+      // BRYCE DO THE UPDATE THING HERE
+      // profileOptions.methods.updateJobs(selectedJobs)
+      // getJobs()
+    } else {
+      alert("Choose an option to update the status of every job.")
+    }
   }
 
   useEffect(() => {
@@ -55,7 +80,7 @@ export default function JobTable({ username }: { username: string }) {
   }, [checkAll])
 
   return (
-    <div className='flex flex-col max-h-screen w-full'>
+    <div className='flex flex-col max-h-screen w-full place-self-start'>
 
       {/* Toolbar */}
       <div className=''>
@@ -117,12 +142,12 @@ export default function JobTable({ username }: { username: string }) {
           {/* Search/Filter */}
           <div>
             <input className='input input-sm input-bordered join-item' placeholder='🔎 Search' disabled />
-            <select className='select select-sm select-bordered join-item'>
+            <select onChange={(e) => filterBy(e.target.value)} className='select select-sm select-bordered join-item'>
               <option>Filter by ...</option>
-              <option>All</option>
-              <option>Applied</option>
-              <option>Emailed Followup</option>
-              <option>Past 7 days</option>
+              <option value="all">All</option>
+              <option value="applied">Applied</option>
+              <option value="emailed followup">Emailed Followup</option>
+              <option value="interview scheduled">Interview Scheduled</option>
             </select>
           </div>
         </div>
@@ -174,7 +199,7 @@ export default function JobTable({ username }: { username: string }) {
                   <td>{daysSinceFormatted}</td>
                   <td>
                     <select className="select select-sm select-ghost w-full max-w-m">
-                      <option disabled defaultValue={"Status"}></option>
+                      <option>{job.status}</option>
                       <option>Applied</option>
                       <option>Emailed Followup</option>
                       <option>Interview Scheduled</option>
