@@ -42,6 +42,10 @@ export default function JobTable({ username }: { username: string }) {
     setJobList(updatedJobList)
   }
 
+  const updateSelectedJobs = async () => {
+
+  }
+
   useEffect(() => {
     getJobs()
   }, [])
@@ -83,25 +87,7 @@ export default function JobTable({ username }: { username: string }) {
                     <p>This is a <b>PERMANENT</b> change and cannot be undone.</p>
                     <p className="py-4"></p>
                     {/* onSubmit handles updating selected options */}
-                    <form method="dialog" className='form-control items-start' onSubmit={() => {
-
-                      if (updateFormRadio) {
-                        const selectedJobs = jobList.map(job => {
-                          if (job.checked) {
-                            job.status = updateFormRadio
-                          }
-                          return job
-                        })
-                        console.log(selectedJobs)
-                        // BRYCE DO THE UPDATE THING HERE
-                        // profileOptions.methods.updateJobs(selectedJobs)
-
-                      } else {
-                        alert("Choose an option to update the status of every job.")
-                      }
-
-
-                    }}>
+                    <form method="dialog" className='form-control items-start' onSubmit={updateSelectedJobs}>
                       <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
 
                       <div className='join my-6'>
