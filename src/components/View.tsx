@@ -25,8 +25,8 @@ export default function View({ username, feature }: ViewProps) {
   }
 
   return (
-    <div className="w-full">
+    <>
       {handleView(feature)}
-    </div>
+    </>
   )
 }

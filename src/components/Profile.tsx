@@ -40,7 +40,7 @@ export default function Profile({ logout, username }: ProfileProps) {
         </span>
       </div>
       <div className="divider divider-horizontal "></div>
-      <div className="grid h-screen flex-grow card">
+      <div className="grid h-screen flex-grow card place-items-center">
         <View username={username} feature={feature} />
       </div>
     </div>

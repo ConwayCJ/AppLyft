@@ -10,6 +10,7 @@ export default function JobTable({ username }: { username: string }) {
   const [jobList, setJobList] = useState<Array<Job & { checked: boolean }>>([]);
   const [tableSize, setTableSize] = useState('table-sm')
   const [checkAll, setCheckAll] = useState(false)
+  const [updateFormRadio, setUpdateFormRadio] = useState<null | string>(null)
 
   const getJobs = async () => {
     const jobs = await profileOptions.methods.getJobs(username);
@@ -50,11 +51,7 @@ export default function JobTable({ username }: { username: string }) {
   }, [checkAll])
 
   return (
-    <div className='flex flex-col max-h-screen'>
-
-
-
-      {/* Table Component */}
+    <div className='flex flex-col max-h-screen w-full'>
 
       {/* Toolbar */}
       <div className=''>
@@ -74,13 +71,54 @@ export default function JobTable({ username }: { username: string }) {
                   Delete Selected
                 </button>
               </li>
+              {/* Update selected, opens a modal */}
               <li>
-                <button className='flex btn btn-xs'>
+                <button className='flex btn btn-xs' onClick={() => document.getElementById('updateSelected')?.showModal()}>
                   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" className="w-4 h-4 mr-2 stroke-current"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"></path></svg>
-                  Update Selected
+                  Update Status Selected
                 </button>
+                <dialog id="updateSelected" className="modal">
+                  <div className="modal-box">
+                    <h3 className="font-bold text-xl text-secondary my-1">Update the status of every job:</h3>
+                    <p>This is a <b>PERMANENT</b> change and cannot be undone.</p>
+                    <p className="py-4"></p>
+                    {/* onSubmit handles updating selected options */}
+                    <form method="dialog" className='form-control items-start' onSubmit={() => {
+
+                      if (updateFormRadio) {
+                        const selectedJobs = jobList.map(job => {
+                          if (job.checked) {
+                            job.status = updateFormRadio
+                          }
+                          return job
+                        })
+                        console.log(selectedJobs)
+                        // BRYCE DO THE UPDATE THING HERE
+                        // profileOptions.methods.updateJobs(selectedJobs)
+
+                      } else {
+                        alert("Choose an option to update the status of every job.")
+                      }
+
+
+                    }}>
+                      <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+
+                      <div className='join my-6'>
+                        <input onChange={e => setUpdateFormRadio(e.target.value)} value='Applied' className='join-item btn border border-accent' type='radio' name="options" aria-label='Applied'></input>
+                        <input onChange={e => setUpdateFormRadio(e.target.value)} value='Emailed Followup' className='join-item btn border border-accent' type='radio' name="options" aria-label='Emailed Followup'></input>
+                        <input onChange={e => setUpdateFormRadio(e.target.value)} value='Interview Scheduled' className='join-item btn border border-accent' type='radio' name="options" aria-label='Interview Scheduled'></input>
+                      </div>
+
+                      <button className='btn btn-sm btn-error w-full' type='submit'>Update All</button>
+                    </form>
+                  </div>
+                  {/* <form method="dialog" className="modal-backdrop">
+                    <button>close</button>
+                  </form> */}
+                </dialog>
               </li>
-              <li>
+              <li className='mx-1'>
                 <select defaultValue={"Table Size"} className="select select-xs select-ghost w-full max-w-m uppercase" onChange={(e) => setTableSize(e.target.value)}>
                   <option disabled >Table Size</option>
                   <option value={'table-xs'}>Small</option>
@@ -163,7 +201,11 @@ export default function JobTable({ username }: { username: string }) {
                     <dialog id={`${job.id}`} className="modal">
                       <div className="modal-box mockup-browser border base-100">
                         <div className="mockup-browser-toolbar">
-                          <div className="input"><a title='Job URL' className="link link-hover link-info" href={job.url} target="_blank">{job.url}</a></div>
+                          <div className="input">
+                            <a title='Job URL' className="link link-hover link-info" href={job.url} target="_blank">
+                              {job.url.startsWith("https://") ? job.url : `https://${job.url}`}
+                            </a>
+                          </div>
                         </div>
                         {/* Add details/description/person to contact */}
 
@@ -184,18 +226,6 @@ export default function JobTable({ username }: { username: string }) {
                             Contact Info: <i><a className='link link-info link-hover' href={`${job.pocurl}`}>{job.pocurl}</a></i>
                           </p>
                         </section>
-
-                        {/* <h3 className="font-bold text-lg">Job Details</h3>
-                        <p>Job Url: <a className=" link" href={job.url} target="_blank">{job.url}</a></p>
-                        <article className="prose">
-                          {job.description}
-                        </article>
-                        <section>
-                          <h4>Person to Contact:</h4>
-                          <p>{job.pocname}</p>
-                          <p><a className="link" target="_blank" href={job.pocurl}>{job.pocurl}</a></p>
-                        </section> */}
-
                       </div>
                       <form method="dialog" className="modal-backdrop">
                         <button>close</button>
