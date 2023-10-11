@@ -105,7 +105,6 @@ export default function JobTable({ username }: { username: string }) {
       </div>
       {/* Table */}
       <div className='overflow-x-auto'>
-
         <table className={`table ${tableSize} table-pin-rows`}>
           <thead>
             <tr>
@@ -158,10 +157,35 @@ export default function JobTable({ username }: { username: string }) {
                     </select>
                   </td>
                   <td>
+                    {/* open modal */}
                     <button className="btn btn-sm" onClick={() => document.getElementById(`${job.id}`)?.showModal()}>Details</button>
+                    {/* modal */}
                     <dialog id={`${job.id}`} className="modal">
-                      <div className="modal-box">
-                        <h3 className="font-bold text-lg">Hello!</h3>
+                      <div className="modal-box mockup-browser border base-100">
+                        <div className="mockup-browser-toolbar">
+                          <div className="input"><a title='Job URL' className="link link-hover link-info" href={job.url} target="_blank">{job.url}</a></div>
+                        </div>
+                        {/* Add details/description/person to contact */}
+
+                        <section className='my-2'>
+                          <h1 className='text-xl text-secondary font-extrabold'>Job Description:</h1>
+                          <p className=' text-lg italic'>
+                            {job.description}
+                          </p>
+                        </section>
+
+                        <section className='my-2'>
+                          <h1 className='text-xl text-secondary font-extrabold'>Person to contact:</h1>
+                          <div className=' text-lg flex'>
+                            <p className='mr-1'>Name:</p>
+                            <p className=' italic text-info'>{job.pocname}</p>
+                          </div>
+                          <p className='text-lg'>
+                            Contact Info: <i><a className='link link-info link-hover' href={`${job.pocurl}`}>{job.pocurl}</a></i>
+                          </p>
+                        </section>
+
+                        {/* <h3 className="font-bold text-lg">Job Details</h3>
                         <p>Job Url: <a className=" link" href={job.url} target="_blank">{job.url}</a></p>
                         <article className="prose">
                           {job.description}
@@ -170,8 +194,8 @@ export default function JobTable({ username }: { username: string }) {
                           <h4>Person to Contact:</h4>
                           <p>{job.pocname}</p>
                           <p><a className="link" target="_blank" href={job.pocurl}>{job.pocurl}</a></p>
-                        </section>
-                        <p className="py-4">Press ESC key or click outside to close</p>
+                        </section> */}
+
                       </div>
                       <form method="dialog" className="modal-backdrop">
                         <button>close</button>
