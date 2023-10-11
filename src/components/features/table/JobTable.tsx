@@ -8,7 +8,7 @@ export default function JobTable({ username }: { username: string }) {
   const profileOptions = useContext(ProfileContext)
 
   const [jobList, setJobList] = useState<Array<Job & { checked: boolean }>>([]);
-  const [tableSize, setTableSize] = useState('md')
+  const [tableSize, setTableSize] = useState('table-sm')
   const [checkAll, setCheckAll] = useState(false)
 
   const getJobs = async () => {
@@ -45,6 +45,10 @@ export default function JobTable({ username }: { username: string }) {
     getJobs()
   }, [])
 
+  // useEffect(() => {
+
+  // }, [tableSize])
+
   useEffect(() => {
     setJobList(jobList.map((job: Job & { checked: boolean }) => ({ ...job, checked: checkAll })))
   }, [checkAll])
@@ -77,11 +81,11 @@ export default function JobTable({ username }: { username: string }) {
               </button>
             </li>
             <li>
-              <select className="select select-xs select-ghost w-full max-w-m uppercase" onChange={(e) => setTableSize(e.target.value)}>
-                <option disabled defaultValue={"sm"}>Table Size</option>
-                <option value={'xs'}>Small</option>
-                <option value={'sm'}>Medium</option>
-                <option value={'md'}>Large</option>
+              <select defaultValue={"Table Size"} className="select select-xs select-ghost w-full max-w-m uppercase" onChange={(e) => setTableSize(e.target.value)}>
+                <option disabled >Table Size</option>
+                <option value={'table-xs'}>Small</option>
+                <option value={'table-sm'}>Medium</option>
+                <option value={'table-md'}>Large</option>
               </select>
             </li>
           </ul>
@@ -90,7 +94,7 @@ export default function JobTable({ username }: { username: string }) {
         <div>
           <input className='input input-sm input-bordered join-item' placeholder='🔎 Search' disabled />
           <select disabled className='select select-sm select-bordered join-item'>
-            <option disabled selected>Filter</option>
+            <option disabled>Filter</option>
             <option>All</option>
             <option>Applied</option>
             <option>Emailed Followup</option>
@@ -99,14 +103,14 @@ export default function JobTable({ username }: { username: string }) {
         </div>
       </div>
       {/* Table */}
-      <table className={`table table-${tableSize} overflow-y-hidden`}>
+      <table className={`table ${tableSize} overflow-y-hidden`}>
         <thead>
           <tr>
             <th>
               <input
                 type="checkbox"
                 checked={checkAll}
-                className="checkbox checkbox-sm"
+                className="checkbox"
                 onChange={() => setCheckAll(!checkAll)} />
             </th>
             <th>Job</th>
