@@ -22,14 +22,14 @@ const getJobs = (username: string) => {
 }
 
 //remove a single job based based on the ID we send on the given profile, return nothing
-const removeJobs = (jobIds: number[], profile: string) => {
-  console.log("Preload told to remove jobs with id: ", jobId, " on profile ", profile)
-  ipcRenderer.send("removeJobs", jobIds, profile)
+const removeJobs = (jobs: Job[], profile: string) => {
+  ipcRenderer.send("removeJobs", jobs, profile)
 }
 
-const changeJobsStatus = (jobIds: number[], profile: string) => {
-  console.log("updaing jobs with ids: ", jobIds)
-  ipcRenderer.send("updateJobsStatus", jobIds, profile)
+//change the status of all jobs that get sent to the new status
+const updateJobs = (jobs: Job[], profile: string) => {
+  console.log("got update jobs")
+  ipcRenderer.send("updateJobs", jobs, profile)
 }
 
 const bridge = {
@@ -38,7 +38,7 @@ const bridge = {
   getProfiles,
   getJobs,
   removeJobs,
-  changeJobsStatus
+  updateJobs,
 }
 
 contextBridge.exposeInMainWorld("Bridge", bridge)

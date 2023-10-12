@@ -1,21 +1,26 @@
 import fs from "fs";
 import { Job } from "../types";
 
-// function checkIds(jobsArray: object[]) {
-//   return jobsArray.forEach((job, index) => {
-//     if (jobsArray[index].id != index) {
-//       jobsArray[index].id = index;
-//     }
-//   });
-// }
+function checkIds(jobsArray: Job[]) {
+  return jobsArray.forEach((job, index) => {
+    if (jobsArray[index].id != index) {
+      jobsArray[index].id = index;
+    }
+    return job;
+  });
+}
 
-export function removeJobs(jobIds: number[], profile: string) {
+export function removeJobs(jobs: Job[], profile: string) {
   try {
     const curData = fs.readFileSync(`data/profile.${profile}.json`, "utf-8");
     const dataArray = JSON.parse(curData);
 
-    dataArray.jobs = dataArray.jobs.filter((job) => !jobIds.includes(job.id));
+    dataArray.jobs = dataArray.jobs.filter((job: Job) => {
+      return jobs.some(jobToRemove => jobToRemove.id === job.id);
+    });
 
+
+    checkIds(dataArray.jobs)
     fs.writeFileSync(`data/profile.${profile}.json`, JSON.stringify(dataArray))
 
   } catch (jsonError) {
@@ -29,6 +34,7 @@ export function addJob(newJob: Job, profile: string) {
     const jobsKeyArray = JSON.parse(curData);
     newJob.id = jobsKeyArray.jobs.length;
     jobsKeyArray.jobs.push(newJob);
+    checkIds(jobsKeyArray.jobs)
 
     fs.writeFileSync(
       `data/profile.${profile}.json`,
@@ -80,5 +86,19 @@ export function createProfile(profileName: string) {
     }
   } catch (e) {
     console.error(e);
+  }
+}
+
+export function updateJobs(jobs: Job[], profile: string) {
+  try {
+    const jobData =  fs.readFileSync(`data/profile.${profile}.json`,"utf-8");
+    const jobsArray = JSON.parse(jobData);
+
+    jobsArray.jobs = jobs;
+    checkIds(jobsArray.jobs)
+    fs.writeFileSync(`data/profile.${profile}.json`, JSON.stringify(jobsArray))
+
+  } catch (jsonError) {
+    console.error(jsonError);
   }
 }

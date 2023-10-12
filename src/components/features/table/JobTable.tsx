@@ -24,7 +24,7 @@ export default function JobTable({ username }: { username: string }) {
 
     const selectedJobs = jobList.filter(job => !job.checked)
     console.log(selectedJobs)
-    // profileOptions.methods.removeJobs(selectedJobs, username)
+    profileOptions.methods.removeJobs(selectedJobs, username)
     //need to await the above
     getJobs()
   }
@@ -64,7 +64,7 @@ export default function JobTable({ username }: { username: string }) {
       })
       console.log(selectedJobs)
       // BRYCE DO THE UPDATE THING HERE
-      // profileOptions.methods.updateJobs(selectedJobs)
+      profileOptions.methods.updateJobs(selectedJobs, username)
       // getJobs()
     } else {
       alert("Choose an option to update the status of every job.")

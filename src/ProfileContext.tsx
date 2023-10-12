@@ -8,7 +8,7 @@ const defaultProfile = {
     getJobs: window.Bridge.getJobs,
     createProfile: window.Bridge.createProfile,
     removeJobs: window.Bridge.removeJobs,
-    changeJobStatus: window.Bridge.changeJobsStatus,
+    updateJobs: window.Bridge.updateJobs,
   }
 }
 
