@@ -65,7 +65,7 @@ export default function JobTable({ username }: { username: string }) {
       console.log(selectedJobs)
       // BRYCE DO THE UPDATE THING HERE
       profileOptions.methods.updateJobs(selectedJobs, username)
-      // getJobs()
+      getJobs()
     } else {
       alert("Choose an option to update the status of every job.")
     }
