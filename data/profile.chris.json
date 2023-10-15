@@ -1,1 +1,160 @@
-{"jobs":[{"title":"","company":"","url":"","pocname":"","pocurl":"","description":"","status":"Emailed Followup","dateApplied":"2023-10-10T20:29:40.782Z","id":0,"checked":false},{"title":"","company":"","url":"","pocname":"","pocurl":"","description":"","status":"Interview Scheduled","dateApplied":"2023-10-10T20:29:40.817Z","id":1,"checked":true},{"title":"","company":"","url":"","pocname":"","pocurl":"","description":"","status":"Applied","dateApplied":"2023-10-10T20:29:40.868Z","id":2,"checked":false},{"title":"","company":"","url":"","pocname":"","pocurl":"","description":"","status":"Emailed Followup","dateApplied":"2023-10-10T20:29:40.917Z","id":3,"checked":false},{"title":"","company":"","url":"","pocname":"","pocurl":"","description":"","status":"applied","dateApplied":"2023-10-10T20:29:40.967Z","id":4,"checked":false},{"title":"","company":"","url":"","pocname":"","pocurl":"","description":"","status":"applied","dateApplied":"2023-10-10T20:29:41.018Z","id":5,"checked":false},{"title":"","company":"","url":"","pocname":"","pocurl":"","description":"","status":"applied","dateApplied":"2023-10-10T20:29:41.067Z","id":6,"checked":false},{"title":"","company":"","url":"","pocname":"","pocurl":"","description":"","status":"applied","dateApplied":"2023-10-10T20:29:41.117Z","id":7,"checked":false},{"title":"","company":"","url":"","pocname":"","pocurl":"","description":"","status":"applied","dateApplied":"2023-10-10T20:29:41.167Z","id":8,"checked":false},{"title":"","company":"","url":"","pocname":"","pocurl":"","description":"","status":"applied","dateApplied":"2023-10-10T20:29:41.218Z","id":9,"checked":false},{"title":"","company":"","url":"","pocname":"","pocurl":"","description":"","status":"applied","dateApplied":"2023-10-10T20:29:41.268Z","id":10,"checked":false},{"title":"","company":"","url":"","pocname":"","pocurl":"","description":"","status":"applied","dateApplied":"2023-10-10T20:29:41.317Z","id":11,"checked":false},{"title":"","company":"","url":"","pocname":"","pocurl":"","description":"","status":"applied","dateApplied":"2023-10-10T20:29:41.367Z","id":12,"checked":false},{"title":"","company":"","url":"","pocname":"","pocurl":"","description":"","status":"applied","dateApplied":"2023-10-10T20:29:41.417Z","id":13,"checked":false},{"title":"","company":"","url":"","pocname":"","pocurl":"","description":"","status":"applied","dateApplied":"2023-10-10T20:29:41.467Z","id":14,"checked":false}]}
+{
+  "jobs": [
+    {
+      "title": "Software Dev",
+      "company": "Comcast",
+      "url": "comcast.com",
+      "pocname": "erik ",
+      "pocurl": "waters.net",
+      "description": "its a job",
+      "status": "Emailed Followup",
+      "dateApplied": "2023-10-13T04:58:47.967Z",
+      "id": 0,
+      "checked": true
+    },
+    {
+      "title": "",
+      "company": "",
+      "url": "",
+      "pocname": "",
+      "pocurl": "",
+      "description": "",
+      "status": "Emailed Followup",
+      "dateApplied": "2023-10-13T04:59:37.321Z",
+      "id": 1,
+      "checked": true
+    },
+    {
+      "title": "",
+      "company": "",
+      "url": "",
+      "pocname": "",
+      "pocurl": "",
+      "description": "",
+      "status": "Emailed Followup",
+      "dateApplied": "2023-10-13T04:59:37.468Z",
+      "id": 2,
+      "checked": true
+    },
+    {
+      "title": "",
+      "company": "",
+      "url": "",
+      "pocname": "",
+      "pocurl": "",
+      "description": "",
+      "status": "Emailed Followup",
+      "dateApplied": "2023-10-13T04:59:37.599Z",
+      "id": 3,
+      "checked": true
+    },
+    {
+      "title": "",
+      "company": "",
+      "url": "",
+      "pocname": "",
+      "pocurl": "",
+      "description": "",
+      "status": "Emailed Followup",
+      "dateApplied": "2023-10-13T04:59:37.755Z",
+      "id": 4,
+      "checked": true
+    },
+    {
+      "title": "",
+      "company": "",
+      "url": "",
+      "pocname": "",
+      "pocurl": "",
+      "description": "",
+      "status": "Emailed Followup",
+      "dateApplied": "2023-10-13T04:59:37.890Z",
+      "id": 5,
+      "checked": true
+    },
+    {
+      "title": "",
+      "company": "",
+      "url": "",
+      "pocname": "",
+      "pocurl": "",
+      "description": "",
+      "status": "Emailed Followup",
+      "dateApplied": "2023-10-13T04:59:38.031Z",
+      "id": 6,
+      "checked": true
+    },
+    {
+      "title": "",
+      "company": "",
+      "url": "",
+      "pocname": "",
+      "pocurl": "",
+      "description": "",
+      "status": "Emailed Followup",
+      "dateApplied": "2023-10-13T04:59:38.176Z",
+      "id": 7,
+      "checked": true
+    },
+    {
+      "title": "",
+      "company": "",
+      "url": "",
+      "pocname": "",
+      "pocurl": "",
+      "description": "",
+      "status": "Emailed Followup",
+      "dateApplied": "2023-10-13T04:59:38.312Z",
+      "id": 8,
+      "checked": true
+    },
+    {
+      "title": "",
+      "company": "",
+      "url": "",
+      "pocname": "",
+      "pocurl": "",
+      "description": "",
+      "status": "Emailed Followup",
+      "dateApplied": "2023-10-13T04:59:38.437Z",
+      "id": 9,
+      "checked": true
+    },
+    {
+      "title": "",
+      "company": "",
+      "url": "",
+      "pocname": "",
+      "pocurl": "",
+      "description": "",
+      "status": "Emailed Followup",
+      "dateApplied": "2023-10-13T04:59:38.561Z",
+      "id": 10,
+      "checked": true
+    },
+    {
+      "title": "",
+      "company": "",
+      "url": "",
+      "pocname": "",
+      "pocurl": "",
+      "description": "",
+      "status": "Emailed Followup",
+      "dateApplied": "2023-10-13T04:59:38.688Z",
+      "id": 11,
+      "checked": true
+    },
+    {
+      "title": "",
+      "company": "",
+      "url": "",
+      "pocname": "",
+      "pocurl": "",
+      "description": "",
+      "status": "Emailed Followup",
+      "dateApplied": "2023-10-13T04:59:38.825Z",
+      "id": 12,
+      "checked": true
+    }
+  ]
+}

@@ -1,21 +1,25 @@
-import { Job } from '../../../../types';
+import { JobT } from '../../../../types';
+import Job from './Job';
 import { ProfileContext } from '../../../ProfileContext';
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useState, useRef, useCallback } from 'react';
+import { Button, Modal } from 'react-daisyui';
 import TableStats from './TableStats';
 
 
 export default function JobTable({ username }: { username: string }) {
   const profileOptions = useContext(ProfileContext)
 
-  const [jobList, setJobList] = useState<Array<Job & { checked: boolean }>>([]);
+  const [jobList, setJobList] = useState<Array<JobT & { checked: boolean }>>([]);
   const [tableSize, setTableSize] = useState('table-sm')
   const [checkAll, setCheckAll] = useState(false)
   const [updateFormRadio, setUpdateFormRadio] = useState<null | string>(null)
+  // const jobDetailsModal = useRef<HTMLDialogElement>(null);
+  const updateAllModal = useRef<HTMLDialogElement>(null);
 
   const getJobs = async () => {
     const jobs = await profileOptions.methods.getJobs(username);
 
-    setJobList(jobs.map((job: Job) => ({ ...job, checked: false })))
+    setJobList(jobs.map((job: JobT) => ({ ...job, checked: false })))
   }
 
   const deleteSelectedJobs = async () => {
@@ -29,7 +33,7 @@ export default function JobTable({ username }: { username: string }) {
     getJobs()
   }
 
-  function checkJob(job: Job & { checked: boolean }) {
+  function checkJob(job: JobT & { checked: boolean }) {
     console.log(job.checked)
 
     const updatedJobList = jobList.map(prevJob => {
@@ -45,13 +49,13 @@ export default function JobTable({ username }: { username: string }) {
   async function filterBy(filterOption: string) {
 
     let jobList = await profileOptions.methods.getJobs(username)
-    jobList = jobList.map((job: Job) => ({ ...job, checked: false }))
+    jobList = jobList.map((job: JobT) => ({ ...job, checked: false }))
 
     if (filterOption == 'all') {
       setJobList(jobList)
     } else {
 
-      setJobList(jobList.filter((job: Job & { checked: boolean }) => job.status == filterOption.toLowerCase()))
+      setJobList(jobList.filter((job: JobT & { checked: boolean }) => job.status == filterOption))
     }
   }
   const updateSelectedJobs = async () => {
@@ -71,19 +75,25 @@ export default function JobTable({ username }: { username: string }) {
     }
   }
 
+  const handleShowUpdateAll = useCallback(() => {
+    updateAllModal.current?.showModal();
+  }, [updateAllModal]);
+
   useEffect(() => {
     getJobs()
   }, [])
 
   useEffect(() => {
-    setJobList(jobList.map((job: Job & { checked: boolean }) => ({ ...job, checked: checkAll })))
+    setJobList(jobList.map((job: JobT & { checked: boolean }) => ({ ...job, checked: checkAll })))
   }, [checkAll])
+
+
 
   return (
     <div className='flex flex-col max-h-screen w-full place-self-start'>
 
       {/* Toolbar */}
-      <div className=''>
+      <div>
 
         <TableStats jobList={jobList} />
 
@@ -102,15 +112,15 @@ export default function JobTable({ username }: { username: string }) {
               </li>
               {/* Update selected, opens a modal */}
               <li>
-                <button className='flex btn btn-xs' onClick={() => document.getElementById('updateSelected')?.showModal()}>
+                <Button className='flex btn btn-xs' onClick={handleShowUpdateAll}>
                   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" className="w-4 h-4 mr-2 stroke-current"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"></path></svg>
                   Update Status Selected
-                </button>
-                <dialog id="updateSelected" className="modal">
-                  <div className="modal-box">
-                    <h3 className="font-bold text-xl text-secondary my-1">Update the status of every job:</h3>
+                </Button>
+                <Modal backdrop={true} ref={updateAllModal}>
+                  <Modal.Header className="font-bold text-xl text-secondary my-1">Update the status of every job:</Modal.Header>
+                  <Modal.Body>
                     <p>This is a <b>PERMANENT</b> change and cannot be undone.</p>
-                    <p className="py-4"></p>
+                    <p className='pt-6'>Select an option:</p>
                     {/* onSubmit handles updating selected options */}
                     <form method="dialog" className='form-control items-start' onSubmit={updateSelectedJobs}>
                       <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
@@ -119,15 +129,13 @@ export default function JobTable({ username }: { username: string }) {
                         <input onChange={e => setUpdateFormRadio(e.target.value)} value='Applied' className='join-item btn border border-accent' type='radio' name="options" aria-label='Applied'></input>
                         <input onChange={e => setUpdateFormRadio(e.target.value)} value='Emailed Followup' className='join-item btn border border-accent' type='radio' name="options" aria-label='Emailed Followup'></input>
                         <input onChange={e => setUpdateFormRadio(e.target.value)} value='Interview Scheduled' className='join-item btn border border-accent' type='radio' name="options" aria-label='Interview Scheduled'></input>
+                        <input onChange={e => setUpdateFormRadio(e.target.value)} value='Declined' className='join-item btn border border-accent' type='radio' name="options" aria-label='Declined'></input>
                       </div>
 
                       <button className='btn btn-sm btn-error w-full' type='submit'>Update All</button>
                     </form>
-                  </div>
-                  {/* <form method="dialog" className="modal-backdrop">
-                    <button>close</button>
-                  </form> */}
-                </dialog>
+                  </Modal.Body>
+                </Modal>
               </li>
               <li className='mx-1'>
                 <select defaultValue={"Table Size"} className="select select-xs select-ghost w-full max-w-m uppercase" onChange={(e) => setTableSize(e.target.value)}>
@@ -143,11 +151,12 @@ export default function JobTable({ username }: { username: string }) {
           <div>
             <input className='input input-sm input-bordered join-item' placeholder='🔎 Search' disabled />
             <select onChange={(e) => filterBy(e.target.value)} className='select select-sm select-bordered join-item'>
-              <option>Filter by ...</option>
+              <option value="all">Filter by ...</option>
               <option value="all">All</option>
               <option value="applied">Applied</option>
               <option value="emailed followup">Emailed Followup</option>
               <option value="interview scheduled">Interview Scheduled</option>
+              <option value="declined">Declined</option>
             </select>
           </div>
         </div>
@@ -172,80 +181,11 @@ export default function JobTable({ username }: { username: string }) {
             </tr>
           </thead>
           <tbody>
-            {jobList.map((job: Job & { checked: boolean }, index) => {
 
-              const date = new Date(job.dateApplied)
-              const dateString = date.toLocaleDateString()
+            {jobList.map((job, index) => (
+              <Job key={index} job={job} checkJob={checkJob} tableSize={tableSize} />
+            ))}
 
-              const daysSince = Math.round((new Date().getTime() - date.getTime()) / (1000 * 3600 * 24))
-              const daysSinceFormatted = daysSince < 1 ? 'Today' : `${daysSince} days`
-
-
-              return (
-                <tr key={index}>
-                  <th>
-                    <label>
-                      <input checked={job.checked} type="checkbox" className={`checkbox checkbox-${tableSize}`} onChange={() => checkJob(job)} />
-                    </label>
-                  </th>
-                  <td>
-                    {job.title}
-                    {job.company && (<>
-                      <br />
-                      <span className="badge badge-ghost badge-sm">{job.company}</span>
-                    </>)}
-                  </td>
-                  <td>{dateString}</td>
-                  <td>{daysSinceFormatted}</td>
-                  <td>
-                    <select className="select select-sm select-ghost w-full max-w-m">
-                      <option>{job.status}</option>
-                      <option>Applied</option>
-                      <option>Emailed Followup</option>
-                      <option>Interview Scheduled</option>
-                    </select>
-                  </td>
-                  <td>
-                    {/* open modal */}
-                    <button className="btn btn-sm" onClick={() => document.getElementById(`${job.id}`)?.showModal()}>Details</button>
-                    {/* modal */}
-                    <dialog id={`${job.id}`} className="modal">
-                      <div className="modal-box mockup-browser border base-100">
-                        <div className="mockup-browser-toolbar">
-                          <div className="input">
-                            <a title='Job URL' className="link link-hover link-info" href={job.url} target="_blank">
-                              {job.url.startsWith("https://") ? job.url : `https://${job.url}`}
-                            </a>
-                          </div>
-                        </div>
-                        {/* Add details/description/person to contact */}
-
-                        <section className='my-2'>
-                          <h1 className='text-xl text-secondary font-extrabold'>Job Description:</h1>
-                          <p className=' text-lg italic'>
-                            {job.description}
-                          </p>
-                        </section>
-
-                        <section className='my-2'>
-                          <h1 className='text-xl text-secondary font-extrabold'>Person to contact:</h1>
-                          <div className=' text-lg flex'>
-                            <p className='mr-1'>Name:</p>
-                            <p className=' italic text-info'>{job.pocname}</p>
-                          </div>
-                          <p className='text-lg'>
-                            Contact Info: <i><a className='link link-info link-hover' href={`${job.pocurl}`}>{job.pocurl}</a></i>
-                          </p>
-                        </section>
-                      </div>
-                      <form method="dialog" className="modal-backdrop">
-                        <button>close</button>
-                      </form>
-                    </dialog>
-                  </td>
-                </tr>
-              )
-            })}
           </tbody>
           <tfoot>
             <tr>
@@ -258,8 +198,8 @@ export default function JobTable({ username }: { username: string }) {
             </tr>
           </tfoot>
         </table>
-      </div>
+      </div >
 
-    </div>
+    </div >
   )
 }
