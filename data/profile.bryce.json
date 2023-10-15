@@ -1,1 +1,16 @@
-{"jobs":[{"title":"dev job","company":"dev job","url":"dev job","pocname":"dev job","pocurl":"dev job","description":"dev job","status":"Declined","dateApplied":"2023-10-10T20:28:30.857Z","id":0,"checked":false}]}
+{
+  "jobs": [
+    {
+      "title": "dev job",
+      "company": "dev job",
+      "url": "dev job",
+      "pocname": "dev job",
+      "pocurl": "dev job",
+      "description": "dev job",
+      "status": "Declined",
+      "dateApplied": "2023-10-10T20:28:30.857Z",
+      "id": 0,
+      "checked": false
+    }
+  ]
+}
