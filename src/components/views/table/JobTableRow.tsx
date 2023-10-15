@@ -69,8 +69,13 @@ export default function JobTableRow({ job, checkJob, tableSize }: JobProps) {
       </td>
       <td>
         <Button className="btn btn-sm" onClick={handleShow}>Details</Button>
-        <Modal backdrop={true} ref={ref} className='mockup-browser border'>
-          <Modal.Body className="mockup-browser">
+        <Modal ref={ref}>
+
+          <Modal.Body className="mockup-browser bg-base-100 border p-6">
+            <form method="dialog">
+              {/* if there is a button in form, it will close the modal */}
+              <button className="btn btn-sm text-warning btn-circle btn-ghost absolute right-2 top-2">✕</button>
+            </form>
 
 
             <div className="mockup-browser-toolbar">
@@ -100,12 +105,11 @@ export default function JobTableRow({ job, checkJob, tableSize }: JobProps) {
             </section>
 
             {/* Update single job */}
-            <div className=' modal-action'>
+            <div className='modal-action'>
               <form method="dialog" onSubmit={updateSingleJob}>
-                <button className=' btn mx-2 border border-accent'>Save Changes</button>
+                <button className='btn border border-accent'>Save Changes</button>
               </form>
             </div>
-
           </Modal.Body>
         </Modal>
 
