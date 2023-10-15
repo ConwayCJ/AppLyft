@@ -1,13 +1,20 @@
 import { Job } from '../../../../types';
 import JobTableRow from './JobTableRow';
 import { ProfileContext } from '../../../ProfileContext';
-import { useContext, useEffect, useState, useRef, useCallback } from 'react';
+import { useContext, useEffect, useState, useRef, useCallback, SetStateAction, Dispatch } from 'react';
 import { Button, Modal } from 'react-daisyui';
 import TableStats from './TableStats';
 
 
-export default function Jobable({ username }: { username: string }) {
+type JobTableProps = {
+  username: string,
+  setFeature: Dispatch<SetStateAction<string>>
+}
+
+export default function JobTable({ username, setFeature }: JobTableProps) {
   const profileOptions = useContext(ProfileContext)
+
+  console.log(setFeature)
 
   const [jobList, setJobList] = useState<Array<Job & { checked: boolean }>>([]);
   const [tableSize, setTableSize] = useState('table-sm')
@@ -51,7 +58,7 @@ export default function Jobable({ username }: { username: string }) {
     let jobList = await profileOptions.methods.getJobs(username)
     jobList = jobList.map((job: Job) => ({ ...job, checked: false }))
 
-    if (filterOption == 'all') {
+    if (filterOption == 'All') {
       setJobList(jobList)
     } else {
 
@@ -153,12 +160,12 @@ export default function Jobable({ username }: { username: string }) {
           <div>
             <input className='input input-sm input-bordered join-item' placeholder='🔎 Search' disabled />
             <select onChange={(e) => filterBy(e.target.value)} className='select select-sm select-bordered join-item'>
-              <option value="all">Filter by ...</option>
-              <option value="all">All</option>
-              <option value="applied">Applied</option>
-              <option value="emailed followup">Emailed Followup</option>
-              <option value="interview scheduled">Interview Scheduled</option>
-              <option value="declined">Declined</option>
+              <option value="All">Filter by ...</option>
+              <option value="All">All</option>
+              <option value="Applied">Applied</option>
+              <option value="Emailed Followup">Emailed Followup</option>
+              <option value="Interview Scheduled">Interview Scheduled</option>
+              <option value="Declined">Declined</option>
             </select>
           </div>
         </div>
@@ -166,41 +173,54 @@ export default function Jobable({ username }: { username: string }) {
       </div>
       {/* Table */}
       <div className='overflow-x-auto'>
-        <table className={`table ${tableSize} table-pin-rows`}>
-          <thead>
-            <tr>
-              <th>
-                <input
-                  type="checkbox"
-                  checked={checkAll}
-                  className="checkbox"
-                  onChange={() => setCheckAll(!checkAll)} />
-              </th>
-              <th>Job</th>
-              <th>📅 Applied</th>
-              <th>📅 Past</th>
-              <th>Status</th>
-              <th>Details</th>
-            </tr>
-          </thead>
-          <tbody>
+        {jobList.length == 0 ? (
+          <div className="hero h-[800px]">
+            <div className="hero-content text-center">
+              <div className="max-w-md">
+                <h1 className="text-5xl font-bold">No jobs yet!</h1>
+                <p className="py-6">Head over to the 'Add Job' tab to add a new job and get started.</p>
+                <button className="btn btn-primary" onClick={() => setFeature('newjob')}>Get Started</button>
+              </div>
+            </div>
+          </div>
+        ) :
+          (
+            <table className={`table ${tableSize} table-pin-rows`}>
+              <thead className='text-info'>
+                <tr>
+                  <th>
+                    <input
+                      type="checkbox"
+                      checked={checkAll}
+                      className="checkbox"
+                      onChange={() => setCheckAll(!checkAll)} />
+                  </th>
+                  <th>Job</th>
+                  <th>📅 Applied</th>
+                  <th>📅 Past</th>
+                  <th>Status</th>
+                  <th>Details</th>
+                </tr>
+              </thead>
+              <tbody>
 
-            {jobList.map((job, index) => (
-              <JobTableRow key={index} job={job} checkJob={checkJob} tableSize={tableSize} />
-            ))}
+                {jobList.map((job, index) => (
+                  <JobTableRow key={index} job={job} checkJob={checkJob} tableSize={tableSize} />
+                ))}
 
-          </tbody>
-          <tfoot>
-            <tr>
-              <th></th>
-              <th>Job</th>
-              <th>📅 Applied</th>
-              <th>📅 Past</th>
-              <th>Status</th>
-              <th>Details</th>
-            </tr>
-          </tfoot>
-        </table>
+              </tbody>
+              <tfoot className='text-info'>
+                <tr>
+                  <th></th>
+                  <th>Job</th>
+                  <th>📅 Applied</th>
+                  <th>📅 Past</th>
+                  <th>Status</th>
+                  <th>Details</th>
+                </tr>
+              </tfoot>
+            </table>
+          )}
       </div >
 
     </div >
