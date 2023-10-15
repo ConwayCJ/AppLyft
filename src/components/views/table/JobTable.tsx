@@ -1,15 +1,15 @@
-import { JobT } from '../../../../types';
-import Job from './Job';
+import { Job } from '../../../../types';
+import JobTableRow from './JobTableRow';
 import { ProfileContext } from '../../../ProfileContext';
 import { useContext, useEffect, useState, useRef, useCallback } from 'react';
 import { Button, Modal } from 'react-daisyui';
 import TableStats from './TableStats';
 
 
-export default function JobTable({ username }: { username: string }) {
+export default function Jobable({ username }: { username: string }) {
   const profileOptions = useContext(ProfileContext)
 
-  const [jobList, setJobList] = useState<Array<JobT & { checked: boolean }>>([]);
+  const [jobList, setJobList] = useState<Array<Job & { checked: boolean }>>([]);
   const [tableSize, setTableSize] = useState('table-sm')
   const [checkAll, setCheckAll] = useState(false)
   const [updateFormRadio, setUpdateFormRadio] = useState<null | string>(null)
@@ -19,7 +19,7 @@ export default function JobTable({ username }: { username: string }) {
   const getJobs = async () => {
     const jobs = await profileOptions.methods.getJobs(username);
 
-    setJobList(jobs.map((job: JobT) => ({ ...job, checked: false })))
+    setJobList(jobs.map((job: Job) => ({ ...job, checked: false })))
   }
 
   const deleteSelectedJobs = async () => {
@@ -33,7 +33,7 @@ export default function JobTable({ username }: { username: string }) {
     getJobs()
   }
 
-  function checkJob(job: JobT & { checked: boolean }) {
+  function checkJob(job: Job & { checked: boolean }) {
     console.log(job.checked)
 
     const updatedJobList = jobList.map(prevJob => {
@@ -49,15 +49,16 @@ export default function JobTable({ username }: { username: string }) {
   async function filterBy(filterOption: string) {
 
     let jobList = await profileOptions.methods.getJobs(username)
-    jobList = jobList.map((job: JobT) => ({ ...job, checked: false }))
+    jobList = jobList.map((job: Job) => ({ ...job, checked: false }))
 
     if (filterOption == 'all') {
       setJobList(jobList)
     } else {
 
-      setJobList(jobList.filter((job: JobT & { checked: boolean }) => job.status == filterOption))
+      setJobList(jobList.filter((job: Job & { checked: boolean }) => job.status == filterOption))
     }
   }
+
   const updateSelectedJobs = async () => {
     if (updateFormRadio) {
       const selectedJobs = jobList.map(job => {
@@ -84,15 +85,16 @@ export default function JobTable({ username }: { username: string }) {
   }, [])
 
   useEffect(() => {
-    setJobList(jobList.map((job: JobT & { checked: boolean }) => ({ ...job, checked: checkAll })))
+    setJobList(jobList.map((job: Job & { checked: boolean }) => ({ ...job, checked: checkAll })))
   }, [checkAll])
 
-
+  const RadioOption = ({ value }: { value: string }) => {
+    return <input onChange={e => setUpdateFormRadio(e.target.value)} value={value} aria-label={value} className='join-item btn border border-accent' type='radio' name="options"></input>
+  }
 
   return (
     <div className='flex flex-col max-h-screen w-full place-self-start'>
 
-      {/* Toolbar */}
       <div>
 
         <TableStats jobList={jobList} />
@@ -126,10 +128,10 @@ export default function JobTable({ username }: { username: string }) {
                       <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
 
                       <div className='join my-6'>
-                        <input onChange={e => setUpdateFormRadio(e.target.value)} value='Applied' className='join-item btn border border-accent' type='radio' name="options" aria-label='Applied'></input>
-                        <input onChange={e => setUpdateFormRadio(e.target.value)} value='Emailed Followup' className='join-item btn border border-accent' type='radio' name="options" aria-label='Emailed Followup'></input>
-                        <input onChange={e => setUpdateFormRadio(e.target.value)} value='Interview Scheduled' className='join-item btn border border-accent' type='radio' name="options" aria-label='Interview Scheduled'></input>
-                        <input onChange={e => setUpdateFormRadio(e.target.value)} value='Declined' className='join-item btn border border-accent' type='radio' name="options" aria-label='Declined'></input>
+                        <RadioOption value='Applied' />
+                        <RadioOption value='Emailed Followup' />
+                        <RadioOption value='Interview Scheduled' />
+                        <RadioOption value='Declined' />
                       </div>
 
                       <button className='btn btn-sm btn-error w-full' type='submit'>Update All</button>
@@ -160,6 +162,7 @@ export default function JobTable({ username }: { username: string }) {
             </select>
           </div>
         </div>
+
       </div>
       {/* Table */}
       <div className='overflow-x-auto'>
@@ -183,7 +186,7 @@ export default function JobTable({ username }: { username: string }) {
           <tbody>
 
             {jobList.map((job, index) => (
-              <Job key={index} job={job} checkJob={checkJob} tableSize={tableSize} />
+              <JobTableRow key={index} job={job} checkJob={checkJob} tableSize={tableSize} />
             ))}
 
           </tbody>

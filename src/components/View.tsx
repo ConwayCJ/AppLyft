@@ -1,6 +1,6 @@
-import NewJobForm from "./features/NewJobForm";
-import Home from "./features/Home";
-import JobTable from "./features/table/JobTable";
+import NewJobForm from "./views/NewJobForm";
+import Home from "./views/Home";
+import JobTable from "./views/table/JobTable";
 
 type ViewProps = {
   username: string,
@@ -8,8 +8,6 @@ type ViewProps = {
 }
 
 export default function View({ username, feature }: ViewProps) {
-
-
 
   const handleView = (feature: string) => {
     switch (feature) {
@@ -24,9 +22,6 @@ export default function View({ username, feature }: ViewProps) {
     }
   }
 
-  return (
-    <>
-      {handleView(feature)}
-    </>
-  )
+  return handleView(feature)
+
 }
