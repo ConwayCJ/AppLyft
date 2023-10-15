@@ -14,8 +14,6 @@ type JobTableProps = {
 export default function JobTable({ username, setFeature }: JobTableProps) {
   const profileOptions = useContext(ProfileContext)
 
-  console.log(setFeature)
-
   const [jobList, setJobList] = useState<Array<Job & { checked: boolean }>>([]);
   const [tableSize, setTableSize] = useState('table-sm')
   const [checkAll, setCheckAll] = useState(false)
@@ -171,20 +169,19 @@ export default function JobTable({ username, setFeature }: JobTableProps) {
         </div>
 
       </div>
-      {/* Table */}
-      <div className='overflow-x-auto'>
-        {jobList.length == 0 ? (
-          <div className="hero h-[800px]">
-            <div className="hero-content text-center">
-              <div className="max-w-md">
-                <h1 className="text-5xl font-bold">No jobs yet!</h1>
-                <p className="py-6">Head over to the 'Add Job' tab to add a new job and get started.</p>
-                <button className="btn btn-primary" onClick={() => setFeature('newjob')}>Get Started</button>
-              </div>
-            </div>
+      {/* Table - No Jobs Added */}
+      {jobList.length == 0 ? (
+        <div className='flex flex-col w-96 py-12 md:justify-center md:w-full items-center'>
+          <div className='flex flex-col items-center justify-center font-bold text-warning'>
+            <p>Looks like we don't have any jobs yet.</p>
+            <p>Click to get started!</p>
           </div>
-        ) :
-          (
+          <button className="btn btn-primary mt-8 w-36" onClick={() => setFeature('newjob')}>Add a job</button>
+        </div>
+      ) :
+        (
+          // Table View
+          <div className='overflow-x-auto'>
             <table className={`table ${tableSize} table-pin-rows`}>
               <thead className='text-info'>
                 <tr>
@@ -220,8 +217,8 @@ export default function JobTable({ username, setFeature }: JobTableProps) {
                 </tr>
               </tfoot>
             </table>
-          )}
-      </div >
+          </div >
+        )}
 
     </div >
   )
