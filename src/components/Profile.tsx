@@ -31,7 +31,7 @@ export default function Profile({ logout, username }: ProfileProps) {
           </span>
           <div className="divider"></div>
           <span>
-            <Navigation toggleFeature={toggleFeature} />
+            <Navigation toggleFeature={toggleFeature} currentFeature={feature} />
           </span>
         </span>
         <span className="place-self-end flex flex-col">

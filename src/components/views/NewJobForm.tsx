@@ -11,7 +11,12 @@ export default function NewJobForm({ username }: { username: string }) {
     pocname: "",
     pocurl: "",
     description: "",
+    dateApplied: new Date()
   })
+
+  const today = new Date()
+  today.setDate(today.getDate() - 1)
+  const date = today.toISOString().substring(0, 10)
 
   const profileOptions = useContext(ProfileContext)
 
@@ -20,6 +25,8 @@ export default function NewJobForm({ username }: { username: string }) {
       ...formData,
       [value]: e.currentTarget.value
     })
+    console.log(formData)
+
   }
 
   const handleWrite = (e: React.FormEvent<HTMLFormElement>) => {
@@ -28,7 +35,6 @@ export default function NewJobForm({ username }: { username: string }) {
     const newJob: Job = {
       ...formData,
       status: 'applied',
-      dateApplied: new Date()
     }
 
     profileOptions.methods.postJob(newJob, username)
@@ -46,8 +52,17 @@ export default function NewJobForm({ username }: { username: string }) {
       {/* New Job Form */}
       <form onSubmit={e => handleWrite(e)} className='form-control w-full'>
         <h1 className=' text-secondary font-bold text-xl'>Job Details</h1>
+        <div className='m-2'>
+          <label htmlFor='date' className='label'>
+            <span className='label-text'>
+              Date Applied<sup className=' text-red-700 text-md'>*</sup>
+            </span>
+          </label>
+          <input type="date" defaultValue={date} onChange={e => handleValueChange(e, 'dateApplied')} id="date" className='input input-sm input-bordered bg-base-200 ' />
+        </div>
         <span className='flex flex-wrap'>
           {/* Job Title/Company */}
+
           <div className='m-2'>
             <label htmlFor='company' className='label'>
               <span className='label-text'>
@@ -108,6 +123,7 @@ export default function NewJobForm({ username }: { username: string }) {
           </div>
         </span>
         <div className=' divider mx-2'></div>
+
         <div className='my-6'>
           <button className=' btn btn-success btn-wide'>Submit</button>
         </div>
