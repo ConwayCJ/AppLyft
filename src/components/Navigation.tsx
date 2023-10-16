@@ -21,6 +21,7 @@ export default function Navigation({ toggleFeature, currentFeature }: Navigation
 
   return (
     <div className="join join-vertical w-full">
+
       <NavButton currentFeature={currentFeature} feature="home" title='Home' />
       <NavButton currentFeature={currentFeature} feature="newjob" title='Add Job' />
       <NavButton currentFeature={currentFeature} feature="table" title='View Jobs' />

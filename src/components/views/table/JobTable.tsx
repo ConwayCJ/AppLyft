@@ -94,7 +94,7 @@ export default function JobTable({ username, setFeature }: JobTableProps) {
   }, [checkAll])
 
   const RadioOption = ({ value }: { value: string }) => {
-    return <input onChange={e => setUpdateFormRadio(e.target.value)} name="options" value={value} aria-label={value} className='join-item btn border border-accent' type='radio' name="options"></input>
+    return <input onChange={e => setUpdateFormRadio(e.target.value)} name="options" value={value} aria-label={value} className='join-item btn border border-accent' type='radio'></input>
   }
 
   return (
@@ -192,7 +192,7 @@ export default function JobTable({ username, setFeature }: JobTableProps) {
                       className="checkbox"
                       onChange={() => setCheckAll(!checkAll)} />
                   </th>
-                  <th>Job</th>
+                  <th>Job <span></span></th>
                   <th>📅 Applied</th>
                   <th>📅 Past</th>
                   <th>Status</th>

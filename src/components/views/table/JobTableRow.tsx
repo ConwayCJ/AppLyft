@@ -71,11 +71,7 @@ export default function JobTableRow({ job, checkJob, tableSize }: JobProps) {
         <Button className="btn btn-sm" onClick={handleShow}>Details</Button>
         <Modal ref={ref}>
 
-          <Modal.Body className="mockup-browser bg-base-100 border p-6">
-            <form method="dialog">
-              {/* if there is a button in form, it will close the modal */}
-              <button className="btn btn-sm text-warning btn-circle btn-ghost absolute right-2 top-2">✕</button>
-            </form>
+          <div className="mockup-browser border bg-base-300">
 
 
             <div className="mockup-browser-toolbar">
@@ -86,31 +82,36 @@ export default function JobTableRow({ job, checkJob, tableSize }: JobProps) {
               </div>
             </div>
             {/* Add details/description/person to contact */}
-
-            <section className='my-2'>
-              <h1 className='text-xl text-secondary font-extrabold py-1'>Job Description:</h1>
-              <textarea className=' textarea py-2 w-full textarea-bordered max-h-24 text-accent' value={jobState.description} name='description' onChange={e => handleUpdateJob(e)} />
-            </section>
-
-            <section className='my-2'>
-              <h1 className='text-xl text-secondary font-extrabold'>Person to contact:</h1>
-              <div className=' text-lg flex items-center my-1'>
-                <p className='mr-1'>Name:</p>
-                <input className=' bg-base-100 text-accent' value={jobState.pocname} name='pocname' onChange={e => handleUpdateJob(e)} />
-              </div>
-              <div className=' text-lg flex items-center my-1'>
-                <p className='mr-1'>Contact Info:</p>
-                <input className='bg-base-100 text-accent' value={jobState.pocurl} name='pocurl' onChange={e => handleUpdateJob(e)} />
-              </div>
-            </section>
-
-            {/* Update single job */}
-            <div className='modal-action'>
-              <form method="dialog" onSubmit={updateSingleJob}>
-                <button className='btn border border-accent'>Save Changes</button>
+            <main className='flex flex-col justify-center px-4 py-6 bg-base-200'>
+              <form method="dialog">
+                <button className="btn btn-sm text-warning btn-circle btn-ghost absolute right-2 top-2">✕</button>
               </form>
-            </div>
-          </Modal.Body>
+
+              <section>
+                <h1 className='text-xl text-secondary font-extrabold py-1'>Job Description:</h1>
+                <textarea className=' textarea py-2 w-full textarea-bordered max-h-24 text-accent' value={jobState.description} name='description' onChange={e => handleUpdateJob(e)} />
+              </section>
+
+              <section>
+                <h1 className='text-xl text-secondary font-extrabold'>Person to contact:</h1>
+                <div className=' text-lg flex items-center my-1'>
+                  <p className='mr-1'>Name:</p>
+                  <input className=' bg-base-100 text-accent' value={jobState.pocname} name='pocname' onChange={e => handleUpdateJob(e)} />
+                </div>
+                <div className=' text-lg flex items-center my-1'>
+                  <p className='mr-1'>Contact Info:</p>
+                  <input className='bg-base-100 text-accent' value={jobState.pocurl} name='pocurl' onChange={e => handleUpdateJob(e)} />
+                </div>
+              </section>
+
+              {/* Update single job */}
+              <div className='modal-action'>
+                <form method="dialog" onSubmit={updateSingleJob}>
+                  <button className='btn border border-accent'>Save Changes</button>
+                </form>
+              </div>
+            </main>
+          </div>
         </Modal>
 
       </td>
