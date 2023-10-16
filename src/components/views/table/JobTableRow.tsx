@@ -36,7 +36,7 @@ export default function JobTableRow({ job, checkJob, tableSize }: JobProps) {
 
   }
 
-  const handleUpdateJob = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleUpdateJob = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     console.log(e)
     setJobState({ ...jobState, [e.target.name]: e.target.value })
     console.log(jobState)

@@ -1,13 +1,23 @@
 export default function Navigation({ toggleFeature }: { toggleFeature: (feature: string) => void }) {
+
+  type NavButtonProps = {
+    feature: string,
+    title: string
+  }
+
+  const NavButton = ({ feature, title }: NavButtonProps) => {
+    return (
+      <input className="btn btn-sm join-item" onClick={() => toggleFeature(feature)} type="radio" name="options" aria-label={title}></input>
+    )
+  }
+
   return (
     <div className="join join-vertical w-full">
-      <button onClick={() => toggleFeature('home')} className="btn btn-sm w-full mb-3">Home</button>
-      <button onClick={() => toggleFeature('newjob')} className="btn btn-sm w-full join-item">Add Job</button>
-      <button onClick={() => toggleFeature('table')} className="btn btn-sm w-full join-item">View Jobs</button>
-      <button onClick={() => toggleFeature('disabled')} className="btn btn-sm w-full join-item">Button</button>
-      <button onClick={() => toggleFeature('disabled')} className="btn btn-sm w-full join-item">Button</button>
-      <button onClick={() => toggleFeature('disabled')} className="btn btn-sm w-full join-item">Button</button>
-      <button onClick={() => toggleFeature('disabled')} className="btn btn-sm w-full join-item">Stats</button>
+      <NavButton feature="home" title='Home' />
+      <NavButton feature="newjob" title='Add Job' />
+      <NavButton feature="table" title='View Jobs' />
+      <NavButton feature='disabled' title='Disabled' />
+      <NavButton feature='disabled' title='Stats' />
     </div>
   )
 }
