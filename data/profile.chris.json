@@ -1,1 +1,123 @@
-{"jobs": []}
+{
+  "jobs": [
+    {
+      "title": "Software Developer",
+      "company": "Tech Innovations Inc.",
+      "url": "https://www.techinnovations.com",
+      "pocname": "John Smith",
+      "pocurl": "https://www.linkedin.com/in/johnsmith",
+      "description": "Developing cutting-edge software solutions for clients.",
+      "status": "Applied",
+      "dateApplied": "2023-04-10"
+    },
+
+    {
+      "title": "Marketing Specialist",
+      "company": "Digital Marketing Pro",
+      "url": "https://www.digitalmarketingpro.com",
+      "pocname": "Emily Johnson",
+      "pocurl": "https://www.linkedin.com/in/emilyjohnson",
+      "description": "Managing social media and online advertising campaigns.",
+      "status": "In Progress",
+      "dateApplied": "2023-05-15"
+    },
+
+    {
+      "title": "Accountant",
+      "company": "Financial Solutions Ltd.",
+      "url": "https://www.financialsolutionsltd.com",
+      "pocname": "Michael Anderson",
+      "pocurl": "https://www.linkedin.com/in/michaelanderson",
+      "description": "Handling financial statements and tax filings.",
+      "status": "Applied",
+      "dateApplied": "2023-03-20"
+    },
+
+    {
+      "title": "Customer Support Representative",
+      "company": "Helpful Customer Service Inc.",
+      "url": "https://www.helpfulcustomerservice.com",
+      "pocname": "Linda Wilson",
+      "pocurl": "https://www.linkedin.com/in/lindawilson",
+      "description": "Assisting customers with inquiries and issues.",
+      "status": "Rejected",
+      "dateApplied": "2023-06-05"
+    },
+
+    {
+      "title": "Web Developer",
+      "company": "WebSolutions LLC",
+      "url": "https://www.websolutionsllc.com",
+      "pocname": "Robert Turner",
+      "pocurl": "https://www.linkedin.com/in/robertturner",
+      "description": "Creating and maintaining websites and web applications.",
+      "status": "Applied",
+      "dateApplied": "2023-04-25"
+    },
+
+    {
+      "title": "Sales Associate",
+      "company": "Sales Producers Corp.",
+      "url": "https://www.salesproducerscorp.com",
+      "pocname": "David Carter",
+      "pocurl": "https://www.linkedin.com/in/davidcarter",
+      "description": "Selling products and services to customers.",
+      "status": "In Progress",
+      "dateApplied": "2023-05-02"
+    },
+
+    {
+      "title": "Content Writer",
+      "company": "Content Creators Agency",
+      "url": "https://www.contentcreatorsagency.com",
+      "pocname": "Sophie Turner",
+      "pocurl": "https://www.linkedin.com/in/sophieturner",
+      "description": "Generating engaging written content for clients.",
+      "status": "Applied",
+      "dateApplied": "2023-04-12"
+    },
+
+    {
+      "title": "IT Support Specialist",
+      "company": "TechSupport Solutions",
+      "url": "https://www.techsupportsolutions.com",
+      "pocname": "Daniel Harris",
+      "pocurl": "https://www.linkedin.com/in/danielharris",
+      "description": "Providing technical assistance to end users.",
+      "status": "Rejected",
+      "dateApplied": "2023-06-15"
+    },
+
+    {
+      "title": "Research Analyst",
+      "company": "Data Insights Group",
+      "url": "https://www.datainsightsgroup.com",
+      "pocname": "Benjamin Lee",
+      "pocurl": "https://www.linkedin.com/in/benjaminlee",
+      "description": "Analyzing data to generate insights and reports.",
+      "status": "Applied",
+      "dateApplied": "2023-04-18"
+    },
+
+    {
+      "title": "Legal Counsel",
+      "company": "LawFirm Associates",
+      "url": "https://www.lawfirmassociates.com",
+      "pocname": "Natalie Adams",
+      "pocurl": "https://www.linkedin.com/in/natalieadams",
+      "description": "Providing legal advice and representation.",
+      "status": "In Progress",
+      "dateApplied": "2023-05-08"
+    },
+    {
+      "title": "Graphic Designer",
+      "company": "Artistic Designs Studio",
+      "url": "https://www.artisticdesignsstudio.com",
+      "pocname": "Eva Johnson",
+      "pocurl": "https://www.linkedin.com/in/evajohnson",
+      "description": "Creating visual elements and branding materials.",
+      "status": "Applied",
+      "dateApplied": "2023-04-14"
+    }
+  ]
+}
