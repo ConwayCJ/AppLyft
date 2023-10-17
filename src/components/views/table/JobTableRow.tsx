@@ -9,11 +9,11 @@ type JobProps = {
   job: Job & { checked: boolean },
   tableSize: string,
   checkJob: (job: Job & { checked: boolean }) => void,
-  username:string
 }
 
-export default function JobTableRow({ job, checkJob, tableSize, username }: JobProps) {
+export default function JobTableRow({ job, checkJob, tableSize }: JobProps) {
   const profileOptions = useContext(ProfileContext)
+  const { username } = profileOptions
   // Modal Close/Open handler
   const ref = useRef<HTMLDialogElement>(null)
   const handleShow = useCallback(() => {
@@ -58,12 +58,12 @@ export default function JobTableRow({ job, checkJob, tableSize, username }: JobP
       <td>{dateString}</td>
       <td>{daysSinceFormatted}</td>
       <td>
-        
-        <select name="status" onChange={(e) => {
-          
-          profileOptions.methods.updateSingleJob({...jobState,"status": e.target.value}, username)
 
-          }} className="select select-sm select-ghost w-full max-w-m">
+        <select name="status" onChange={(e) => {
+
+          profileOptions.methods.updateSingleJob({ ...jobState, "status": e.target.value }, username)
+
+        }} className="select select-sm select-ghost w-full max-w-m">
           <option>{jobState.status}</option>
           <option>Applied</option>
           <option>Emailed Followup</option>

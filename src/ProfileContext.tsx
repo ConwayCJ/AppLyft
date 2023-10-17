@@ -13,6 +13,6 @@ const defaultProfile = {
   }
 }
 
-type Profile = typeof defaultProfile
+type Profile = typeof defaultProfile & { username: string }
 
 export const ProfileContext = createContext<Profile>(defaultProfile);

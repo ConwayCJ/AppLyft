@@ -10,7 +10,6 @@ type ProfileProps = {
 }
 
 export default function Profile({ logout, username }: ProfileProps) {
-
   const [feature, setFeature] = useState('home')
 
   function toggleFeature(feature: string): void {

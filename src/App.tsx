@@ -6,7 +6,7 @@ import { ProfileContext } from './ProfileContext'
 
 function App() {
   const profile = useContext(ProfileContext)
-  const [currentProfile, setCurrentProfile] = useState<string>(profile.username)
+  const [currentProfile, setCurrentProfile] = useState<string>('')
 
   function handleLoginLogout(p: string | null) {
     setCurrentProfile(p ? p : '')
@@ -16,7 +16,10 @@ function App() {
     <div>
       {
         currentProfile ? (
-          <ProfileContext.Provider value={profile}>
+          <ProfileContext.Provider value={{
+            ...profile,
+            username: currentProfile,
+          }}>
             <Profile logout={handleLoginLogout} username={currentProfile} />
           </ProfileContext.Provider>
         ) :
