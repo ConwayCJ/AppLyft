@@ -60,17 +60,15 @@ export default function JobTableRow({ job, checkJob, tableSize, username }: JobP
       <td>
         
         <select name="status" onChange={(e) => {
-          const jobWithNewStatus = {
-            ...jobState,
-            "status": e.target.value
-          }
-          profileOptions.methods.updateSingleJob(jobWithNewStatus, username)
+          
+          profileOptions.methods.updateSingleJob({...jobState,"status": e.target.value}, username)
 
           }} className="select select-sm select-ghost w-full max-w-m">
           <option>{jobState.status}</option>
           <option>Applied</option>
           <option>Emailed Followup</option>
           <option>Interview Scheduled</option>
+          <option>Declined</option>
         </select>
       </td>
       <td>
