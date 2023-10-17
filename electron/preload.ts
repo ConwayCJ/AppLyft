@@ -32,6 +32,13 @@ const updateJobs = (jobs: Job[], profile: string) => {
   ipcRenderer.send("updateJobs", jobs, profile)
 }
 
+//change details about a single job
+const updateSingleJob = (job:Job, profile:string) => {
+  console.log(job)
+  ipcRenderer.send("updateSingleJob", job, profile)
+}
+
+
 const bridge = {
   postJob,
   createProfile,
@@ -39,6 +46,7 @@ const bridge = {
   getJobs,
   removeJobs,
   updateJobs,
+  updateSingleJob,
 }
 
 contextBridge.exposeInMainWorld("Bridge", bridge)

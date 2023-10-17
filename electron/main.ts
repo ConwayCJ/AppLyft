@@ -93,24 +93,22 @@ async function getJobs(_event: Electron.IpcMainInvokeEvent, username: string) {
 
 // Create a new profile if doesn't exist
 ipcMain.on("createProfile", (_sender: Electron.IpcMainEvent, profileName: string) => {
-
   jsonDataHandler.createProfile(profileName);
-
 });
 
 // Add a new job to existing profile
 ipcMain.on("postJob", (_sender: Electron.IpcMainEvent, newJob: Job, profile: string) => {
-
   jsonDataHandler.addJob(newJob, profile);
-
 });
 
 ipcMain.on("removeJobs", (_sender: Electron.IpcMainEvent, jobs: Job[], profile: string) => {
-
   jsonDataHandler.removeJobs(jobs, profile);
-
 });
 
 ipcMain.on("updateJobs", (_sender: Electron.IpcMainEvent, jobs: Job[], profile: string) => {
   jsonDataHandler.updateJobs(jobs, profile)
 });
+
+ipcMain.on("updateSingleJob", (_sender: Electron.IpcMainEvent, job:Job, profile:string) => {
+  jsonDataHandler.updateSingleJob(job, profile)
+});  

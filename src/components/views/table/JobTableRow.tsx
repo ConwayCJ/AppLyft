@@ -1,15 +1,19 @@
-import { ChangeEvent, useCallback, useRef, useState } from 'react'
+import { ChangeEvent, useCallback, useRef, useState, useContext } from 'react'
 import { Job } from '../../../../types'
 import { Button, Modal } from 'react-daisyui'
+import { ProfileContext } from '../../../ProfileContext'
+
+
 
 type JobProps = {
   job: Job & { checked: boolean },
   tableSize: string,
-  checkJob: (job: Job & { checked: boolean }) => void
+  checkJob: (job: Job & { checked: boolean }) => void,
+  username:string
 }
 
-export default function JobTableRow({ job, checkJob, tableSize }: JobProps) {
-
+export default function JobTableRow({ job, checkJob, tableSize, username }: JobProps) {
+  const profileOptions = useContext(ProfileContext)
   // Modal Close/Open handler
   const ref = useRef<HTMLDialogElement>(null)
   const handleShow = useCallback(() => {
@@ -26,20 +30,14 @@ export default function JobTableRow({ job, checkJob, tableSize }: JobProps) {
 
 
   const updateSingleJob = () => {
-    //bryce do the thing, by id or something? idk, use jobState^
-    //validate phone number
-
+    //validate phone number??? what does this mean, do you want me to call them or something 
+    //or just make sure its the right format
+    profileOptions.methods.updateSingleJob(jobState, username)
   }
 
-  const updateSingleJobStatus = () => {
-    //take jobState^ and update the 'status' field on the 1 object
+  const handleUpdateJob = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
 
-  }
-
-  const handleUpdateJob = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    console.log(e)
     setJobState({ ...jobState, [e.target.name]: e.target.value })
-    console.log(jobState)
   }
 
 
@@ -60,7 +58,13 @@ export default function JobTableRow({ job, checkJob, tableSize }: JobProps) {
       <td>{dateString}</td>
       <td>{daysSinceFormatted}</td>
       <td>
-        <select onChange={updateSingleJobStatus} className="select select-sm select-ghost w-full max-w-m">
+        <select name="status" onChange={(e) => {
+          setJobState((previous) => ({
+            ...previous,
+            "status": e.target.value
+          }))
+          updateSingleJob()
+          }} className="select select-sm select-ghost w-full max-w-m">
           <option>{jobState.status}</option>
           <option>Applied</option>
           <option>Emailed Followup</option>

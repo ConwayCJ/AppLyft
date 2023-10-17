@@ -71,9 +71,7 @@ export default function JobTable({ username, setFeature }: JobTableProps) {
           job.status = updateFormRadio
         }
         return job
-      })
-      console.log(selectedJobs)
-      // BRYCE DO THE UPDATE THING HERE
+      }) 
       await profileOptions.methods.updateJobs(selectedJobs, username)
       await getJobs()
     } else {
@@ -202,7 +200,7 @@ export default function JobTable({ username, setFeature }: JobTableProps) {
               <tbody>
 
                 {jobList.map((job, index) => (
-                  <JobTableRow key={index} job={job} checkJob={checkJob} tableSize={tableSize} />
+                  <JobTableRow key={index} job={job} checkJob={checkJob} tableSize={tableSize} username={username}/>
                 ))}
 
               </tbody>

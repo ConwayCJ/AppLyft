@@ -2,12 +2,11 @@ import fs from "fs";
 import { Job } from "../types";
 
 function checkIds(jobsArray: Job[]) {
-  return jobsArray.forEach((job, index) => {
-    if (jobsArray[index].id != index) {
-      jobsArray[index].id = index;
+  for(let i = 0; i < jobsArray.length; i++){
+    if(jobsArray[i].id != i){
+      jobsArray[i].id = i;
     }
-    return job;
-  });
+  }
 }
 
 export function removeJobs(jobs: Job[], profile: string) {
@@ -66,7 +65,6 @@ export async function getProfiles() {
 }
 
 export function createProfile(profileName: string) {
-  console.log("Creating profile");
   const defaultJson: string = `{"jobs": []}`;
 
   try {
@@ -80,9 +78,8 @@ export function createProfile(profileName: string) {
         JSON.stringify(profilesArray)
       );
       fs.writeFileSync(`data/profile.${profileName}.json`, defaultJson);
-      console.log("Successfully created new profile");
     } else {
-      console.log("profile already exists");
+      console.error("profile already exists");
     }
   } catch (e) {
     console.error(e);
@@ -98,6 +95,26 @@ export function updateJobs(jobs: Job[], profile: string) {
     checkIds(jobsArray.jobs)
     fs.writeFileSync(`data/profile.${profile}.json`, JSON.stringify(jobsArray))
 
+  } catch (jsonError) {
+    console.error(jsonError);
+  }
+}
+
+export function updateSingleJob(job: Job, profile:string){
+  try {
+    const jobData =  fs.readFileSync(`data/profile.${profile}.json`,"utf-8");
+    const data = JSON.parse(jobData);
+    
+    console.log(job)
+
+    data.jobs = data.jobs.filter((jobToRemove: Job) => {
+      return jobToRemove.id !== job.id
+    });
+
+   
+
+    data.jobs.push(job)
+    fs.writeFileSync(`data/profile.${profile}.json`, JSON.stringify(data))
   } catch (jsonError) {
     console.error(jsonError);
   }
