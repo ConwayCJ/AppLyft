@@ -7,12 +7,14 @@ import TableStats from './TableStats';
 
 
 type JobTableProps = {
-  username: string,
+
   setFeature: Dispatch<SetStateAction<string>>
 }
 
-export default function JobTable({ username, setFeature }: JobTableProps) {
+export default function JobTable({ setFeature }: JobTableProps) {
   const profileOptions = useContext(ProfileContext)
+  const { username } = profileOptions
+
 
   const [jobList, setJobList] = useState<Array<Job & { checked: boolean }>>([]);
   const [tableSize, setTableSize] = useState('table-sm')
@@ -71,7 +73,7 @@ export default function JobTable({ username, setFeature }: JobTableProps) {
           job.status = updateFormRadio
         }
         return job
-      }) 
+      })
       await profileOptions.methods.updateJobs(selectedJobs, username)
       await getJobs()
     } else {
@@ -200,7 +202,7 @@ export default function JobTable({ username, setFeature }: JobTableProps) {
               <tbody>
 
                 {jobList.map((job, index) => (
-                  <JobTableRow key={index} job={job} checkJob={checkJob} tableSize={tableSize} username={username}/>
+                  <JobTableRow key={index} job={job} checkJob={checkJob} tableSize={tableSize} />
                 ))}
 
               </tbody>

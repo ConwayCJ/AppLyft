@@ -2,7 +2,10 @@ import { useContext, useState } from 'react'
 import { Job } from '../../../types'
 import { ProfileContext } from '../../ProfileContext'
 
-export default function NewJobForm({ username }: { username: string }) {
+export default function NewJobForm() {
+  const profileOptions = useContext(ProfileContext)
+  const { username } = profileOptions
+
 
   const [formData, setFormData] = useState({
     title: "",
@@ -18,7 +21,6 @@ export default function NewJobForm({ username }: { username: string }) {
   today.setDate(today.getDate() - 1)
   const date = today.toISOString().substring(0, 10)
 
-  const profileOptions = useContext(ProfileContext)
 
   const handleValueChange = (e: React.ChangeEvent<HTMLInputElement>, value: string) => {
     setFormData({

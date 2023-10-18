@@ -3,13 +3,14 @@ import Home from "./views/Home";
 import JobTable from "./views/table/JobTable";
 import { Dispatch, SetStateAction } from "react";
 
+
 type ViewProps = {
   username: string,
   feature: string,
   setFeature: Dispatch<SetStateAction<string>>
 }
 
-export default function View({ username, feature, setFeature }: ViewProps) {
+export default function View({ feature, setFeature }: ViewProps) {
 
   const handleView = (feature: string) => {
     switch (feature) {
@@ -17,10 +18,10 @@ export default function View({ username, feature, setFeature }: ViewProps) {
         return <Home />
         break
       case 'table':
-        return <JobTable username={username} setFeature={setFeature} />
+        return <JobTable setFeature={setFeature} />
         break
       case 'newjob':
-        return <NewJobForm username={username} />
+        return <NewJobForm />
     }
   }
 
