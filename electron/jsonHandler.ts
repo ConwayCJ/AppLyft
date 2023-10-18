@@ -1,5 +1,11 @@
 import fs from "fs";
 import { Job } from "../types";
+import { app } from 'electron';
+
+
+
+
+const filePath = app.getPath("appData");
 
 function checkIds(jobsArray: Job[]) {
   for(let i = 0; i < jobsArray.length; i++){
@@ -11,7 +17,9 @@ function checkIds(jobsArray: Job[]) {
 
 export function removeJobs(jobs: Job[], profile: string) {
   try {
-    const curData = fs.readFileSync(`data/profile.${profile}.json`, "utf-8");
+
+
+    const curData = fs.readFileSync(`${filePath}/jobtracker/data/profile.${profile}.json`, "utf-8");
     const dataArray = JSON.parse(curData);
 
     dataArray.jobs = dataArray.jobs.filter((job: Job) => {
@@ -20,7 +28,7 @@ export function removeJobs(jobs: Job[], profile: string) {
 
 
     checkIds(dataArray.jobs)
-    fs.writeFileSync(`data/profile.${profile}.json`, JSON.stringify(dataArray))
+    fs.writeFileSync(`${filePath}/jobtracker/data/profile.${profile}.json`, JSON.stringify(dataArray))
 
   } catch (jsonError) {
     console.log("Remove Job Error: ", jsonError);
@@ -29,14 +37,14 @@ export function removeJobs(jobs: Job[], profile: string) {
 
 export function addJob(newJob: Job, profile: string) {
   try {
-    const curData = fs.readFileSync(`data/profile.${profile}.json`, "utf-8");
+    const curData = fs.readFileSync(`${filePath}/jobtracker/data/profile.${profile}.json`, "utf-8");
     const jobsKeyArray = JSON.parse(curData);
     newJob.id = jobsKeyArray.jobs.length;
     jobsKeyArray.jobs.push(newJob);
     checkIds(jobsKeyArray.jobs)
 
     fs.writeFileSync(
-      `data/profile.${profile}.json`,
+      `${filePath}/jobtracker/data/profile.${profile}.json`,
       JSON.stringify(jobsKeyArray)
     );
   } catch (jsonError) {
@@ -47,7 +55,7 @@ export function addJob(newJob: Job, profile: string) {
 export async function getAllJobs(profileName: string) {
   try {
     const jobData = await fs.readFileSync(
-      `data/profile.${profileName}.json`,
+      `${filePath}/jobtracker/data/profile.${profileName}.json`,
       "utf-8"
     );
     const jobsArray = await JSON.parse(jobData);
@@ -59,7 +67,7 @@ export async function getAllJobs(profileName: string) {
 }
 
 export async function getProfiles() {
-  const profiles = fs.readFileSync("data/existingProfiles.json", "utf-8");
+  const profiles = fs.readFileSync(`${filePath}/jobtracker/data/existingProfiles.json`, "utf-8");
   const jsonProfiles = JSON.parse(profiles);
   return jsonProfiles.profiles;
 }
@@ -68,16 +76,16 @@ export function createProfile(profileName: string) {
   const defaultJson: string = `{"jobs": []}`;
 
   try {
-    const curData = fs.readFileSync(`data/existingProfiles.json`, "utf-8");
+    const curData = fs.readFileSync(`${filePath}/jobtracker/data/existingProfiles.json`, "utf-8");
     const profilesArray = JSON.parse(curData);
 
     if (!profilesArray.profiles.includes(profileName)) {
       profilesArray.profiles.push(profileName);
       fs.writeFileSync(
-        `data/existingProfiles.json`,
+        `${filePath}/jobtracker/data/existingProfiles.json`,
         JSON.stringify(profilesArray)
       );
-      fs.writeFileSync(`data/profile.${profileName}.json`, defaultJson);
+      fs.writeFileSync(`${filePath}/jobtracker/data/profile.${profileName}.json`, defaultJson);
     } else {
       console.error("profile already exists");
     }
@@ -88,12 +96,12 @@ export function createProfile(profileName: string) {
 
 export function updateJobs(jobs: Job[], profile: string) {
   try {
-    const jobData =  fs.readFileSync(`data/profile.${profile}.json`,"utf-8");
+    const jobData =  fs.readFileSync(`${filePath}/jobtracker/data/profile.${profile}.json`,"utf-8");
     const jobsArray = JSON.parse(jobData);
 
     jobsArray.jobs = jobs;
     checkIds(jobsArray.jobs)
-    fs.writeFileSync(`data/profile.${profile}.json`, JSON.stringify(jobsArray))
+    fs.writeFileSync(`${filePath}/jobtracker/data/profile.${profile}.json`, JSON.stringify(jobsArray))
 
   } catch (jsonError) {
     console.error(jsonError);
@@ -102,7 +110,7 @@ export function updateJobs(jobs: Job[], profile: string) {
 
 export function updateSingleJob(job: Job, profile:string){
   try {
-    const jobData =  fs.readFileSync(`data/profile.${profile}.json`,"utf-8");
+    const jobData =  fs.readFileSync(`${filePath}/jobtracker/data/profile.${profile}.json`,"utf-8");
     const data = JSON.parse(jobData);
     
     console.log(job)
@@ -114,7 +122,7 @@ export function updateSingleJob(job: Job, profile:string){
    
 
     data.jobs.push(job)
-    fs.writeFileSync(`data/profile.${profile}.json`, JSON.stringify(data))
+    fs.writeFileSync(`${filePath}/jobtracker/data/profile.${profile}.json`, JSON.stringify(data))
   } catch (jsonError) {
     console.error(jsonError);
   }
