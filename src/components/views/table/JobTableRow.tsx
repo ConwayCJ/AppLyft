@@ -93,7 +93,7 @@ export default function JobTableRow({ job, checkJob, tableSize }: JobProps) {
 
               <section>
                 <h1 className='text-xl text-secondary font-extrabold py-1'>Job Description:</h1>
-                <textarea className=' textarea py-2 w-full textarea-bordered max-h-24 text-accent' value={jobState.description} name='description' onChange={e => handleUpdateJob(e)} />
+                <textarea className=' textarea py-2 w-full textarea-bordered h-24 max-h-[400px] text-accent' value={jobState.description} name='description' onChange={e => handleUpdateJob(e)} />
               </section>
 
               <section>

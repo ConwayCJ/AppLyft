@@ -17,12 +17,13 @@ export default function NewJobForm() {
     dateApplied: new Date()
   })
 
+  // format date object for today
   const today = new Date()
-  today.setDate(today.getDate() - 1)
+  today.setDate(today.getDate())
   const date = today.toISOString().substring(0, 10)
 
 
-  const handleValueChange = (e: React.ChangeEvent<HTMLInputElement>, value: string) => {
+  const handleValueChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, value: string) => {
     setFormData({
       ...formData,
       [value]: e.currentTarget.value
@@ -98,7 +99,7 @@ export default function NewJobForm() {
                 Job Description<sup className=' text-red-700 text-md'>*</sup>
               </span>
             </label>
-            <textarea required id="description" className=' textarea textarea-bordered w-[80%] bg-base-200 max-h-24' placeholder='Copy/Paste Job Description Here... potions master capable of teaching multiple students how to brew and handle variations of poisons and healing brews ' />
+            <textarea required onChange={e => handleValueChange(e, 'description')} id="description" className=' textarea textarea-bordered w-[80%] bg-base-200 max-h-24' placeholder='Copy/Paste Job Description Here... potions master capable of teaching multiple students how to brew and handle variations of poisons and healing brews ' />
           </div>
         </span>
 
