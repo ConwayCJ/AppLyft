@@ -7,7 +7,6 @@ export default function PomoDoro() {
 
   return (
     <div className=" place-self-start w-full">
-      {/* Banner */}
       <div className="flex w-full px-12 items-center justify-between lg:justify-center">
         <div className="font-bold text-4xl text-secondary">
           PomoDoro
@@ -26,17 +25,17 @@ export default function PomoDoro() {
             <div className="flex flex-col items-center">
               <p className=" text-3xl text-info">Start Work:</p>
               <div className="join my-4">
-                <button onClick={() => profile.setTimeLeft({ time: 5, break: 'Working' })} className="btn btn-md join-item">5s</button>
-                <button onClick={() => profile.setTimeLeft({ time: 25 * 60, break: 'Working' })} className="btn btn-md join-item">25</button>
-                <button onClick={() => profile.setTimeLeft({ time: 20 * 60, break: 'Working' })} className="btn btn-md join-item">20</button>
+                <button onClick={() => profile.setTimeLeft(5)} className="btn btn-md join-item">5 sec</button>
+                <button onClick={() => profile.setTimeLeft(25 * 60)} className="btn btn-md join-item">25</button>
+                <button onClick={() => profile.setTimeLeft(20 * 60)} className="btn btn-md join-item">20</button>
               </div>
             </div>
 
             <div>
               <p className=" text-3xl text-info">Start Break:</p>
               <div className="join my-4">
-                <button onClick={() => profile.setTimeLeft({ time: 5 * 60, break: 'Break' })} className=" btn btn-md join-item">5</button>
-                <button onClick={() => profile.setTimeLeft({ time: 15 * 60, break: 'Break' })} className=" btn btn-md join-item">15</button>
+                <button onClick={() => profile.setTimeLeft(5 * 60)} className=" btn btn-md join-item">5</button>
+                <button onClick={() => profile.setTimeLeft(15 * 60)} className=" btn btn-md join-item">15</button>
               </div>
             </div>
           </div>
