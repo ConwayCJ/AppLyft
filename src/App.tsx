@@ -10,17 +10,23 @@ function App() {
 
   function handleLoginLogout(p: string | null) {
     setCurrentProfile(p ? p : '')
-    setTimeLeft(0)
+    setTimeLeft({
+      time: 0,
+      break: 'Start a Timer',
+    })
   }
 
-  const [timeLeft, setTimeLeft] = useState(10)
+  const [timeLeft, setTimeLeft] = useState({
+    time: 0,
+    break: true,
+  })
 
   // Handles the amount of time left
   useEffect(() => {
 
     const intervalId = setInterval(() => {
-      if (timeLeft > 0) {
-        setTimeLeft(timeLeft - 1)
+      if (timeLeft.time > 0) {
+        setTimeLeft({ ...timeLeft, time: timeLeft.time - 1 })
       } else {
         clearInterval(intervalId)
       }
