@@ -1,32 +1,35 @@
+import { memo } from 'react'
+
 type NavigationProps = {
   toggleFeature: (feature: string) => void,
   currentFeature: string
 }
 
-export default function Navigation({ toggleFeature, currentFeature }: NavigationProps) {
+const Navigation = memo(function Navigation({ toggleFeature, currentFeature }: NavigationProps) {
 
   type NavButtonProps = {
-    currentFeature: string,
     feature: string,
     title: string
   }
 
-  const NavButton = ({ currentFeature, feature, title }: NavButtonProps) => {
-    console.log(currentFeature, feature)
+  const NavButton = ({ feature, title }: NavButtonProps) => {
 
     return (
-      <input className="btn btn-sm join-item" checked={currentFeature === feature} onChange={() => toggleFeature(feature)} type="radio" name="options" aria-label={title}></input>
+      <input className="btn btn-sm join-item" checked={currentFeature == feature} onChange={() => toggleFeature(feature)} type="radio" name="options" aria-label={title}></input>
     )
   }
 
   return (
     <div className="join join-vertical w-full">
 
-      <NavButton currentFeature={currentFeature} feature="home" title='Home' />
-      <NavButton currentFeature={currentFeature} feature="newjob" title='Add Job' />
-      <NavButton currentFeature={currentFeature} feature="table" title='View Jobs' />
-      <NavButton currentFeature={currentFeature} feature='disabled' title='Disabled' />
-      <NavButton currentFeature={currentFeature} feature='disabled' title='Stats' />
+      <NavButton feature="home" title='Home' />
+      <NavButton feature="newjob" title='Add Job' />
+      <NavButton feature="table" title='View Jobs' />
+      <NavButton feature="pomodoro" title='Pomo Doro' />
+      <NavButton feature='disabled' title='Disabled' />
+      <NavButton feature='disabled' title='Stats' />
     </div>
   )
-}
+})
+
+export default Navigation

@@ -2,6 +2,7 @@ import NewJobForm from "./views/NewJobForm";
 import Home from "./views/Home";
 import JobTable from "./views/table/JobTable";
 import { Dispatch, SetStateAction } from "react";
+import PomoDoro from "./views/pomodoro/PomoDoro";
 
 
 type ViewProps = {
@@ -11,6 +12,7 @@ type ViewProps = {
 }
 
 export default function View({ feature, setFeature }: ViewProps) {
+
 
   const handleView = (feature: string) => {
     switch (feature) {
@@ -22,6 +24,9 @@ export default function View({ feature, setFeature }: ViewProps) {
         break
       case 'newjob':
         return <NewJobForm />
+        break
+      case 'pomodoro':
+        return <PomoDoro />
     }
   }
 

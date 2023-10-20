@@ -3,6 +3,7 @@ import { createContext } from 'react'
 const defaultProfile = {
   username: '',
   allProfiles: window.Bridge.getProfiles,
+  timeLeft: 0,
   methods: {
     postJob: window.Bridge.postJob,
     getJobs: window.Bridge.getJobs,
@@ -13,6 +14,6 @@ const defaultProfile = {
   }
 }
 
-type Profile = typeof defaultProfile & { username: string }
+type Profile = typeof defaultProfile
 
 export const ProfileContext = createContext<Profile>(defaultProfile);

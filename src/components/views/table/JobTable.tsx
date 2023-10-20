@@ -7,8 +7,7 @@ import TableStats from './TableStats';
 
 
 type JobTableProps = {
-
-  setFeature: Dispatch<SetStateAction<string>>
+  setFeature: Dispatch<SetStateAction<string>>,
 }
 
 export default function JobTable({ setFeature }: JobTableProps) {

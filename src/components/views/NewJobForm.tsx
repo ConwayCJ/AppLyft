@@ -1,6 +1,7 @@
 import { useContext, useState } from 'react'
 import { Job } from '../../../types'
 import { ProfileContext } from '../../ProfileContext'
+import PDTimer from './pomodoro/PDTimer'
 
 export default function NewJobForm() {
   const profileOptions = useContext(ProfileContext)
@@ -37,21 +38,23 @@ export default function NewJobForm() {
 
     const newJob: Job = {
       ...formData,
-      status: 'applied',
+      status: 'Applied',
     }
 
     profileOptions.methods.postJob(newJob, username)
-
   }
 
   return (
     <div className='place-self-start h-screen overflow-x-auto w-full'>
 
       {/* Hero Section */}
-      <div className='w-full pt-6 flex justify-between items-center'>
-        <h1 className=' text-5xl font-bold text-primary'>New Job</h1>
+      <div className='flex items-center justify-between'>
+        <h1 className='text-5xl font-bold text-primary'>New Job</h1>
+        <div>
+          <PDTimer />
+        </div>
       </div>
-      <div className=' divider mx-2'></div>
+      <div className=' divider mt-0 mx-2'></div>
       {/* New Job Form */}
       <form onSubmit={e => handleWrite(e)} className='form-control w-full'>
         <h1 className=' text-secondary font-bold text-xl'>Job Details</h1>
@@ -93,7 +96,6 @@ export default function NewJobForm() {
         </span>
         <span>
           <div className='mx-2'>
-
             <label htmlFor='description' className='label'>
               <span className='label-text'>
                 Job Description<sup className=' text-red-700 text-md'>*</sup>

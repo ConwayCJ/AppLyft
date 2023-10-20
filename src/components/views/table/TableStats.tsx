@@ -1,5 +1,5 @@
 import { Job } from '../../../../types'
-import heman from '../../../assets/heman.png'
+import PDTimer from '../pomodoro/PDTimer'
 
 
 export default function TableStats({ jobList }: { jobList: Job[] }) {
@@ -30,18 +30,7 @@ export default function TableStats({ jobList }: { jobList: Job[] }) {
         <div className="stat-desc"></div>
       </div>
 
-      <div className="stat">
-        <div className="stat-figure text-secondary">
-          <div className="avatar">
-            <div className="w-20 rounded-full">
-              <img src={heman} />
-            </div>
-          </div>
-        </div>
-        <div className="stat-value">100%</div>
-        <div className="stat-title">Absolute</div>
-        <div className="stat-desc text-secondary">Badass</div>
-      </div>
+      <PDTimer />
 
     </div>
   )

@@ -12,14 +12,6 @@ type ProfileProps = {
 export default function Profile({ logout, username }: ProfileProps) {
   const [feature, setFeature] = useState('home')
 
-  function toggleFeature(feature: string): void {
-    if (feature === 'disabled') {
-      alert('That feature is currently disabled.')
-    }
-
-    setFeature(feature)
-  }
-
   return (
     <div className="flex h-screen w-full">
       <div className="grid bg-base-300 px-2 py-3">
@@ -30,7 +22,7 @@ export default function Profile({ logout, username }: ProfileProps) {
           </span>
           <div className="divider"></div>
           <span>
-            <Navigation toggleFeature={toggleFeature} currentFeature={feature} />
+            <Navigation toggleFeature={setFeature} currentFeature={feature} />
           </span>
         </span>
         <span className="place-self-end flex flex-col">
