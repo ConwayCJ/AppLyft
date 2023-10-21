@@ -65,6 +65,19 @@ export async function getAllJobs(profileName: string) {
     console.error(jsonError);
   }
 }
+export async function getJobsByStatus(profileName: string, filter:string) {
+  try {
+    const jobData = await fs.readFileSync(
+      `${filePath}/jobtracker/data/profile.${profileName}.json`,
+      "utf-8"
+    );
+    const jobsArray = await JSON.parse(jobData);
+      jobsArray.jobs.filter((job:Job) => job.status === filter)
+    return jobsArray.jobs;
+  } catch (jsonError) {
+    console.error(jsonError);
+  }
+}
 
 export async function getProfiles() {
   const profiles = fs.readFileSync(`${filePath}/jobtracker/data/existingProfiles.json`, "utf-8");

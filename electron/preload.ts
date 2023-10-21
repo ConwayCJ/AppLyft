@@ -21,6 +21,10 @@ const getJobs = (username: string) => {
   return ipcRenderer.invoke("getJobs", username)
 }
 
+const getJobsByStatus = (username: string, filter?:string) => {
+  return ipcRenderer.invoke("getJobsByStatus", username, filter)
+}
+
 //remove a single job based based on the ID we send on the given profile, return nothing
 const removeJobs = (jobs: Job[], profile: string) => {
   ipcRenderer.send("removeJobs", jobs, profile)
@@ -28,15 +32,15 @@ const removeJobs = (jobs: Job[], profile: string) => {
 
 //change the status of all jobs that get sent to the new status
 const updateJobs = (jobs: Job[], profile: string) => {
-  console.log("got update jobs")
   ipcRenderer.send("updateJobs", jobs, profile)
 }
 
 //change details about a single job
 const updateSingleJob = (job:Job, profile:string) => {
-  console.log(job)
   ipcRenderer.send("updateSingleJob", job, profile)
 }
+
+
 
 
 const bridge = {
@@ -47,6 +51,7 @@ const bridge = {
   removeJobs,
   updateJobs,
   updateSingleJob,
+  getJobsByStatus,
 }
 
 contextBridge.exposeInMainWorld("Bridge", bridge)

@@ -76,6 +76,7 @@ app.on("activate", () => {
 app.whenReady().then(() => {
   ipcMain.handle("getProfiles", getProfiles);
   ipcMain.handle("getJobs", getJobs);
+  ipcMain.handle("getJobsByStatus", getJobs);
   createWindow();
 });
 
@@ -88,8 +89,14 @@ async function getProfiles() {
 
 //slightly less pain
 async function getJobs(_event: Electron.IpcMainInvokeEvent, username: string) {
-  return jsonDataHandler.getAllJobs(username);
+    return jsonDataHandler.getAllJobs(username);
 }
+
+//ree
+async function getJobsByStatus(_event: Electron.IpcMainInvokeEvent, username: string, filter:string) {
+  return jsonDataHandler.getJobsByStatus(username, filter);
+}
+
 
 // Create a new profile if doesn't exist
 ipcMain.on("createProfile", (_sender: Electron.IpcMainEvent, profileName: string) => {
