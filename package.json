@@ -8,7 +8,18 @@
     "lint": "eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
   },
+  "build":{
+    "appId":"com.devBros.jobtracker",
+    "productName":"JobTracker",
+    "win":{
+      "target":"nsis"
+    },
+    "directories":{
+      "output":"dist"
+    }
+  },
   "dependencies": {
+    "electron-updater": "^6.1.4",
     "react": "^18.2.0",
     "react-daisyui": "^4.1.2",
     "react-dom": "^18.2.0"
