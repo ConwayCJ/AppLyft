@@ -49,13 +49,13 @@ export default function Login({ loginAs }: { loginAs: (profileName: string) => v
               <p className='py-2'>Remind me, who are you?</p>
               {/* Container for profile buttons */}
               <span className='join'>
-                {existingProfiles.map((profile, index) =>
+                {existingProfiles? existingProfiles.map((profile, index) =>
                 (
                   <button className='btn join-item border-primary' onClick={() => loginAs(profile)} key={index}>
                     {profile}
                   </button>
                 )
-                )}
+                ) : "No profiles exist... CJ MAKE THIS LOOK NICE IM A BACKEND DEV REACT IS ICKY"}
               </span>
 
               <label htmlFor="my-drawer" className=" align-bottom drawer-button mt-4 text-secondary text-md">Create a Profile</label>

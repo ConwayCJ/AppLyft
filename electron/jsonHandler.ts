@@ -14,7 +14,20 @@ function checkIds(jobsArray: Job[]) {
     }
   }
 }
+export function initDataFolder() {
+  if(!fs.existsSync(`${filePath}/jobtracker/data`)){
+    try{
+    console.log("data folder doesnt exist, making required filestructure")
+    fs.mkdirSync(`${filePath}/jobtracker/data`)
 
+    const existingProfilesJson = `{"profiles":[]}`
+
+    fs.writeFileSync(`${filePath}/jobtracker/data/existingProfiles.json`, existingProfilesJson)
+    } catch(e){
+      console.log("error initializing filestructure: ", e)
+    }
+  }
+}
 export function removeJobs(jobs: Job[], profile: string) {
   try {
 
