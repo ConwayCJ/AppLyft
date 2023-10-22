@@ -6,16 +6,17 @@
     "dev": "vite",
     "build": "tsc && vite build && electron-builder",
     "lint": "eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "dist": "electron-builder"
   },
-  "build":{
-    "appId":"com.devBros.jobtracker",
-    "productName":"JobTracker",
-    "win":{
-      "target":"nsis"
+  "build": {
+    "appId": "com.devBros.jobtracker",
+    "productName": "JobTracker",
+    "win": {
+      "target": "nsis"
     },
-    "directories":{
-      "output":"dist"
+    "directories": {
+      "output": "dist"
     }
   },
   "dependencies": {

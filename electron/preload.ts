@@ -40,9 +40,7 @@ const updateSingleJob = (job:Job, profile:string) => {
   ipcRenderer.send("updateSingleJob", job, profile)
 }
 
-
-
-
+//dont forget to add the method to renderer.d.ts as well, or ProfileContext will yell at you
 const bridge = {
   postJob,
   createProfile,

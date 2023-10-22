@@ -1,4 +1,5 @@
 import { createContext } from 'react'
+import "../renderer.d.ts"
 
 const defaultProfile = {
   username: '',

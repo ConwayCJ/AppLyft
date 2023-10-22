@@ -1,6 +1,9 @@
 import { app, BrowserWindow, ipcMain, shell } from "electron";
 import { Job } from "../types";
 import path from "node:path";
+import { autoUpdater } from "electron-updater";
+
+
 
 import * as jsonDataHandler from './jsonHandler.ts'
 
@@ -65,6 +68,9 @@ app.on("window-all-closed", () => {
 //   })
 // })
 
+
+
+
 app.on("activate", () => {
   // On OS X it's common to re-create a window in the app when the
   // dock icon is clicked and there are no other windows open.
@@ -77,9 +83,30 @@ app.whenReady().then(() => {
   jsonDataHandler.initDataFolder()
   ipcMain.handle("getProfiles", getProfiles);
   ipcMain.handle("getJobs", getJobs);
-  ipcMain.handle("getJobsByStatus", getJobs);
+  ipcMain.handle("getJobsByStatus", getJobsByStatus);
   createWindow();
 });
+
+autoUpdater.on("update-available", (info) => {
+ 
+  const pth = autoUpdater.downloadUpdate();
+  console.log("Update available:", pth)
+  console.log(info)
+});
+
+autoUpdater.on("update-not-available", (info) => {
+  console.log("update not available",info)
+});
+
+/*Download Completion Message*/
+autoUpdater.on("update-downloaded", (info) => {
+  console.log("update downloaded",info)  
+});
+
+autoUpdater.on("error", (info) => {
+  console.error("error updating",info)
+});
+
 
 
 
