@@ -1,8 +1,7 @@
-import { ChangeEvent, useCallback, useRef, useState, useContext } from 'react'
+import { ChangeEvent, useCallback, useRef, useState } from 'react'
 import { Job } from '../../../../types'
 import { Button, Modal } from 'react-daisyui'
-import { ProfileContext } from '../../../ProfileContext'
-
+import useAppProvider from '../../../context/UseAppProvider'
 
 
 type JobProps = {
@@ -11,9 +10,10 @@ type JobProps = {
   checkJob: (job: Job & { checked: boolean }) => void,
 }
 
+
 export default function JobTableRow({ job, checkJob, tableSize }: JobProps) {
-  const profileOptions = useContext(ProfileContext)
-  const { username } = profileOptions
+  const { username, methods } = useAppProvider()
+
   // Modal Close/Open handler
   const ref = useRef<HTMLDialogElement>(null)
   const handleShow = useCallback(() => {
@@ -32,7 +32,7 @@ export default function JobTableRow({ job, checkJob, tableSize }: JobProps) {
   const updateSingleJob = () => {
     //validate phone number??? what does this mean, do you want me to call them or something 
     //or just make sure its the right format
-    profileOptions.methods.updateSingleJob(jobState, username)
+    methods.updateSingleJob(jobState, username)
   }
 
   const handleUpdateJob = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
@@ -61,7 +61,7 @@ export default function JobTableRow({ job, checkJob, tableSize }: JobProps) {
 
         <select name="status" onChange={(e) => {
 
-          profileOptions.methods.updateSingleJob({ ...jobState, "status": e.target.value }, username)
+          methods.updateSingleJob({ ...jobState, "status": e.target.value }, username)
 
         }} className="select select-sm select-ghost w-full max-w-m">
           <option>{jobState.status}</option>

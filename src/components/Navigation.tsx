@@ -13,7 +13,6 @@ const Navigation = memo(function Navigation({ toggleFeature, currentFeature }: N
   }
 
   const NavButton = ({ feature, title }: NavButtonProps) => {
-
     return (
       <input className="btn btn-sm join-item" checked={currentFeature == feature} onChange={() => toggleFeature(feature)} type="radio" name="options" aria-label={title}></input>
     )
@@ -26,8 +25,10 @@ const Navigation = memo(function Navigation({ toggleFeature, currentFeature }: N
       <NavButton feature="newjob" title='Add Job' />
       <NavButton feature="table" title='View Jobs' />
       <NavButton feature="pomodoro" title='Pomo Doro' />
+      {/* 
       <NavButton feature='disabled' title='Disabled' />
-      <NavButton feature='disabled' title='Stats' />
+      <NavButton feature='stats' title='Stats' />
+       */}
     </div>
   )
 })

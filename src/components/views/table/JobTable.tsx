@@ -1,9 +1,9 @@
 import { Job } from '../../../../types';
 import JobTableRow from './JobTableRow';
-import { ProfileContext } from '../../../ProfileContext';
-import { useContext, useEffect, useState, useRef, useCallback, SetStateAction, Dispatch } from 'react';
+import { useEffect, useState, useRef, useCallback, SetStateAction, Dispatch } from 'react';
 import { Button, Modal } from 'react-daisyui';
 import TableStats from './TableStats';
+import useAppProvider from '../../../context/UseAppProvider';
 
 
 type JobTableProps = {
@@ -11,9 +11,9 @@ type JobTableProps = {
 }
 
 export default function JobTable({ setFeature }: JobTableProps) {
-  const profileOptions = useContext(ProfileContext)
-  const { username } = profileOptions
+  const { username, methods } = useAppProvider()
 
+  console.log(useAppProvider())
 
   const [jobList, setJobList] = useState<Array<Job & { checked: boolean }>>([]);
   const [tableSize, setTableSize] = useState('table-sm')
@@ -23,7 +23,7 @@ export default function JobTable({ setFeature }: JobTableProps) {
   const updateAllModal = useRef<HTMLDialogElement>(null);
 
   const getJobs = async () => {
-    const jobs = await profileOptions.methods.getJobs(username);
+    const jobs = await methods.getJobs('test');
 
     setJobList(jobs.map((job: Job) => ({ ...job, checked: false })))
   }
@@ -34,7 +34,7 @@ export default function JobTable({ setFeature }: JobTableProps) {
 
     const selectedJobs = jobList.filter(job => !job.checked)
     console.log(selectedJobs)
-    profileOptions.methods.removeJobs(selectedJobs, username)
+    methods.removeJobs(selectedJobs, username)
     //need to await the above
     getJobs()
   }
@@ -54,7 +54,7 @@ export default function JobTable({ setFeature }: JobTableProps) {
 
   async function filterBy(filterOption: string) {
 
-    let jobList = await profileOptions.methods.getJobs(username)
+    let jobList = await methods.getJobs(username)
     jobList = jobList.map((job: Job) => ({ ...job, checked: false }))
 
     if (filterOption == 'All') {
@@ -73,7 +73,7 @@ export default function JobTable({ setFeature }: JobTableProps) {
         }
         return job
       })
-      await profileOptions.methods.updateJobs(selectedJobs, username)
+      await methods.updateJobs(selectedJobs, username)
       await getJobs()
     } else {
       alert("Choose an option to update the status of every job.")

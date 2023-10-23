@@ -2,9 +2,6 @@ import { app, BrowserWindow, ipcMain, shell } from "electron";
 import { Job } from "../types";
 import path from "node:path";
 import { autoUpdater } from "electron-updater";
-
-
-
 import * as jsonDataHandler from './jsonHandler.ts'
 
 
@@ -88,23 +85,23 @@ app.whenReady().then(() => {
 });
 
 autoUpdater.on("update-available", (info) => {
- 
+
   const pth = autoUpdater.downloadUpdate();
   console.log("Update available:", pth)
   console.log(info)
 });
 
 autoUpdater.on("update-not-available", (info) => {
-  console.log("update not available",info)
+  console.log("update not available", info)
 });
 
 /*Download Completion Message*/
 autoUpdater.on("update-downloaded", (info) => {
-  console.log("update downloaded",info)  
+  console.log("update downloaded", info)
 });
 
 autoUpdater.on("error", (info) => {
-  console.error("error updating",info)
+  console.error("error updating", info)
 });
 
 
@@ -117,11 +114,11 @@ async function getProfiles() {
 
 //slightly less pain
 async function getJobs(_event: Electron.IpcMainInvokeEvent, username: string) {
-    return jsonDataHandler.getAllJobs(username);
+  return jsonDataHandler.getAllJobs(username);
 }
 
 //ree
-async function getJobsByStatus(_event: Electron.IpcMainInvokeEvent, username: string, filter:string) {
+async function getJobsByStatus(_event: Electron.IpcMainInvokeEvent, username: string, filter: string) {
   return jsonDataHandler.getJobsByStatus(username, filter);
 }
 
@@ -143,6 +140,6 @@ ipcMain.on("updateJobs", (_sender: Electron.IpcMainEvent, jobs: Job[], profile: 
   jsonDataHandler.updateJobs(jobs, profile)
 });
 
-ipcMain.on("updateSingleJob", (_sender: Electron.IpcMainEvent, job:Job, profile:string) => {
+ipcMain.on("updateSingleJob", (_sender: Electron.IpcMainEvent, job: Job, profile: string) => {
   jsonDataHandler.updateSingleJob(job, profile)
 });  

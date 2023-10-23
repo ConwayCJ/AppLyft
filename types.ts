@@ -9,3 +9,9 @@ export type Job = {
   dateApplied: Date,
   id?: number
 }
+
+export type API = {
+  username: string,
+  timeLeft: number,
+  setTimeLeft: (newTime: number) => void
+}

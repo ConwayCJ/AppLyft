@@ -1,9 +1,8 @@
-import { ProfileContext } from "../../../ProfileContext";
-import { useContext } from 'react'
 import PDTimer from "./PDTimer";
+import useAppProvider from "../../../context/UseAppProvider";
 
 export default function PomoDoro() {
-  const profile = useContext(ProfileContext)
+  const { setTimeLeft } = useAppProvider()
 
   return (
     <div className=" place-self-start w-full">
@@ -19,23 +18,25 @@ export default function PomoDoro() {
 
       <div className="hero-content text-center">
         <div className="max-w-md">
+
           <h1 className="text-5xl font-bold text-info">PomoDoro</h1>
           <p className="py-6">Provident cupiditate voluptatem et in. Quaerat fugiat ut assumenda excepturi exercitationem quasi. In deleniti eaque aut repudiandae et a id nisi.</p>
+
           <div className="flex justify-around">
             <div className="flex flex-col items-center">
               <p className=" text-3xl text-info">Start Work:</p>
               <div className="join my-4">
-                <button onClick={() => profile.setTimeLeft(5)} className="btn btn-md join-item">5 sec</button>
-                <button onClick={() => profile.setTimeLeft(25 * 60)} className="btn btn-md join-item">25</button>
-                <button onClick={() => profile.setTimeLeft(20 * 60)} className="btn btn-md join-item">20</button>
+                <button onClick={() => setTimeLeft(5)} className="btn btn-md join-item">5 sec</button>
+                <button onClick={() => setTimeLeft(25 * 60)} className="btn btn-md join-item">25</button>
+                <button onClick={() => setTimeLeft(20 * 60)} className="btn btn-md join-item">20</button>
               </div>
             </div>
 
             <div>
               <p className=" text-3xl text-info">Start Break:</p>
               <div className="join my-4">
-                <button onClick={() => profile.setTimeLeft(5 * 60)} className=" btn btn-md join-item">5</button>
-                <button onClick={() => profile.setTimeLeft(15 * 60)} className=" btn btn-md join-item">15</button>
+                <button onClick={() => setTimeLeft(5 * 60)} className=" btn btn-md join-item">5</button>
+                <button onClick={() => setTimeLeft(15 * 60)} className=" btn btn-md join-item">15</button>
               </div>
             </div>
           </div>

@@ -4,11 +4,8 @@ import PDTimer from '../pomodoro/PDTimer'
 
 export default function TableStats({ jobList }: { jobList: Job[] }) {
 
-
   const nJobs = jobList.length
   const todayJobs = jobList.filter(obj => Math.round((new Date().getTime() - new Date(obj.dateApplied).getTime()) / (1000 * 3600 * 24)) < 1)
-
-  // console.log(todayJobs)
 
   return (
     <div className="stats shadow">

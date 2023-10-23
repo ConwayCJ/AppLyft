@@ -1,12 +1,12 @@
-import { useState, useEffect, useContext, FormEvent } from 'react'
+import { useState, useEffect, FormEvent } from 'react'
 import DisplayModeToggle from './DisplayModeToggle'
-import { ProfileContext } from '../ProfileContext'
+import useAppProvider from '../context/UseAppProvider'
 
 export default function Login({ loginAs }: { loginAs: (profileName: string) => void }) {
+  const { allProfiles, methods } = useAppProvider()
 
   const [newProfileName, setNewProfileName] = useState<string>("")
   const [existingProfiles, setExistingProfiles] = useState<string[]>([])
-  const profileOptions = useContext(ProfileContext)
   const [loginMessage, setLoginMessage] = useState(<label>What's your name?</label>)
   const [newProfileCreated, setNewProfileCreated] = useState(false)
 
@@ -15,7 +15,7 @@ export default function Login({ loginAs }: { loginAs: (profileName: string) => v
   }, [newProfileCreated])
 
   async function getProfiles() {
-    const profiles = await profileOptions.allProfiles();
+    const profiles = await allProfiles();
     setExistingProfiles(profiles)
   }
 
@@ -27,7 +27,7 @@ export default function Login({ loginAs }: { loginAs: (profileName: string) => v
     if (existingProfiles.includes(formattedProfileName)) {
       setLoginMessage(<p className=' text-red-600 animate-bounce'>They already exist 💔</p>)
     } else {
-      profileOptions.methods.createProfile(formattedProfileName)
+      methods.createProfile(formattedProfileName)
       setNewProfileCreated(true)
     }
   }
@@ -49,7 +49,7 @@ export default function Login({ loginAs }: { loginAs: (profileName: string) => v
               <p className='py-2'>Remind me, who are you?</p>
               {/* Container for profile buttons */}
               <span className='join'>
-                {existingProfiles? existingProfiles.map((profile, index) =>
+                {existingProfiles ? existingProfiles.map((profile, index) =>
                 (
                   <button className='btn join-item border-primary' onClick={() => loginAs(profile)} key={index}>
                     {profile}

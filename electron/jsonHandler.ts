@@ -2,28 +2,25 @@ import fs from "fs";
 import { Job } from "../types";
 import { app } from 'electron';
 
-
-
-
 const filePath = app.getPath("appData");
 
 function checkIds(jobsArray: Job[]) {
-  for(let i = 0; i < jobsArray.length; i++){
-    if(jobsArray[i].id != i){
+  for (let i = 0; i < jobsArray.length; i++) {
+    if (jobsArray[i].id != i) {
       jobsArray[i].id = i;
     }
   }
 }
 export function initDataFolder() {
-  if(!fs.existsSync(`${filePath}/jobtracker/data`)){
-    try{
-    console.log("data folder doesnt exist, making required filestructure")
-    fs.mkdirSync(`${filePath}/jobtracker/data`)
+  if (!fs.existsSync(`${filePath}/jobtracker/data`)) {
+    try {
+      console.log("data folder doesnt exist, making required filestructure")
+      fs.mkdirSync(`${filePath}/jobtracker/data`)
 
-    const existingProfilesJson = `{"profiles":[]}`
+      const existingProfilesJson = `{"profiles":[]}`
 
-    fs.writeFileSync(`${filePath}/jobtracker/data/existingProfiles.json`, existingProfilesJson)
-    } catch(e){
+      fs.writeFileSync(`${filePath}/jobtracker/data/existingProfiles.json`, existingProfilesJson)
+    } catch (e) {
       console.log("error initializing filestructure: ", e)
     }
   }
@@ -78,14 +75,14 @@ export async function getAllJobs(profileName: string) {
     console.error(jsonError);
   }
 }
-export async function getJobsByStatus(profileName: string, filter:string) {
+export async function getJobsByStatus(profileName: string, filter: string) {
   try {
     const jobData = await fs.readFileSync(
       `${filePath}/jobtracker/data/profile.${profileName}.json`,
       "utf-8"
     );
     const jobsArray = await JSON.parse(jobData);
-      jobsArray.jobs.filter((job:Job) => job.status === filter)
+    jobsArray.jobs.filter((job: Job) => job.status === filter)
     return jobsArray.jobs;
   } catch (jsonError) {
     console.error(jsonError);
@@ -122,7 +119,7 @@ export function createProfile(profileName: string) {
 
 export function updateJobs(jobs: Job[], profile: string) {
   try {
-    const jobData =  fs.readFileSync(`${filePath}/jobtracker/data/profile.${profile}.json`,"utf-8");
+    const jobData = fs.readFileSync(`${filePath}/jobtracker/data/profile.${profile}.json`, "utf-8");
     const jobsArray = JSON.parse(jobData);
 
     jobsArray.jobs = jobs;
@@ -134,18 +131,18 @@ export function updateJobs(jobs: Job[], profile: string) {
   }
 }
 
-export function updateSingleJob(job: Job, profile:string){
+export function updateSingleJob(job: Job, profile: string) {
   try {
-    const jobData =  fs.readFileSync(`${filePath}/jobtracker/data/profile.${profile}.json`,"utf-8");
+    const jobData = fs.readFileSync(`${filePath}/jobtracker/data/profile.${profile}.json`, "utf-8");
     const data = JSON.parse(jobData);
-    
+
     console.log(job)
 
     data.jobs = data.jobs.filter((jobToRemove: Job) => {
       return jobToRemove.id !== job.id
     });
 
-   
+
 
     data.jobs.push(job)
     fs.writeFileSync(`${filePath}/jobtracker/data/profile.${profile}.json`, JSON.stringify(data))

@@ -6,10 +6,9 @@ import { useState } from 'react'
 
 type ProfileProps = {
   logout: (p: string | null) => void,
-  username: string,
 }
 
-export default function Profile({ logout, username }: ProfileProps) {
+export default function Profile({ logout }: ProfileProps) {
   const [feature, setFeature] = useState('home')
 
   return (
@@ -32,7 +31,7 @@ export default function Profile({ logout, username }: ProfileProps) {
       </div>
       <div className="divider divider-horizontal "></div>
       <div className="grid h-screen flex-grow card place-items-center">
-        <View username={username} feature={feature} setFeature={setFeature} />
+        <View feature={feature} setFeature={setFeature} />
 
       </div>
     </div>

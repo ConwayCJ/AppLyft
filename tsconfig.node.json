@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "noImplicitAny": false,
     "composite": true,
     "skipLibCheck": true,
     "module": "ESNext",

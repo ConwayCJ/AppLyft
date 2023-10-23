@@ -1,12 +1,10 @@
-import { useContext, useState } from 'react'
-import { Job } from '../../../types'
-import { ProfileContext } from '../../ProfileContext'
-import PDTimer from './pomodoro/PDTimer'
+import { useState } from 'react'
+import { Job } from '../../../../types'
+import PDTimer from '../pomodoro/PDTimer'
+import useAppProvider from '../../../context/UseAppProvider'
 
 export default function NewJobForm() {
-  const profileOptions = useContext(ProfileContext)
-  const { username } = profileOptions
-
+  const { username, methods } = useAppProvider()
 
   const [formData, setFormData] = useState({
     title: "",
@@ -41,7 +39,7 @@ export default function NewJobForm() {
       status: 'Applied',
     }
 
-    profileOptions.methods.postJob(newJob, username)
+    methods.postJob(newJob, username)
   }
 
   return (

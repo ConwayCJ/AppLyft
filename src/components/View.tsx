@@ -1,12 +1,13 @@
-import NewJobForm from "./views/NewJobForm";
-import Home from "./views/Home";
-import JobTable from "./views/table/JobTable";
 import { Dispatch, SetStateAction } from "react";
+// Components
+import Home from "./views/home/Home";
+import NewJobForm from "./views/jobform/NewJobForm";
+import JobTable from "./views/table/JobTable";
 import PomoDoro from "./views/pomodoro/PomoDoro";
+import Stats from "./views/stats/Stats";
 
 
 type ViewProps = {
-  username: string,
   feature: string,
   setFeature: Dispatch<SetStateAction<string>>
 }
@@ -27,6 +28,10 @@ export default function View({ feature, setFeature }: ViewProps) {
         break
       case 'pomodoro':
         return <PomoDoro />
+        break
+      case 'stats':
+        return <Stats />
+        break
     }
   }
 
