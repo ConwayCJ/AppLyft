@@ -2,19 +2,20 @@ import { memo } from 'react'
 
 type NavigationProps = {
   toggleFeature: (feature: string) => void,
-  currentFeature: string
 }
 
-const Navigation = memo(function Navigation({ toggleFeature, currentFeature }: NavigationProps) {
+const Navigation = memo(function Navigation({ toggleFeature }: NavigationProps) {
 
   type NavButtonProps = {
     feature: string,
     title: string
   }
 
+  console.log("nav rerendered")
+
   const NavButton = ({ feature, title }: NavButtonProps) => {
     return (
-      <input className="btn btn-sm join-item" checked={currentFeature == feature} onChange={() => toggleFeature(feature)} type="radio" name="options" aria-label={title}></input>
+      <input className="btn btn-sm join-item" onChange={() => toggleFeature(feature)} type="radio" name="options" aria-label={title}></input>
     )
   }
 

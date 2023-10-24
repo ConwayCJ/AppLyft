@@ -13,6 +13,7 @@ export default function NewJobForm() {
     pocname: "",
     pocurl: "",
     description: "",
+    checked: false,
     dateApplied: new Date()
   })
 

@@ -9,7 +9,9 @@ type ProfileProps = {
 }
 
 export default function Profile({ logout }: ProfileProps) {
+
   const [feature, setFeature] = useState('home')
+
 
   return (
     <div className="flex h-screen w-full">
@@ -21,7 +23,7 @@ export default function Profile({ logout }: ProfileProps) {
           </span>
           <div className="divider"></div>
           <span>
-            <Navigation toggleFeature={setFeature} currentFeature={feature} />
+            <Navigation toggleFeature={setFeature} />
           </span>
         </span>
         <span className="place-self-end flex flex-col">
@@ -32,7 +34,6 @@ export default function Profile({ logout }: ProfileProps) {
       <div className="divider divider-horizontal "></div>
       <div className="grid h-screen flex-grow card place-items-center">
         <View feature={feature} setFeature={setFeature} />
-
       </div>
     </div>
   )
