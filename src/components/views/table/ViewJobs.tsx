@@ -79,7 +79,7 @@ export default function ViewJobs({ setFeature }: JobTableProps) {
   }, [updateAllModal]);
 
   useEffect(() => {
-    setJobs(jobs.map((job: Job & { checked: boolean }) => ({ ...job, checked: checkAll })))
+    setJobs(jobs => jobs.map((job: Job & { checked: boolean }) => ({ ...job, checked: checkAll })))
   }, [checkAll])
 
 
