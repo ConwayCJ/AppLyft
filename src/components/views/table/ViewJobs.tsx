@@ -9,19 +9,33 @@ import JobTable from './JobTable';
 
 type JobTableProps = {
   setFeature: (feature: string) => void,
-  jobs: Array<Job & { checked: boolean }>,
-  getJobs: (username: string) => Promise<void>,
-  setJobs: (val: Array<Job & { checked: boolean }>) => void,
+
 }
 
-export default function ViewJobs({ jobs, setFeature, setJobs, getJobs }: JobTableProps) {
+export default function ViewJobs({ setFeature }: JobTableProps) {
+
   const { username, methods } = useAppProvider()
-  const [filterOption, setFilterOption] = useState('All')
   const [tableSize, setTableSize] = useState('table-sm')
   const [checkAll, setCheckAll] = useState(false)
   const [updateFormRadio, setUpdateFormRadio] = useState<null | string>(null)
   // const jobDetailsModal = useRef<HTMLDialogElement>(null);
   const updateAllModal = useRef<HTMLDialogElement>(null);
+  const [jobs, setJobs] = useState<Array<Job & { checked: boolean }>>([])
+
+  const getJobs = useCallback(async (username: string, filter = "") => {
+    let jobs = await methods.getJobs(username)
+
+    if (filter) {
+      jobs = jobs.filter(job => job.status === filter)
+      setJobs(jobs.map(job => ({ ...job, checked: false })))
+    } else {
+      setJobs(jobs)
+    }
+  }, [methods])
+
+  useEffect(() => {
+    getJobs(username, "")
+  }, [getJobs, username])
 
   const deleteSelectedJobs = async () => {
 
@@ -31,12 +45,10 @@ export default function ViewJobs({ jobs, setFeature, setJobs, getJobs }: JobTabl
     console.log(selectedJobs)
     methods.removeJobs(selectedJobs, username)
     //need to await the above
-    getJobs(username)
+    getJobs(username, "")
   }
 
   function checkJob(job: Job & { checked: boolean }) {
-    console.log(job.checked)
-
     const updatedJobList = jobs.map((prevJob: any) => {
       if (prevJob.id === job.id) {
         job.checked = !job.checked
@@ -56,7 +68,7 @@ export default function ViewJobs({ jobs, setFeature, setJobs, getJobs }: JobTabl
         return job
       })
       methods.updateJobs(selectedJobs, username)
-      getJobs(username)
+      getJobs(username, "")
     } else {
       alert("Choose an option to update the status of every job.")
     }
@@ -138,9 +150,9 @@ export default function ViewJobs({ jobs, setFeature, setJobs, getJobs }: JobTabl
           {/* Search/Filter */}
           <div>
             <input className='input input-sm input-bordered join-item' placeholder='🔎 Search' disabled />
-            <select onChange={(e) => setFilterOption(e.target.value)} className='select select-sm select-bordered join-item'>
-              <option value="All">Filter by ...</option>
-              <option value="All">All</option>
+            <select onChange={(e) => getJobs(username, e.target.value)} className='select select-sm select-bordered join-item'>
+              <option value="">Filter by ...</option>
+              <option value="">All</option>
               <option value="Applied">Applied</option>
               <option value="Emailed Followup">Emailed Followup</option>
               <option value="Interview Scheduled">Interview Scheduled</option>
@@ -148,13 +160,11 @@ export default function ViewJobs({ jobs, setFeature, setJobs, getJobs }: JobTabl
             </select>
           </div>
         </div>
-
       </div>
       {
         jobs.length === 0 ? (<NoJobs setFeature={setFeature} />)
-          : (<JobTable filterOption={filterOption} jobs={jobs} tableSize={tableSize} checkJob={checkJob} checkAll={checkAll} setCheckAll={setCheckAll} />)
+          : (<JobTable jobs={jobs} tableSize={tableSize} checkJob={checkJob} checkAll={checkAll} setCheckAll={setCheckAll} />)
       }
-
     </div >
   )
 }

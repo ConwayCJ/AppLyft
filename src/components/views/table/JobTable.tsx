@@ -1,10 +1,7 @@
 import { Job } from "../../../../types"
-
 import JobTableRow from "./JobTableRow"
 
-
 type JobTableProps = {
-  filterOption: string,
   jobs: Array<Job & { checked: boolean }>,
   tableSize: string,
   checkJob: (job: Job & { checked: boolean }) => void,
@@ -13,8 +10,6 @@ type JobTableProps = {
 }
 
 export default function JobTable({ jobs, tableSize, checkJob, checkAll, setCheckAll }: JobTableProps) {
-
-
 
   return (
     <div className='overflow-x-auto'>
