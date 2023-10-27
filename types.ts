@@ -7,6 +7,7 @@ export type Job = {
   description: string,
   status: string,
   dateApplied: Date,
+  checked: boolean
   id?: number
 }
 

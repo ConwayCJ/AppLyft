@@ -34,6 +34,7 @@ export default function ViewJobs({ setFeature }: JobTableProps) {
   }, [methods])
 
   useEffect(() => {
+    console.log("getting original jobs")
     getJobs(username, "")
   }, [getJobs, username])
 
@@ -81,10 +82,6 @@ export default function ViewJobs({ setFeature }: JobTableProps) {
   useEffect(() => {
     setJobs(jobs => jobs.map((job: Job & { checked: boolean }) => ({ ...job, checked: checkAll })))
   }, [checkAll])
-
-
-  //filter jobs handler
-
 
   const RadioOption = ({ value }: { value: string }) => {
     return <input onChange={e => setUpdateFormRadio(e.target.value)} name="options" value={value} aria-label={value} className='join-item btn border border-accent' type='radio'></input>
@@ -162,8 +159,10 @@ export default function ViewJobs({ setFeature }: JobTableProps) {
         </div>
       </div>
       {
-        jobs.length === 0 ? (<NoJobs setFeature={setFeature} />)
-          : (<JobTable jobs={jobs} tableSize={tableSize} checkJob={checkJob} checkAll={checkAll} setCheckAll={setCheckAll} />)
+        jobs.length !== 0 ? (
+          <JobTable jobs={jobs} tableSize={tableSize} checkJob={checkJob} checkAll={checkAll} setCheckAll={setCheckAll} setJobs={setJobs} />
+        )
+          : (<NoJobs setFeature={setFeature} />)
       }
     </div >
   )

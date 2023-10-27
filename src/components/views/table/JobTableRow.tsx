@@ -49,17 +49,17 @@ export default function JobTableRow({ job, checkJob, tableSize }: JobProps) {
         {
           !updateJobMode ? (
             <>
-              {jobFormValues.title}
-              {jobFormValues.company && (<>
+              {job.title}
+              {job.company && (<>
                 <br />
-                <span className="badge badge-ghost badge-sm w-max">{jobFormValues.company}</span>
+                <span className="badge badge-ghost badge-sm w-max">{job.company}</span>
               </>)}
             </>
           ) : (
             <div className=' join join-horizontal items-center w-max'>
               <div className='mx-2 flex flex-col'>
-                <input name="title" defaultValue={jobFormValues.title} onChange={e => handleUpdateJob(e)} className=' input input-sm input-bordered my-1' />
-                <input name="company" defaultValue={jobFormValues.company} onChange={e => handleUpdateJob(e)} className=' input input-sm input-bordered' />
+                <input name="title" defaultValue={job.title} onChange={e => handleUpdateJob(e)} className=' input input-sm input-bordered my-1' />
+                <input name="company" defaultValue={job.company} onChange={e => handleUpdateJob(e)} className=' input input-sm input-bordered' />
               </div>
               <div>
                 <button className='btn btn-xs border-accent' onClick={() => {
@@ -75,7 +75,7 @@ export default function JobTableRow({ job, checkJob, tableSize }: JobProps) {
       <td>{daysSinceFormatted}</td>
       <td>
         <select name="status" onChange={(e) => {
-          methods.updateSingleJob({ ...jobFormValues, "status": e.target.value }, username)
+          methods.updateSingleJob({ ...job, "status": e.target.value }, username)
         }}
           className="select select-sm select-ghost w-full max-w-m">
           <option>{job.status}</option>
@@ -107,18 +107,18 @@ export default function JobTableRow({ job, checkJob, tableSize }: JobProps) {
 
               <section>
                 <h1 className='text-xl text-secondary font-extrabold py-1'>Job Description:</h1>
-                <textarea className=' textarea py-2 w-full textarea-bordered h-24 max-h-[400px] text-accent' value={jobFormValues.description} name='description' onChange={e => handleUpdateJob(e)} />
+                <textarea className=' textarea py-2 w-full textarea-bordered h-24 max-h-[400px] text-accent' value={job.description} name='description' onChange={e => handleUpdateJob(e)} />
               </section>
 
               <section>
                 <h1 className='text-xl text-secondary font-extrabold'>Person to contact:</h1>
                 <div className=' text-lg flex items-center my-1'>
                   <p className='mr-1'>Name:</p>
-                  <input className=' bg-base-100 text-accent' value={jobFormValues.pocname} name='pocname' onChange={e => handleUpdateJob(e)} />
+                  <input className=' bg-base-100 text-accent' value={job.pocname} name='pocname' onChange={e => handleUpdateJob(e)} />
                 </div>
                 <div className=' text-lg flex items-center my-1'>
                   <p className='mr-1'>Contact Info:</p>
-                  <input className='bg-base-100 text-accent' value={jobFormValues.pocurl} name='pocurl' onChange={e => handleUpdateJob(e)} />
+                  <input className='bg-base-100 text-accent' value={job.pocurl} name='pocurl' onChange={e => handleUpdateJob(e)} />
                 </div>
               </section>
 

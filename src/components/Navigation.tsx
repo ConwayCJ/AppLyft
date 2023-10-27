@@ -26,8 +26,8 @@ const Navigation = memo(function Navigation({ toggleFeature }: NavigationProps) 
       <NavButton feature="newjob" title='Add Job' />
       <NavButton feature="table" title='View Jobs' />
       <NavButton feature="pomodoro" title='Pomo Doro' />
+      <NavButton feature='feedback' title='Feedback' />
       {/* 
-      <NavButton feature='disabled' title='Disabled' />
       <NavButton feature='stats' title='Stats' />
        */}
     </div>
