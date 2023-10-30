@@ -37,12 +37,11 @@ export default function JobTableRow({ job, checkJob, tableSize }: JobProps) {
     setJobFormValues({ ...jobFormValues, [e.target.name]: e.target.value })
   }
 
-
   return (
-    <tr>
+    <tr className={`text-${tableSize}`}>
       <th>
         <label>
-          <input checked={job.checked} type="checkbox" className={`checkbox checkbox-${tableSize}`} onChange={() => checkJob(job)} />
+          <input checked={job.checked} type="checkbox" className={`checkbox checkbox-${tableSize === 'xs' ? 'sm' : tableSize}`} onChange={() => checkJob(job)} />
         </label>
       </th>
       <td onDoubleClick={() => setUpdateJobMode(!updateJobMode)}>
@@ -52,7 +51,7 @@ export default function JobTableRow({ job, checkJob, tableSize }: JobProps) {
               {job.title}
               {job.company && (<>
                 <br />
-                <span className="badge badge-ghost badge-sm w-max">{job.company}</span>
+                <span className={`badge badge-ghost badge-${tableSize} w-max`}>{job.company}</span>
               </>)}
             </>
           ) : (
@@ -77,7 +76,7 @@ export default function JobTableRow({ job, checkJob, tableSize }: JobProps) {
         <select name="status" onChange={(e) => {
           methods.updateSingleJob({ ...job, "status": e.target.value }, username)
         }}
-          className="select select-sm select-ghost w-full max-w-m">
+          className={`select select-ghost select-${tableSize} w-full max-w-m`}>
           <option>{job.status}</option>
           <option>Applied</option>
           <option>Emailed Followup</option>

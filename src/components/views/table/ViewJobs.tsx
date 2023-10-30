@@ -15,7 +15,7 @@ type JobTableProps = {
 export default function ViewJobs({ setFeature }: JobTableProps) {
 
   const { username, methods } = useAppProvider()
-  const [tableSize, setTableSize] = useState('table-sm')
+  const [tableSize, setTableSize] = useState('md')
   const [checkAll, setCheckAll] = useState(false)
   const [updateFormRadio, setUpdateFormRadio] = useState<null | string>(null)
   // const jobDetailsModal = useRef<HTMLDialogElement>(null);
@@ -137,9 +137,9 @@ export default function ViewJobs({ setFeature }: JobTableProps) {
               <li className='mx-1'>
                 <select defaultValue={"Table Size"} className="select select-xs select-ghost w-full max-w-m uppercase" onChange={(e) => setTableSize(e.target.value)}>
                   <option disabled >Table Size</option>
-                  <option value={'table-xs'}>Small</option>
-                  <option value={'table-sm'}>Medium</option>
-                  <option value={'table-md'}>Large</option>
+                  <option value={'xs'}>Small</option>
+                  <option value={'sm'}>Medium</option>
+                  <option value={'lg'}>Large</option>
                 </select>
               </li>
             </ul>

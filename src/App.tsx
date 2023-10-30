@@ -1,10 +1,10 @@
 import './App.css'
 import Login from './components/Login'
 import Profile from './components/Profile'
-import UseAppProvider from './context/UseAppProvider'
+import useAppProvider from './context/UseAppProvider'
 
 function App() {
-  const { username, handleLoginLogout } = UseAppProvider()
+  const { username, handleLoginLogout } = useAppProvider()
 
   return (
     <div>

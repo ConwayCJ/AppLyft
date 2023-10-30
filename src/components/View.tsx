@@ -4,7 +4,7 @@ import NewJobForm from "./views/newjobform/NewJobForm";
 import ViewJobs from "./views/table/ViewJobs";
 import PomoDoro from "./views/pomodoro/PomoDoro";
 import Stats from "./views/stats/Stats";
-import Feedback from "./views/feedback/Feedback";
+import About from "./views/about/About";
 
 type ViewProps = {
   feature: string,
@@ -30,8 +30,8 @@ export default function View({ feature, setFeature }: ViewProps) {
       case 'stats':
         return <Stats />
         break
-      case 'feedback':
-        return <Feedback />
+      case 'about':
+        return <About />
     }
   }
 

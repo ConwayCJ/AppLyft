@@ -1,9 +1,11 @@
-import { createContext, useEffect, useState } from "react"
+import { createContext, useEffect, useState, Dispatch, SetStateAction } from "react"
 import "../../renderer.d.ts"
 
 const defaultAPI = {
   username: '',
   timeLeft: 0,
+  setTimeLeft: (() => { }) as Dispatch<SetStateAction<number>>,
+  handleLoginLogout: (() => { }) as ((p: string | null) => void),
   allProfiles: window.Bridge.getProfiles,
   methods: {
     postJob: window.Bridge.postJob,

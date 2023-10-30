@@ -100,7 +100,7 @@ export default function NewJobForm() {
                 Job Description<sup className=' text-red-700 text-md'>*</sup>
               </span>
             </label>
-            <textarea required onChange={e => handleValueChange(e, 'description')} id="description" className=' textarea textarea-bordered w-[80%] bg-base-200 max-h-24' placeholder='Copy/Paste Job Description Here... potions master capable of teaching multiple students how to brew and handle variations of poisons and healing brews ' />
+            <textarea required onChange={e => handleValueChange(e, 'description')} id="description" className=' textarea textarea-bordered bg-base-200 max-h-24 max-w-md w-full' placeholder='Copy/Paste Job Description Here... potions master capable of teaching multiple students how to brew and handle variations of poisons and healing brews ' />
           </div>
         </span>
 
