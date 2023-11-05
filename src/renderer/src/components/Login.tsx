@@ -7,7 +7,7 @@ export default function Login({ loginAs }: { loginAs: (profileName: string) => v
 
   const [newProfileName, setNewProfileName] = useState<string>("")
   const [existingProfiles, setExistingProfiles] = useState<string[]>([])
-  const [loginMessage, setLoginMessage] = useState(<label>What's your name?</label>)
+  const [loginMessage, setLoginMessage] = useState(<label>What&apos;s your name?</label>)
   const [newProfileCreated, setNewProfileCreated] = useState(false)
 
   useEffect(() => {
@@ -25,7 +25,7 @@ export default function Login({ loginAs }: { loginAs: (profileName: string) => v
     const formattedProfileName = newProfileName.toLowerCase()
 
     if (existingProfiles.includes(formattedProfileName)) {
-      setLoginMessage(<p className=' text-red-600 animate-bounce'>They already exist 💔</p>)
+      setLoginMessage(<p className="text-red-600 animate-bounce">They already exist 💔</p>)
     } else {
       methods.createProfile(formattedProfileName)
       setNewProfileCreated(true)
@@ -33,8 +33,8 @@ export default function Login({ loginAs }: { loginAs: (profileName: string) => v
   }
 
   return (
-    <div className='drawer h-full w-full'>
-      <div className='absolute top-0 right-0 p-6 '>
+    <div className="drawer h-full w-full">
+      <div className="absolute top-0 right-0 p-6">
         <DisplayModeToggle />
       </div>
 
@@ -45,8 +45,10 @@ export default function Login({ loginAs }: { loginAs: (profileName: string) => v
             {/* Hero Section Start */}
             <div className="max-w-md flex flex-col items-center">
               <h1 className="text-5xl font-bold">Welcome back!</h1>
-              <p className="py-6">Let's get this <s>bread</s> job.</p>
-              <p className='py-2'>Remind me, who are you?</p>
+              <p className="py-6">
+                Let&apos;s get this <s>bread</s> job.
+              </p>
+              <p className="py-2">Remind me, who are you?</p>
               {/* Container for profile buttons */}
               <span className='join'>
                 {existingProfiles.map((profile, index) =>
@@ -70,7 +72,7 @@ export default function Login({ loginAs }: { loginAs: (profileName: string) => v
             <div className="hero-content text-center">
               <div className="max-w-md">
                 <h1 className="text-5xl font-bold">Hello there</h1>
-                <p className="py-6">Let's get started.</p>
+                <p className="py-6">Let&apos;s get started.</p>
                 <form className='flex flex-col' onSubmit={handleCreateProfile}>
                   {loginMessage}
                   <p className='mb-1'>🔻</p>

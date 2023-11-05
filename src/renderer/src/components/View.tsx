@@ -11,9 +11,9 @@ type ViewProps = {
   setFeature: (feature: string) => void
 }
 
-export default function View({ feature, setFeature }: ViewProps) {
+function View({ feature, setFeature }: ViewProps): JSX.Element {
 
-  const handleView = (feature: string) => {
+  const handleView = (feature: string): JSX.Element => {
     switch (feature) {
       case 'home':
         return <Home />
@@ -40,3 +40,4 @@ export default function View({ feature, setFeature }: ViewProps) {
   return handleView(feature)
 
 }
+export default View

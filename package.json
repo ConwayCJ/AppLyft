@@ -1,14 +1,10 @@
 {
   "name": "applyft",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "An Electron application with React and TypeScript",
   "main": "./out/main/index.js",
   "author": "example.com",
   "homepage": "https://www.electronjs.org",
-  "resolutions": {
-    "@types/react": "<18.0.0",
-    "@types/react-dom": "<18.0.0"
-  },
   "scripts": {
     "format": "prettier --write .",
     "lint": "eslint . --ext .js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix",
@@ -28,8 +24,7 @@
     "@electron-toolkit/utils": "^2.0.0",
     "daisyui": "^3.9.4",
     "electron-updater": "^6.1.1",
-    "postcss-loader": "^7.3.3",
-    "tailwindcss": "^3.3.5"
+    "react-daisyui": "^4.1.2"
   },
   "devDependencies": {
     "@electron-toolkit/eslint-config-prettier": "^1.0.1",
@@ -47,6 +42,7 @@
     "prettier": "^3.0.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "tailwindcss": "^3.3.5",
     "typescript": "^5.1.6",
     "vite": "^4.4.9"
   }

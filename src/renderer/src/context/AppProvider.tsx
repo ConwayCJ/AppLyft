@@ -29,8 +29,8 @@ export function AppProvider({ children }: any) {
   // state
   const [currentProfile, setCurrentProfile] = useState(defaultAPI.username)
   const [timeLeft, setTimeLeft] = useState(defaultAPI.timeLeft)
-
   // functions
+
   function handleLoginLogout(p: string | null) {
     setCurrentProfile(p ? p : '')
     setTimeLeft(0)

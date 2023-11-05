@@ -32,7 +32,7 @@ export default function Profile({ logout }: ProfileProps) {
             </svg>
             {/* Ko-fi logo */}
             <div className="mt-3 hover:animate-bounce">
-              <a href="https://ko-fi.com/AppLyft" target="_blank">
+              <a href="https://ko-fi.com/AppLyft" rel="noreferrer" target="_blank">
                 <img src={kofi} width="28px" alt="ko-fi logo link to support page" />
               </a>
             </div>
