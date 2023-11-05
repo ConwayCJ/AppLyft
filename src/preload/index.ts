@@ -60,7 +60,7 @@ const api = {
   removeJobs,
   updateJobs,
   updateSingleJob,
-  getJobsByStatus,
+  getJobsByStatus
 }
 
 // Use `contextBridge` APIs to expose Electron APIs to

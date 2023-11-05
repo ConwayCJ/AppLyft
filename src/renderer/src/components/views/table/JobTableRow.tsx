@@ -86,7 +86,6 @@ export default function JobTableRow({ job, checkJob, tableSize }: JobProps) {
       </td>
       <td>
         <Button className="btn btn-sm" onClick={handleShow}>Details</Button>
-        {/* @ts-expect-error */}
         <Modal ref={ref}>
 
           <div className="mockup-browser border bg-base-300">
@@ -94,7 +93,7 @@ export default function JobTableRow({ job, checkJob, tableSize }: JobProps) {
 
             <div className="mockup-browser-toolbar">
               <div className="input">
-                <a title='Job URL' className="link link-hover link-info" href={job.url} target="_blank">
+                <a title='Job URL' rel="noreferrer" className="link link-hover link-info" href={job.url} target="_blank">
                   {job.url.startsWith("https://") ? job.url : `https://${job.url}`}
                 </a>
               </div>

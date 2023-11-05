@@ -1,5 +1,4 @@
 {
-  "files": ["src/renderer/src/assets/types.ts", "src/main/jsonHandler.ts"],
-  "references": [{ "path": "./tsconfig.node.json" },
-   { "path": "./tsconfig.web.json" }]
+  "files": [],
+  "references": [{ "path": "./tsconfig.node.json" }, { "path": "./tsconfig.web.json" }]
 }
