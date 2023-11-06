@@ -74,6 +74,7 @@ app.whenReady().then(() => {
   ipcMain.handle('getProfiles', getProfiles)
   ipcMain.handle('getJobs', getJobs)
   ipcMain.handle('getJobsByStatus', getJobsByStatus)
+  ipcMain.handle('getVersion', getVersion)
   createWindow()
 
   app.on('activate', function () {
@@ -82,12 +83,28 @@ app.whenReady().then(() => {
     if (BrowserWindow.getAllWindows().length === 0) createWindow()
   })
   // AUTO UPDATER
+  // autoUpdater.checkForUpdates()
 })
 
 // AUTO UPDATER HELPERS
-// autoUpdater.on("update-available", (info) => {
+autoUpdater.on('update-available', (info) => {
+  const pth = autoUpdater.downloadUpdate()
+  console.log('Update available:', pth)
+  console.log(info)
+})
 
-// })
+autoUpdater.on('update-not-available', (info) => {
+  console.log('update not available', info)
+})
+
+/*Download Completion Message*/
+autoUpdater.on('update-downloaded', (info) => {
+  console.log('update downloaded', info)
+})
+
+autoUpdater.on('error', (info) => {
+  console.error('error updating', info)
+})
 
 // Quit when all windows are closed, except on macOS. There, it's common
 // for applications and their menu bar to stay active until the user quits
@@ -116,6 +133,10 @@ async function getJobsByStatus(
   filter: string
 ) {
   return jsonDataHandler.getJobsByStatus(username, filter)
+}
+
+async function getVersion() {
+  return jsonDataHandler.getVersion()
 }
 
 // Create a new profile if doesn't exist

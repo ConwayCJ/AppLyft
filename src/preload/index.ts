@@ -14,6 +14,11 @@ export type Job = {
   id?: number
 }
 
+// gets current version #
+const getVersion = () => {
+  return ipcRenderer.invoke('getVersion')
+}
+
 const postJob = (newJob: Job, profile: string) => {
   ipcRenderer.send('postJob', newJob, profile)
 }
@@ -51,6 +56,7 @@ const updateJobs = (jobs: Job[], profile: string) => {
 const updateSingleJob = (job: Job, profile: string) => {
   ipcRenderer.send('updateSingleJob', job, profile)
 }
+
 // Custom APIs for renderer
 const api = {
   postJob,
@@ -60,9 +66,11 @@ const api = {
   removeJobs,
   updateJobs,
   updateSingleJob,
-  getJobsByStatus
+  getJobsByStatus,
+  getVersion
 }
 
+console.log(api)
 // Use `contextBridge` APIs to expose Electron APIs to
 // renderer only if context isolation is enabled, otherwise
 // just add to the DOM global.

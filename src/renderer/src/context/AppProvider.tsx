@@ -2,6 +2,7 @@ import { createContext, useEffect, useState, Dispatch, SetStateAction } from "re
 import "../assets/renderer.d.ts"
 
 const electronApi = window.api
+console.log(electronApi)
 
 const defaultAPI = {
   username: '',
@@ -9,6 +10,7 @@ const defaultAPI = {
   setTimeLeft: (() => { }) as Dispatch<SetStateAction<number>>,
   handleLoginLogout: (() => { }) as ((p: string | null) => void),
   allProfiles: electronApi.getProfiles,
+  version: electronApi.getVersion,
   methods: {
     postJob: electronApi.postJob,
     getJobs: electronApi.getJobs,
@@ -18,6 +20,8 @@ const defaultAPI = {
     updateSingleJob: electronApi.updateSingleJob,
   }
 }
+
+console.log(defaultAPI)
 
 type AppProviderValue = typeof defaultAPI
 
@@ -34,9 +38,16 @@ export function AppProvider({ children }: any) {
     setTimeLeft(0)
   }
 
+  async function setVersion() {
+    const version = await defaultAPI.version()
+    document.title = 'AppLyft ' + version
+  }
+
 
   // Handles the amount of time left
   useEffect(() => {
+
+    setVersion()
 
     const intervalId = setInterval(() => {
       if (timeLeft > 0) {
@@ -59,6 +70,7 @@ export function AppProvider({ children }: any) {
     //backend state/state management
     methods: defaultAPI.methods,
     allProfiles: defaultAPI.allProfiles,
+    version: defaultAPI.version
   }
 
   return (

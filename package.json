@@ -1,6 +1,6 @@
 {
   "name": "applyft",
-  "version": "1.0.0",
+  "version": "0.6.1",
   "description": "Giving real people tools to energize the job search.",
   "main": "./out/main/index.js",
   "author": "Christopher Conway & Bryce Pinkerton",
@@ -25,10 +25,10 @@
     "build:linux": "electron-vite build && electron-builder --linux --config"
   },
   "build": {
-    "appId": "com.codeBros.AppLyft",
+    "appId": "com.devBros.applyft",
     "productName": "AppLyft",
     "win": {
-      "target": "asis"
+      "target": "nsis"
     },
     "directories": {
       "output": "AppLyft"

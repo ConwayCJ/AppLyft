@@ -5,13 +5,14 @@ declare global {
     electron: ElectronAPI
     api: {
       postJob: (newJob: Job, profile: string) => void
-      createProfile: () => void
+      createProfile: (profileName: string) => void
       getProfiles: () => string[]
       getJobs: (profileName: string) => Job[]
       removeJobs: (jobs: Job[], profile: string) => void
       updateJobs: (jobs: Job[], profile: string) => void
       updateSingleJob: (job: Job, profile: string) => void
       getJobsByStatus: (profileName: string, filter: string) => Job[]
+      getVersion: () => string
     }
   }
 }

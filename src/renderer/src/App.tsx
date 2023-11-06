@@ -5,9 +5,6 @@ import useAppProvider from '../src/context/UseAppProvider'
 function App() {
   const { username, handleLoginLogout } = useAppProvider()
 
-
-  document.title = 'AppLyft v1.0.0'
-
   return (
     <div>
       {username ? (
