@@ -19,8 +19,6 @@ const defaultAPI = {
   }
 }
 
-console.log(defaultAPI)
-
 type AppProviderValue = typeof defaultAPI
 
 export const AppContext = createContext<AppProviderValue>(defaultAPI)

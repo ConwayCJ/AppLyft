@@ -11,8 +11,6 @@ const Navigation = memo(function Navigation({ toggleFeature }: NavigationProps) 
     title: string
   }
 
-  console.log("nav rerendered")
-
   const NavButton = ({ feature, title }: NavButtonProps) => {
     return (
       <input className="btn btn-sm join-item" onChange={() => toggleFeature(feature)} type="radio" name="options" aria-label={title}></input>

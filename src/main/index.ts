@@ -1,21 +1,26 @@
 import { app, shell, BrowserWindow, ipcMain } from 'electron'
+import { autoUpdater } from 'electron-updater'
 import { join } from 'path'
+import icon from '../../resources/icon.png?asset'
 import * as jsonDataHandler from './jsonHandler'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 
 type Job = {
-  title: string,
-  company: string,
-  url: string,
-  pocname: string,
-  pocurl: string,
-  description: string,
-  status: string,
-  dateApplied: Date,
+  title: string
+  company: string
+  url: string
+  pocname: string
+  pocurl: string
+  description: string
+  status: string
+  dateApplied: Date
   checked: boolean
   id?: number
 }
 
+// auto updater flags
+autoUpdater.autoDownload = false //will not install new version on open
+autoUpdater.autoInstallOnAppQuit = true //installs new version on quit
 
 function createWindow(): void {
   // Create the browser window.
@@ -24,7 +29,7 @@ function createWindow(): void {
     minHeight: 653,
     show: false,
     autoHideMenuBar: true,
-    // ...(process.platform === 'linux' ? { icon } : {}),
+    ...(process.platform === 'linux' ? { icon } : {}),
     webPreferences: {
       nodeIntegration: true,
       contextIsolation: true,
@@ -33,11 +38,8 @@ function createWindow(): void {
     }
   })
 
-
-
   mainWindow.on('ready-to-show', () => {
     mainWindow.show()
-
   })
 
   mainWindow.webContents.setWindowOpenHandler((details) => {
@@ -69,9 +71,9 @@ app.whenReady().then(() => {
   })
 
   jsonDataHandler.initDataFolder()
-  ipcMain.handle("getProfiles", getProfiles);
-  ipcMain.handle("getJobs", getJobs);
-  ipcMain.handle("getJobsByStatus", getJobsByStatus);
+  ipcMain.handle('getProfiles', getProfiles)
+  ipcMain.handle('getJobs', getJobs)
+  ipcMain.handle('getJobsByStatus', getJobsByStatus)
   createWindow()
 
   app.on('activate', function () {
@@ -79,7 +81,13 @@ app.whenReady().then(() => {
     // dock icon is clicked and there are no other windows open.
     if (BrowserWindow.getAllWindows().length === 0) createWindow()
   })
+  // AUTO UPDATER
 })
+
+// AUTO UPDATER HELPERS
+// autoUpdater.on("update-available", (info) => {
+
+// })
 
 // Quit when all windows are closed, except on macOS. There, it's common
 // for applications and their menu bar to stay active until the user quits
@@ -93,37 +101,41 @@ app.on('window-all-closed', () => {
 // In this file you can include the rest of your app"s specific main process
 // code. You can also put them in separate files and require them here.
 async function getProfiles() {
-  return jsonDataHandler.getProfiles();
+  return jsonDataHandler.getProfiles()
 }
 
 //slightly less pain
 async function getJobs(_event: Electron.IpcMainInvokeEvent, username: string) {
-  return jsonDataHandler.getAllJobs(username);
+  return jsonDataHandler.getAllJobs(username)
 }
 
 //ree
-async function getJobsByStatus(_event: Electron.IpcMainInvokeEvent, username: string, filter: string) {
-  return jsonDataHandler.getJobsByStatus(username, filter);
+async function getJobsByStatus(
+  _event: Electron.IpcMainInvokeEvent,
+  username: string,
+  filter: string
+) {
+  return jsonDataHandler.getJobsByStatus(username, filter)
 }
 
 // Create a new profile if doesn't exist
-ipcMain.on("createProfile", (_sender: Electron.IpcMainEvent, profileName: string) => {
-  jsonDataHandler.createProfile(profileName);
-});
+ipcMain.on('createProfile', (_sender: Electron.IpcMainEvent, profileName: string) => {
+  jsonDataHandler.createProfile(profileName)
+})
 
 // Add a new job to existing profile
-ipcMain.on("postJob", (_sender: Electron.IpcMainEvent, newJob: Job, profile: string) => {
-  jsonDataHandler.addJob(newJob, profile);
-});
+ipcMain.on('postJob', (_sender: Electron.IpcMainEvent, newJob: Job, profile: string) => {
+  jsonDataHandler.addJob(newJob, profile)
+})
 
-ipcMain.on("removeJobs", (_sender: Electron.IpcMainEvent, jobs: Job[], profile: string) => {
-  jsonDataHandler.removeJobs(jobs, profile);
-});
+ipcMain.on('removeJobs', (_sender: Electron.IpcMainEvent, jobs: Job[], profile: string) => {
+  jsonDataHandler.removeJobs(jobs, profile)
+})
 
-ipcMain.on("updateJobs", (_sender: Electron.IpcMainEvent, jobs: Job[], profile: string) => {
+ipcMain.on('updateJobs', (_sender: Electron.IpcMainEvent, jobs: Job[], profile: string) => {
   jsonDataHandler.updateJobs(jobs, profile)
-});
+})
 
-ipcMain.on("updateSingleJob", (_sender: Electron.IpcMainEvent, job: Job, profile: string) => {
+ipcMain.on('updateSingleJob', (_sender: Electron.IpcMainEvent, job: Job, profile: string) => {
   jsonDataHandler.updateSingleJob(job, profile)
-});  
+})
