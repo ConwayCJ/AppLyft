@@ -43,11 +43,13 @@ export function AppProvider({ children }: any) {
     document.title = 'AppLyft ' + version
   }
 
+  useEffect(() => {
+    setVersion()
+  }, [])
 
   // Handles the amount of time left
   useEffect(() => {
 
-    setVersion()
 
     const intervalId = setInterval(() => {
       if (timeLeft > 0) {
