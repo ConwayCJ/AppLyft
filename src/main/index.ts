@@ -5,13 +5,6 @@ import icon from '../../resources/icon.png?asset'
 import * as jsonDataHandler from './jsonHandler'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 
-//FOR TESTING UPDATER IN DEV MODE ONLY!! WILL NOT WORK WITH PRODUCTION
-Object.defineProperty(app, 'isPackaged', {
-  get() {
-    return true
-  }
-})
-
 type Job = {
   title: string
   company: string
@@ -25,15 +18,13 @@ type Job = {
   id?: number
 }
 
-console.log('pre checkforUpdates')
 try {
-  autoUpdater.checkForUpdatesAndNotify()
+  autoUpdater.checkForUpdates()
 } catch (e) {
   console.log('updates failed')
   console.log(e)
 }
 // auto updater flags
-console.log('post checkforUpdates')
 
 //will not install new version on open
 // autoUpdater.autoDownload = false
@@ -43,12 +34,12 @@ console.log('post checkforUpdates')
 // AUTO UPDATER
 
 // AUTO UPDATER HELPERS
-// autoUpdater.on('update-available', (info) => {
-//   console.log('Update available!')
-//   const pth = autoUpdater.downloadUpdate()
-//   console.log('Update available:', pth)
-//   console.log(info)
-// })
+autoUpdater.on('update-available', (info) => {
+  console.log('Update available!')
+  const pth = autoUpdater.downloadUpdate()
+  console.log('Update available:', pth)
+  console.log(info)
+})
 
 // autoUpdater.on('update-not-available', (info) => {
 //   console.log('update not available', info)
@@ -94,7 +85,7 @@ function createWindow(): void {
 
   // HMR for renderer base on electron-vite cli.
   // Load the remote URL for development or the local html file for production.
-  console.log('pre-URL')
+
   if (is.dev && process.env['ELECTRON_RENDERER_URL']) {
     console.log(process.env['ELECTRON_RENDERER_URL'])
     mainWindow.loadURL(process.env['ELECTRON_RENDERER_URL'])
