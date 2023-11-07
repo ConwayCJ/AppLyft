@@ -22,6 +22,8 @@ type Job = {
 autoUpdater.autoDownload = false //will not install new version on open
 autoUpdater.autoInstallOnAppQuit = true //installs new version on quit
 
+let win
+
 function createWindow(): void {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
@@ -37,6 +39,8 @@ function createWindow(): void {
       sandbox: false
     }
   })
+
+  win = mainWindow
 
   mainWindow.on('ready-to-show', () => {
     mainWindow.show()
@@ -55,6 +59,12 @@ function createWindow(): void {
     mainWindow.loadFile(join(__dirname, '../renderer/index.html'))
   }
 }
+
+Object.defineProperty(app, 'isPackaged', {
+  get() {
+    return true
+  }
+})
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
@@ -82,9 +92,9 @@ app.whenReady().then(() => {
     // dock icon is clicked and there are no other windows open.
     if (BrowserWindow.getAllWindows().length === 0) createWindow()
   })
-  // AUTO UPDATER
-  // autoUpdater.checkForUpdates()
 })
+// AUTO UPDATER
+autoUpdater.checkForUpdates()
 
 // AUTO UPDATER HELPERS
 autoUpdater.on('update-available', (info) => {
@@ -95,6 +105,10 @@ autoUpdater.on('update-available', (info) => {
 
 autoUpdater.on('update-not-available', (info) => {
   console.log('update not available', info)
+})
+
+autoUpdater.on('download-progress', (prog) => {
+  win.webContents.send('update-download-progress', prog.percent)
 })
 
 /*Download Completion Message*/

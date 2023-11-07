@@ -2,7 +2,6 @@ import { createContext, useEffect, useState, Dispatch, SetStateAction } from "re
 import "../assets/renderer.d.ts"
 
 const electronApi = window.api
-console.log(electronApi)
 
 const defaultAPI = {
   username: '',
@@ -20,8 +19,6 @@ const defaultAPI = {
     updateSingleJob: electronApi.updateSingleJob,
   }
 }
-
-console.log(defaultAPI)
 
 type AppProviderValue = typeof defaultAPI
 
@@ -43,13 +40,10 @@ export function AppProvider({ children }: any) {
     document.title = 'AppLyft ' + version
   }
 
-  useEffect(() => {
-    setVersion()
-  }, [])
+  setVersion()
 
   // Handles the amount of time left
   useEffect(() => {
-
 
     const intervalId = setInterval(() => {
       if (timeLeft > 0) {

@@ -1,16 +1,17 @@
 {
   "name": "applyft",
-  "version": "0.6.1",
-  "description": "Giving real people tools to energize the job search.",
+  "version": "0.6.21",
+  "description": "Giving people tools to energize the job search.",
   "main": "./out/main/index.js",
   "author": "Christopher Conway & Bryce Pinkerton",
   "homepage": "#",
-  "repository": "https://github.com/ConwayCJ/jobtracker",
+  "repository": "https://github.com/ConwayCJ/AppLyft",
   "publish": {
     "provider": "github",
     "releaseType": "release"
   },
   "scripts": {
+    "release": "electron-builder",
     "format": "prettier --write .",
     "lint": "eslint . --ext .js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix",
     "typecheck:node": "tsc --noEmit -p tsconfig.node.json --composite false",
@@ -28,7 +29,13 @@
     "appId": "com.devBros.applyft",
     "productName": "AppLyft",
     "win": {
-      "target": "nsis"
+      "target": "nsis",
+      "publish": [
+        "github"
+      ]
+    },
+    "mac": {
+      "target": "dmg"
     },
     "directories": {
       "output": "AppLyft"

@@ -4,5 +4,13 @@
   - fix: description
   - etc: etc
  -->
-### v1.0.0 (2023-11-5)
-  - Release version 1.0.0 to public!
+
+### v0.6.22 (2023-11-06)
+  - Testing autoupdater feature
+  - 
+### v0.6.21 (2023-11-06)
+  - Created build, testing autoUpdater features
+
+### v0.6.1 (2023-11-05)
+  - Initialize autoupdater on GitHub
+
