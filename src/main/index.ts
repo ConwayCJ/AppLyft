@@ -5,6 +5,13 @@ import icon from '../../resources/icon.png?asset'
 import * as jsonDataHandler from './jsonHandler'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 
+//FOR TESTING UPDATER IN DEV MODE ONLY!! WILL NOT WORK WITH PRODUCTION
+Object.defineProperty(app, 'isPackaged', {
+  get() {
+    return true
+  }
+})
+
 type Job = {
   title: string
   company: string
@@ -18,11 +25,47 @@ type Job = {
   id?: number
 }
 
+console.log('pre checkforUpdates')
+try {
+  autoUpdater.checkForUpdatesAndNotify()
+} catch (e) {
+  console.log('updates failed')
+  console.log(e)
+}
 // auto updater flags
-autoUpdater.autoDownload = false //will not install new version on open
-autoUpdater.autoInstallOnAppQuit = true //installs new version on quit
+console.log('post checkforUpdates')
 
-let win
+//will not install new version on open
+// autoUpdater.autoDownload = false
+//installs new version on quit
+// autoUpdater.autoInstallOnAppQuit = true
+
+// AUTO UPDATER
+
+// AUTO UPDATER HELPERS
+// autoUpdater.on('update-available', (info) => {
+//   console.log('Update available!')
+//   const pth = autoUpdater.downloadUpdate()
+//   console.log('Update available:', pth)
+//   console.log(info)
+// })
+
+// autoUpdater.on('update-not-available', (info) => {
+//   console.log('update not available', info)
+// })
+
+// autoUpdater.on('download-progress', (prog) => {
+//   win.webContents.send('update-download-progress', prog.percent)
+// })
+
+/*Download Completion Message*/
+// autoUpdater.on('update-downloaded', (info) => {
+//   console.log('update downloaded', info)
+// })
+
+// autoUpdater.on('error', (info) => {
+//   console.error('error updating', info)
+// })
 
 function createWindow(): void {
   // Create the browser window.
@@ -40,8 +83,6 @@ function createWindow(): void {
     }
   })
 
-  win = mainWindow
-
   mainWindow.on('ready-to-show', () => {
     mainWindow.show()
   })
@@ -53,18 +94,14 @@ function createWindow(): void {
 
   // HMR for renderer base on electron-vite cli.
   // Load the remote URL for development or the local html file for production.
+  console.log('pre-URL')
   if (is.dev && process.env['ELECTRON_RENDERER_URL']) {
+    console.log(process.env['ELECTRON_RENDERER_URL'])
     mainWindow.loadURL(process.env['ELECTRON_RENDERER_URL'])
   } else {
     mainWindow.loadFile(join(__dirname, '../renderer/index.html'))
   }
 }
-
-Object.defineProperty(app, 'isPackaged', {
-  get() {
-    return true
-  }
-})
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
@@ -94,31 +131,30 @@ app.whenReady().then(() => {
   })
 })
 // AUTO UPDATER
-autoUpdater.checkForUpdates()
 
 // AUTO UPDATER HELPERS
-autoUpdater.on('update-available', (info) => {
-  const pth = autoUpdater.downloadUpdate()
-  console.log('Update available:', pth)
-  console.log(info)
-})
+// autoUpdater.on('update-available', (info) => {
+//   const pth = autoUpdater.downloadUpdate()
+//   console.log('Update available:', pth)
+//   console.log(info)
+// })
 
-autoUpdater.on('update-not-available', (info) => {
-  console.log('update not available', info)
-})
+// autoUpdater.on('update-not-available', (info) => {
+//   console.log('update not available', info)
+// })
 
-autoUpdater.on('download-progress', (prog) => {
-  win.webContents.send('update-download-progress', prog.percent)
-})
+// autoUpdater.on('download-progress', (prog) => {
+//   win.webContents.send('update-download-progress', prog.percent)
+// })
 
-/*Download Completion Message*/
-autoUpdater.on('update-downloaded', (info) => {
-  console.log('update downloaded', info)
-})
+// /*Download Completion Message*/
+// autoUpdater.on('update-downloaded', (info) => {
+//   console.log('update downloaded', info)
+// })
 
-autoUpdater.on('error', (info) => {
-  console.error('error updating', info)
-})
+// autoUpdater.on('error', (info) => {
+//   console.error('error updating', info)
+// })
 
 // Quit when all windows are closed, except on macOS. There, it's common
 // for applications and their menu bar to stay active until the user quits
