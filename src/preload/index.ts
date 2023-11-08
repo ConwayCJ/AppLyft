@@ -57,6 +57,11 @@ const updateSingleJob = (job: Job, profile: string) => {
   ipcRenderer.send('updateSingleJob', job, profile)
 }
 
+//
+ipcRenderer.on('update-notification', (event, message) => {
+  console.log(message)
+})
+
 // Custom APIs for renderer
 const api = {
   postJob,

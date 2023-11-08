@@ -18,49 +18,19 @@ type Job = {
   id?: number
 }
 
-try {
-  autoUpdater.checkForUpdates()
-} catch (e) {
-  console.log('updates failed')
-  console.log(e)
-}
 // auto updater flags
 
 //will not install new version on open
-// autoUpdater.autoDownload = false
+autoUpdater.autoDownload = false
 //installs new version on quit
-// autoUpdater.autoInstallOnAppQuit = true
+autoUpdater.autoInstallOnAppQuit = true
 
-// AUTO UPDATER
+// Create the browser window.
 
-// AUTO UPDATER HELPERS
-autoUpdater.on('update-available', (info) => {
-  console.log('Update available!')
-  const pth = autoUpdater.downloadUpdate()
-  console.log('Update available:', pth)
-  console.log(info)
-})
-
-// autoUpdater.on('update-not-available', (info) => {
-//   console.log('update not available', info)
-// })
-
-// autoUpdater.on('download-progress', (prog) => {
-//   win.webContents.send('update-download-progress', prog.percent)
-// })
-
-/*Download Completion Message*/
-// autoUpdater.on('update-downloaded', (info) => {
-//   console.log('update downloaded', info)
-// })
-
-// autoUpdater.on('error', (info) => {
-//   console.error('error updating', info)
-// })
+let mainWindow
 
 function createWindow(): void {
-  // Create the browser window.
-  const mainWindow = new BrowserWindow({
+  mainWindow = new BrowserWindow({
     minWidth: 620,
     minHeight: 653,
     show: false,
@@ -73,7 +43,6 @@ function createWindow(): void {
       sandbox: false
     }
   })
-
   mainWindow.on('ready-to-show', () => {
     mainWindow.show()
   })
@@ -93,6 +62,36 @@ function createWindow(): void {
     mainWindow.loadFile(join(__dirname, '../renderer/index.html'))
   }
 }
+// AUTO UPDATER HELPERS
+autoUpdater.on('update-available', (info) => {
+  const pth = autoUpdater.downloadUpdate()
+  console.log('Update available:', pth)
+  console.log(info)
+
+  // Send an update notification to the renderer process
+  mainWindow.webContents.send('update-notification', 'A new update is available. Downloading...')
+})
+
+autoUpdater.on('download-progress', (prog) => {
+  // Send download progress to the renderer process
+  mainWindow.webContents.send('update-download-progress', prog.percent)
+})
+
+autoUpdater.on('update-downloaded', (info) => {
+  console.log('Update downloaded', info)
+
+  // Send an update downloaded notification to the renderer process
+  mainWindow.webContents.send(
+    'update-notification',
+    'Update downloaded. Please restart the application.'
+  )
+})
+
+autoUpdater.on('error', (info) => {
+  console.error('Error updating', info)
+  // Send an error notification to the renderer process
+  mainWindow.webContents.send('update-notification', 'Error updating: ' + info.message)
+})
 
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
@@ -110,6 +109,7 @@ app.whenReady().then(() => {
 
   jsonDataHandler.initDataFolder()
   ipcMain.handle('getProfiles', getProfiles)
+  ipcMain.handle('getChangeLog', getChangeLog)
   ipcMain.handle('getJobs', getJobs)
   ipcMain.handle('getJobsByStatus', getJobsByStatus)
   ipcMain.handle('getVersion', getVersion)
@@ -120,32 +120,9 @@ app.whenReady().then(() => {
     // dock icon is clicked and there are no other windows open.
     if (BrowserWindow.getAllWindows().length === 0) createWindow()
   })
+  // CHECK FOR UPDATES
+  autoUpdater.checkForUpdates()
 })
-// AUTO UPDATER
-
-// AUTO UPDATER HELPERS
-// autoUpdater.on('update-available', (info) => {
-//   const pth = autoUpdater.downloadUpdate()
-//   console.log('Update available:', pth)
-//   console.log(info)
-// })
-
-// autoUpdater.on('update-not-available', (info) => {
-//   console.log('update not available', info)
-// })
-
-// autoUpdater.on('download-progress', (prog) => {
-//   win.webContents.send('update-download-progress', prog.percent)
-// })
-
-// /*Download Completion Message*/
-// autoUpdater.on('update-downloaded', (info) => {
-//   console.log('update downloaded', info)
-// })
-
-// autoUpdater.on('error', (info) => {
-//   console.error('error updating', info)
-// })
 
 // Quit when all windows are closed, except on macOS. There, it's common
 // for applications and their menu bar to stay active until the user quits
@@ -180,6 +157,12 @@ async function getVersion() {
   return jsonDataHandler.getVersion()
 }
 
+// GET CHANGELOG FOR PATCHNOTES
+async function getPatchNotes() {
+  ipcMain.on('getChangeLog')
+}
+
+/* DATA HANDLER/HELPERS */
 // Create a new profile if doesn't exist
 ipcMain.on('createProfile', (_sender: Electron.IpcMainEvent, profileName: string) => {
   jsonDataHandler.createProfile(profileName)
@@ -200,4 +183,9 @@ ipcMain.on('updateJobs', (_sender: Electron.IpcMainEvent, jobs: Job[], profile: 
 
 ipcMain.on('updateSingleJob', (_sender: Electron.IpcMainEvent, job: Job, profile: string) => {
   jsonDataHandler.updateSingleJob(job, profile)
+})
+
+// AUTO UPDATER NOTIFICATION
+ipcMain.on('update-notification', (_event, message) => {
+  mainWindow.webContents.send('update-notification', message)
 })
