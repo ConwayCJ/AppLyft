@@ -1,6 +1,7 @@
 import { app, shell, BrowserWindow, ipcMain } from 'electron'
 import { autoUpdater } from 'electron-updater'
 import { join } from 'path'
+import fs from 'fs'
 import icon from '../../resources/icon.png?asset'
 import * as jsonDataHandler from './jsonHandler'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
@@ -19,11 +20,12 @@ type Job = {
 }
 
 // auto updater flags
-
 //will not install new version on open
 autoUpdater.autoDownload = false
 //installs new version on quit
 autoUpdater.autoInstallOnAppQuit = true
+
+const DATA_DIR_PATH = app.getPath('appData') + '/applyft/data'
 
 // Create the browser window.
 
@@ -100,6 +102,18 @@ app.whenReady().then(() => {
   // Set app user model id for windows
   electronApp.setAppUserModelId('com.electron')
 
+  //----------------------------------
+  /* CHECK FOR EXISTING FILE STRUCTURE */
+  //----------------------------------
+  console.log(DATA_DIR_PATH)
+  if (!fs.existsSync(DATA_DIR_PATH)) {
+    jsonDataHandler.createFolderStructure()
+  }
+
+  if (!fs.existsSync(DATA_DIR_PATH + '/existingProfiles.json')) {
+    fs.writeFileSync(DATA_DIR_PATH + '/existingProfiles.json', '{"profiles": []}')
+  }
+
   // Default open or close DevTools by F12 in development
   // and ignore CommandOrControl + R in production.
   // see https://github.com/alex8088/electron-toolkit/tree/master/packages/utils
@@ -107,7 +121,6 @@ app.whenReady().then(() => {
     optimizer.watchWindowShortcuts(window)
   })
 
-  jsonDataHandler.initDataFolder()
   ipcMain.handle('getProfiles', getProfiles)
   ipcMain.handle('getChangeLog', getChangeLog)
   ipcMain.handle('getJobs', getJobs)
@@ -158,11 +171,14 @@ async function getVersion() {
 }
 
 // GET CHANGELOG FOR PATCHNOTES
-async function getPatchNotes() {
-  ipcMain.on('getChangeLog')
+async function getChangeLog() {
+  return jsonDataHandler.getChangeLog()
 }
 
+//------------------------
 /* DATA HANDLER/HELPERS */
+//------------------------
+
 // Create a new profile if doesn't exist
 ipcMain.on('createProfile', (_sender: Electron.IpcMainEvent, profileName: string) => {
   jsonDataHandler.createProfile(profileName)

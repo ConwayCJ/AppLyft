@@ -2,11 +2,11 @@ import { useState } from 'react'
 import { Job } from '../../../assets/types'
 import PDTimer from '../pomodoro/PDTimer'
 import useAppProvider from '../../../context/UseAppProvider'
+import './NewJobForm.css'
 
 export default function NewJobForm() {
   const { username, methods } = useAppProvider()
-
-  const [formData, setFormData] = useState({
+  const defaultFormData = {
     title: "",
     company: "",
     url: "",
@@ -15,7 +15,9 @@ export default function NewJobForm() {
     description: "",
     checked: false,
     dateApplied: new Date()
-  })
+  }
+  const [formData, setFormData] = useState(defaultFormData)
+  const [jobSubmitted, setJobSubmitted] = useState(false)
 
   // format date object for today
   const today = new Date()
@@ -28,8 +30,6 @@ export default function NewJobForm() {
       ...formData,
       [value]: e.currentTarget.value
     })
-    console.log(formData)
-
   }
 
   const handleWrite = (e: React.FormEvent<HTMLFormElement>) => {
@@ -38,9 +38,13 @@ export default function NewJobForm() {
     const newJob: Job = {
       ...formData,
       status: 'Applied',
+      notes: []
     }
 
     methods.postJob(newJob, username)
+    setFormData(defaultFormData)
+    setJobSubmitted(true)
+    setTimeout(() => setJobSubmitted(false), 2000)
   }
 
   return (
@@ -74,7 +78,7 @@ export default function NewJobForm() {
                 Company Name<sup className=' text-red-700 text-md'>*</sup>
               </span>
             </label>
-            <input required onChange={e => handleValueChange(e, 'company')} id="company" placeholder="Hogwarts" className='input input-sm input-bordered bg-base-200 ' />
+            <input required value={formData.company} onChange={e => handleValueChange(e, 'company')} id="company" placeholder="Magicians Inc." className='input input-sm input-bordered bg-base-200 ' />
           </div>
           <div className='m-2'>
             <label htmlFor='title' className=' label'>
@@ -82,7 +86,7 @@ export default function NewJobForm() {
                 Job Title<sup className=' text-red-700 text-md'>*</sup>
               </span>
             </label>
-            <input required onChange={e => handleValueChange(e, 'title')} id="title" placeholder="Potions Master" className=' input input-sm bg-base-200 input-bordered' />
+            <input required value={formData.title} onChange={e => handleValueChange(e, 'title')} id="title" placeholder="Junior Magister" className=' input input-sm bg-base-200 input-bordered' />
           </div>
           <div className='m-2'>
             <label htmlFor='url' className='label'>
@@ -90,7 +94,7 @@ export default function NewJobForm() {
                 Job Posting URL<sup className=' text-red-700 text-md'>*</sup>
               </span>
             </label>
-            <input required onChange={e => handleValueChange(e, 'url')} id="url" placeholder="hogwarts.org/careers" className='input input-sm input-bordered bg-base-200 ' />
+            <input required value={formData.url} onChange={e => handleValueChange(e, 'url')} id="url" placeholder="magicisreal.org/careers" className='input input-sm input-bordered bg-base-200 ' />
           </div>
         </span>
         <span>
@@ -100,7 +104,7 @@ export default function NewJobForm() {
                 Job Description<sup className=' text-red-700 text-md'>*</sup>
               </span>
             </label>
-            <textarea required onChange={e => handleValueChange(e, 'description')} id="description" className=' textarea textarea-bordered bg-base-200 max-h-24 max-w-md w-full' placeholder='Copy/Paste Job Description Here... potions master capable of teaching multiple students how to brew and handle variations of poisons and healing brews ' />
+            <textarea required value={formData.description} onChange={e => handleValueChange(e, 'description')} id="description" className=' textarea textarea-bordered bg-base-200 max-h-24 max-w-md w-full' placeholder='Copy/paste job description here... applicants should have a minimum of 8 years work experience & be 10x magician and deployed a minimum of 14 new magic spells ' />
           </div>
         </span>
 
@@ -115,7 +119,7 @@ export default function NewJobForm() {
                 Recruiter/PoC Name
               </span>
             </label>
-            <input onChange={e => handleValueChange(e, 'pocname')} id="pocname" placeholder="Professor Snape" className='input input-sm input-bordered bg-base-200 ' />
+            <input value={formData.pocname} onChange={e => handleValueChange(e, 'pocname')} id="pocname" placeholder="Dumbledore" className='input input-sm input-bordered bg-base-200 ' />
           </div>
           <div className='m-2'>
             <label htmlFor='pocurl' className=' label'>
@@ -123,13 +127,19 @@ export default function NewJobForm() {
                 Email/LinkedIn
               </span>
             </label>
-            <input onChange={e => handleValueChange(e, 'pocurl')} id="pocurl" placeholder="psnape07@gmail.com" className=' input input-sm bg-base-200 input-bordered' />
+            <input value={formData.pocurl} onChange={e => handleValueChange(e, 'pocurl')} id="pocurl" placeholder="dDore07@yahoo.com" className=' input input-sm bg-base-200 input-bordered' />
           </div>
         </span>
         <div className=' divider mx-2'></div>
 
-        <div className='my-6'>
-          <button className=' btn btn-success btn-wide'>Submit</button>
+        <div className='my-6 flex formContainer'>
+          {jobSubmitted ? (
+
+            <div className=' btn btn-circle btn-wide mx-2 border-success'>Job Submitted! ✔</div>
+
+          ) : (
+            <button className=' btn btn-success btn-wide mx-2'>Submit</button>
+          )}
         </div>
 
       </form>

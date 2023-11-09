@@ -19,6 +19,10 @@ const getVersion = () => {
   return ipcRenderer.invoke('getVersion')
 }
 
+const getChangeLog = () => {
+  return ipcRenderer.invoke('getChangeLog')
+}
+
 const postJob = (newJob: Job, profile: string) => {
   ipcRenderer.send('postJob', newJob, profile)
 }
@@ -58,7 +62,7 @@ const updateSingleJob = (job: Job, profile: string) => {
 }
 
 //
-ipcRenderer.on('update-notification', (event, message) => {
+ipcRenderer.on('update-notification', (_event, message) => {
   console.log(message)
 })
 
@@ -72,7 +76,8 @@ const api = {
   updateJobs,
   updateSingleJob,
   getJobsByStatus,
-  getVersion
+  getVersion,
+  getChangeLog
 }
 
 // Use `contextBridge` APIs to expose Electron APIs to

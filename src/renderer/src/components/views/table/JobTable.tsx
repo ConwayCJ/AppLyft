@@ -1,20 +1,20 @@
-import { Swap } from "react-daisyui"
+import { Checkbox, Swap } from "react-daisyui"
 import { Job } from '../../../assets/types'
 import JobTableRow from "./JobTableRow"
 import { useCallback, useState } from 'react'
 
 type JobTableProps = {
   jobs: Array<Job & { checked: boolean }>,
-  tableSize: string,
   checkJob: (job: Job & { checked: boolean }) => void,
   checkAll: boolean,
   setCheckAll: (checked: boolean) => void
   setJobs: (jobArr: Array<Job & { checked: boolean }>) => void
 }
 
-export default function JobTable({ jobs, tableSize, checkJob, checkAll, setCheckAll, setJobs }: JobTableProps) {
+export default function JobTable({ jobs, checkJob, checkAll, setCheckAll, setJobs }: JobTableProps) {
 
   const [reversed, setReversed] = useState(false)
+  const [tableSize, setTableSize] = useState("md")
 
   const TableHeader = useCallback(({ title, sortBy }: { title: string | null, sortBy?: string }) => {
 
@@ -63,21 +63,31 @@ export default function JobTable({ jobs, tableSize, checkJob, checkAll, setCheck
 
   return (
     <div className='overflow-x-auto'>
-      <table className={`table ${tableSize} table-pin-rows`}>
+      <table className={`table table-${tableSize} table-pin-rows`}>
         <thead className='text-info'>
           <tr>
             <th>
-              <input
+              {/* Checkall box */}
+              <Checkbox
                 type="checkbox"
                 checked={checkAll}
-                className="checkbox"
-                onChange={() => setCheckAll(!checkAll)} />
+                onChange={() => setCheckAll(!checkAll)}
+              />
             </th>
             <TableHeader title="Job" sortBy="title" />
             <TableHeader title="Applied" sortBy="date" />
             <TableHeader title="📅 Past" />
             <TableHeader title="Status" sortBy="status" />
             <TableHeader title="Details" />
+            {/* Resize Table */}
+            <th className="flex items-center self-end w-max">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 512 512"><path d="M288 96l49.9 49.9-63.9 63.8-128.1 128.2L96 288v128h128l-49.9-49.9 183.3-183.2 8.7-8.8L416 224V96z" fill="currentColor" /></svg>
+              <select defaultValue={"Table Size"} className="select mr-2 select-xs select-ghost uppercase w-max" onChange={(e) => setTableSize(e.target.value)}>
+                <option className="text-info" value={'xs'}>sm</option>
+                <option className="text-info" value={'sm'}>md</option>
+                <option className="text-info" value={'lg'}>lg</option>
+              </select>
+            </th>
           </tr>
         </thead>
         <tbody>

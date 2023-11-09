@@ -1,4 +1,5 @@
 import fs from 'fs'
+import changelog from '../../resources/CHANGELOG.md?asset'
 import { app } from 'electron'
 
 type Job = {
@@ -16,7 +17,6 @@ type Job = {
 
 const filePath = app.getPath('appData')
 const version = app.getVersion()
-console.log(version)
 /* APPLICATION INITILIZATION */
 
 export async function getVersion() {
@@ -24,8 +24,7 @@ export async function getVersion() {
 }
 
 export async function getChangeLog() {
-  const CHANGELOG = fs.readFileSync(`${filePath}/applyft/CHANGELOG.md`, 'utf-8')
-  return CHANGELOG
+  return fs.readFileSync(changelog)
 }
 
 export async function getProfiles() {
@@ -34,18 +33,16 @@ export async function getProfiles() {
   return jsonProfiles.profiles
 }
 
-export function initDataFolder() {
-  if (!fs.existsSync(`${filePath}/applyft/data`)) {
-    try {
-      console.log('data folder doesnt exist, making required filestructure')
-      fs.mkdirSync(`${filePath}/applyft/data`)
+export function createFolderStructure() {
+  const existingProfilesJson = `{"profiles":[]}`
 
-      const existingProfilesJson = `{"profiles":[]}`
-
-      fs.writeFileSync(`${filePath}/applyft/data/existingProfiles.json`, existingProfilesJson)
-    } catch (e) {
-      console.log('error initializing filestructure: ', e)
-    }
+  try {
+    console.log('data folder doesnt exist, making required file structure')
+    console.log('Creating data folder: ')
+    fs.mkdirSync(`${filePath}/applyft/data`)
+    fs.writeFileSync(`${filePath}/applyft/data/existingProfiles.json`, existingProfilesJson)
+  } catch (e) {
+    console.log('error initializing filestructure: ', e)
   }
 }
 

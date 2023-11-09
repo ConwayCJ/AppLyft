@@ -1,6 +1,6 @@
 import { ChangeEvent, useCallback, useRef, useState } from 'react'
 import { Job } from '../../../assets/types'
-import { Button, Modal } from 'react-daisyui'
+import { Button, Collapse, Modal } from 'react-daisyui'
 import useAppProvider from '../../../context/UseAppProvider'
 
 
@@ -86,52 +86,72 @@ export default function JobTableRow({ job, checkJob, tableSize }: JobProps) {
       </td>
       <td>
         <Button className="btn btn-sm" onClick={handleShow}>Details</Button>
-        <Modal ref={ref}>
+        <Modal className="mockup-browser p-4 border bg-base-300" ref={ref}>
 
-          <div className="mockup-browser border bg-base-300">
-
-
-            <div className="mockup-browser-toolbar">
-              <div className="input">
-                <a title='Job URL' rel="noreferrer" className="link link-hover link-info" href={job.url} target="_blank">
-                  {job.url.startsWith("https://") ? job.url : `https://${job.url}`}
-                </a>
-              </div>
+          <div className="mockup-browser-toolbar">
+            <div className="input">
+              <a title='Job URL' rel="noreferrer" className="link link-hover link-info" href={job.url} target="_blank">
+                {job.url.startsWith("https://") ? job.url : `https://${job.url}`}
+              </a>
             </div>
-            {/* Add details/description/person to contact */}
-            <main className='flex flex-col justify-center px-4 py-6 bg-base-200'>
-              <form method="dialog">
-                <button className="btn btn-sm text-warning btn-circle btn-ghost absolute right-2 top-2">✕</button>
-              </form>
-
-              <section>
-                <h1 className='text-xl text-secondary font-extrabold py-1'>Job Description:</h1>
-                <textarea className=' textarea py-2 w-full textarea-bordered h-24 max-h-[400px] text-accent' value={job.description} name='description' onChange={e => handleUpdateJob(e)} />
-              </section>
-
-              <section>
-                <h1 className='text-xl text-secondary font-extrabold'>Person to contact:</h1>
-                <div className=' text-lg flex items-center my-1'>
-                  <p className='mr-1'>Name:</p>
-                  <input className=' bg-base-100 text-accent' value={job.pocname} name='pocname' onChange={e => handleUpdateJob(e)} />
-                </div>
-                <div className=' text-lg flex items-center my-1'>
-                  <p className='mr-1'>Contact Info:</p>
-                  <input className='bg-base-100 text-accent' value={job.pocurl} name='pocurl' onChange={e => handleUpdateJob(e)} />
-                </div>
-              </section>
-
-              {/* Update single job */}
-              <div className='modal-action'>
-                <form method="dialog" onSubmit={updateSingleJob}>
-                  <button className='btn border border-accent'>Save Changes</button>
-                </form>
-              </div>
-            </main>
           </div>
+          {/* Add details/description/person to contact */}
+          <main className='flex flex-col justify-center px-4 py-6 bg-base-200'>
+            {/* close button */}
+            <form method="dialog">
+              <button className="btn btn-sm text-warning btn-circle border btn-ghost absolute right-2 top-2">✕</button>
+            </form>
+
+            <section>
+              <h1 className='text-xl text-secondary font-extrabold py-1'>Job Description:</h1>
+              <textarea className=' textarea py-2 w-full textarea-bordered h-24 max-h-[400px] text-accent' value={job.description} name='description' onChange={e => handleUpdateJob(e)} />
+            </section>
+
+            <section>
+              <h1 className='text-xl text-secondary font-extrabold'>Person to contact:</h1>
+              <div className=' text-lg flex items-center my-1'>
+                <p className='mr-1'>Name:</p>
+                <input className=' bg-base-100 text-accent' value={job.pocname} name='pocname' onChange={e => handleUpdateJob(e)} />
+              </div>
+              <div className=' text-lg flex items-center my-1'>
+                <p className='mr-1'>Contact:</p>
+                <input className='bg-base-100 text-accent' value={job.pocurl} name='pocurl' onChange={e => handleUpdateJob(e)} />
+              </div>
+            </section>
+            <div className='divider m-0'></div>
+            <section className='m-0 p-0'>
+              <Collapse icon='arrow'>
+                <Collapse.Title className="p-0 w-[100px] flex items-center text-lg text-secondary font-extrabold">
+                  Notes
+                </Collapse.Title>
+                <Collapse.Content className="p-0">
+
+                  {job.notes.map((note, i) => (
+                    <div key={i}>
+                      <div className='flex'>
+                        <p className='text-info font-bold text-md'>{i + 1}.</p>
+                        <p className='mx-1'>{note}</p>
+                      </div>
+                      <div className='divider m-0'></div>
+                    </div>
+                  ))}
+
+                </Collapse.Content>
+              </Collapse>
+            </section>
+
+            {/* Update single job */}
+            <div className='modal-action'>
+              <form method="dialog" onSubmit={updateSingleJob}>
+                <button className='btn border border-accent'>Save Changes</button>
+              </form>
+            </div>
+          </main>
+          {/* <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M11 13H5v-2h6V5h2v6h6v2h-6v6h-2v-6Z" /></svg> */}
+          {/* dwn ar */}
         </Modal>
 
       </td>
-    </tr>
+    </tr >
   )
 }

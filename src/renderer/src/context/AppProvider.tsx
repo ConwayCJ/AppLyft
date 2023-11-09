@@ -10,6 +10,7 @@ const defaultAPI = {
   handleLoginLogout: (() => { }) as ((p: string | null) => void),
   allProfiles: electronApi.getProfiles,
   version: electronApi.getVersion,
+  changelog: electronApi.getChangeLog,
   methods: {
     postJob: electronApi.postJob,
     getJobs: electronApi.getJobs,
@@ -66,7 +67,9 @@ export function AppProvider({ children }: any) {
     //backend state/state management
     methods: defaultAPI.methods,
     allProfiles: defaultAPI.allProfiles,
-    version: defaultAPI.version
+    version: defaultAPI.version,
+    changelog: defaultAPI.changelog
+
   }
 
   return (

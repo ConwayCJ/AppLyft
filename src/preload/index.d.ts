@@ -13,6 +13,7 @@ declare global {
       updateSingleJob: (job: Job, profile: string) => void
       getJobsByStatus: (profileName: string, filter: string) => Job[]
       getVersion: () => string
+      getChangeLog: () => Uint8Array
     }
   }
 }

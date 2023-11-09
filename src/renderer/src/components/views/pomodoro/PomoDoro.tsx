@@ -18,7 +18,6 @@ export default function PomoDoro() {
         <div className="flex flex-col items-center m-4">
           <p className=" text-3xl text-info">Start Work:</p>
           <div className="join my-4">
-            <button onClick={() => setTimeLeft(5)} className="btn btn-md join-item">5 sec</button>
             <button onClick={() => setTimeLeft(25 * 60)} className="btn btn-md join-item">25</button>
             <button onClick={() => setTimeLeft(20 * 60)} className="btn btn-md join-item">20</button>
           </div>

@@ -22,11 +22,30 @@ export default function Login({ loginAs }: { loginAs: (profileName: string) => v
   const handleCreateProfile = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
-    const formattedProfileName = newProfileName.toLowerCase()
+
+    function sanitizeUsername(username) {
+      username = username.trim().replace(/\s+/g, ' ');
+
+      if (/[^a-zA-Z0-9_\- ]/.test(username)) {
+        return false;
+      }
+
+      if (username.length < 3 || username.length > 20) {
+        return false;
+      }
+
+      return username;
+    }
+
+    const formattedProfileName = sanitizeUsername(newProfileName).toLowerCase()
+
+    if (sanitizeUsername(newProfileName)) {
+      setLoginMessage(<p>Profile Created! Heya!</p>)
+    }
 
     if (existingProfiles.includes(formattedProfileName)) {
-      setLoginMessage(<p className="text-red-600 animate-bounce">They already exist 💔</p>)
-    } else {
+      setLoginMessage(<label className="text-red-600 animate-bounce">They already exist 💔</label>)
+    } else if (!existingProfiles.includes(formattedProfileName)) {
       methods.createProfile(formattedProfileName)
       setNewProfileCreated(true)
     }
