@@ -99,22 +99,37 @@ export default function ViewJobs({ setFeature }: JobTableProps) {
         <div className='flex flex-wrap items-center justify-start'>
 
           {/* Delete/Update/Change View */}
-          <div className='text-sm breadcrumbs'>
+          <div className='text-sm breadcrumbs p-3'>
             <ul>
-
-              <li title='Delete Selected Jobs'>
-                <button className='flex btn btn-xs' onClick={deleteSelectedJobs}>
-                  <svg className='w-4 h-4 mr-2 stroke-current' viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M20,6H16V5a3,3,0,0,0-3-3H11A3,3,0,0,0,8,5V6H4A1,1,0,0,0,4,8H5V19a3,3,0,0,0,3,3h8a3,3,0,0,0,3-3V8h1a1,1,0,0,0,0-2ZM10,5a1,1,0,0,1,1-1h2a1,1,0,0,1,1,1V6H10Zm7,14a1,1,0,0,1-1,1H8a1,1,0,0,1-1-1V8H17Z" />                  Delete Selected
-                  </svg>
-                </button>
+              {jobs.some(job => job.checked == true) ? (
+                <>
+                  <li title='Delete Selected Jobs' className='mx-1'>
+                    <button className='flex btn btn-xs' onClick={deleteSelectedJobs}>
+                      <svg className='w-4 h-4 mr-2 stroke-current' viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M20,6H16V5a3,3,0,0,0-3-3H11A3,3,0,0,0,8,5V6H4A1,1,0,0,0,4,8H5V19a3,3,0,0,0,3,3h8a3,3,0,0,0,3-3V8h1a1,1,0,0,0,0-2ZM10,5a1,1,0,0,1,1-1h2a1,1,0,0,1,1,1V6H10Zm7,14a1,1,0,0,1-1,1H8a1,1,0,0,1-1-1V8H17Z" />                  Delete Selected
+                      </svg>
+                    </button>
+                  </li>
+                  <li title='Update Selected Jobs' className='mx-1'>
+                    <Button className='flex btn btn-xs' onClick={handleShowUpdateAll}>
+                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" className="w-4 h-4 mr-2 stroke-current"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"></path></svg>
+                    </Button>
+                  </li>
+                </>
+              ) : <></>
+              }
+              <li>
+                {/* UNIMPLEMENTED SEARCH FEATURE */}
+                {/* <input className='input input-sm input-bordered join-item' placeholder='🔎 Search' disabled /> */}
+                <select onChange={(e) => getJobs(username, e.target.value)} className='select select-sm select-bordered join-item'>
+                  <option value="">Filter by ...</option>
+                  <option value="">All</option>
+                  <option value="Applied">Applied</option>
+                  <option value="Emailed Followup">Emailed Followup</option>
+                  <option value="Interview Scheduled">Interview Scheduled</option>
+                  <option value="Declined">Declined</option>
+                </select>
               </li>
-              <li title='Update Selected Jobs'>
-                <Button className='flex btn btn-xs' onClick={handleShowUpdateAll}>
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" className="w-4 h-4 mr-2 stroke-current"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"></path></svg>
-                </Button>
-              </li>
-
 
               {/* Update selected, opens a modal */}
 
@@ -139,17 +154,6 @@ export default function ViewJobs({ setFeature }: JobTableProps) {
             </ul>
           </div>
           {/* Search/Filter */}
-          <div className='flex items-center mx-2'>
-            {/* <input className='input input-sm input-bordered join-item' placeholder='🔎 Search' disabled /> */}
-            <select onChange={(e) => getJobs(username, e.target.value)} className='select select-sm select-bordered join-item'>
-              <option value="">Filter by ...</option>
-              <option value="">All</option>
-              <option value="Applied">Applied</option>
-              <option value="Emailed Followup">Emailed Followup</option>
-              <option value="Interview Scheduled">Interview Scheduled</option>
-              <option value="Declined">Declined</option>
-            </select>
-          </div>
         </div>
       </div>
       {
