@@ -16,7 +16,6 @@ export default function ChangeLog() {
       const [versionLine, ...changes] = section.trim().split('\n');
       const version = versionLine.replace(/###\s+/, '').trim();
       const changesText = changes.join('\n').trim().split("-");
-      console.log(changesText)
       return { version, changes: changesText.map(text => text.trim()) };
     })
     setChanges(readmeFormatted)

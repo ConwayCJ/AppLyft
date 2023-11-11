@@ -5,7 +5,6 @@ import useAppProvider from '../src/context/UseAppProvider'
 function App() {
   const { username, handleLoginLogout } = useAppProvider()
 
-
   return (
     <div>
       {username ? (

@@ -1,19 +1,75 @@
 import PDTimer from "./PDTimer";
 import useAppProvider from "../../../context/UseAppProvider";
+import { useCallback, useRef } from "react";
+import { Button, Modal } from "react-daisyui";
 
 export default function PomoDoro() {
   const { setTimeLeft } = useAppProvider()
+  const { settings } = useAppProvider()
+
+  const ref = useRef<HTMLDialogElement>(null);
+  const handleShow = useCallback(() => {
+    ref.current?.showModal();
+  }, [ref]);
+
+  // const [muteAudio, setMuteAudio] = useState(false)
+  // const [autoStartBreak, setAutoStartBreak] = useState(true)
+  console.log(settings)
+
+  const Settings = () => {
+
+
+    const Setting = ({ label }: { label: string }) => {
+      return (
+        <div className="flex items-center">
+          <input className="checkbox checkbox-xs checkbox-info mx-4" type="checkbox" />
+          <label>{label}</label>
+        </div>
+      )
+    }
+
+
+
+    return (
+      <Modal ref={ref}>
+        <form method="dialog">
+          <Button size="sm" color="ghost" shape="circle" className="absolute right-2 top-2">
+            x
+          </Button>
+        </form>
+        <Modal.Header className="font-bold font-primary">PomoDoro Settings</Modal.Header>
+        <Modal.Body>
+          <Setting label="Auto Start Break" />
+          <Setting label="Mute Audio" />
+          <Setting label="Auto Start Break" />
+          <Setting label="Auto Start Break" />
+        </Modal.Body>
+        <Modal.Actions>
+          <form method="dialog">
+            <Button>Save</Button>
+          </form>
+        </Modal.Actions>
+      </Modal>
+    )
+  }
 
   return (
     <div className=" place-self-start w-full">
       <div className="flex w-full px-12 items-center justify-between lg:justify-center">
-        <div className="font-bold text-4xl text-secondary">
-          PomoDoro
+        <div>
+          <div>
+            <h6 className="font-bold text-4xl text-secondary">PomoDoro</h6>
+            <div>
+              <Button className="btn-xs" onClick={handleShow}>Settings</Button>
+              <Settings />
+            </div>
+          </div>
         </div>
         <div>
           <PDTimer />
         </div>
       </div>
+      <div className=" divider m-0"></div>
       <div className="flex justify-center">
         <div className="flex flex-col items-center m-4">
           <p className=" text-3xl text-info">Start Work:</p>
@@ -31,7 +87,7 @@ export default function PomoDoro() {
         </div>
 
       </div>
-      <div className=" divider m-0"></div>
+
 
 
 

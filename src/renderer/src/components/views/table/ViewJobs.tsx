@@ -67,8 +67,6 @@ export default function ViewJobs({ setFeature }: JobTableProps) {
       })
       methods.updateJobs(selectedJobs, username)
       getJobs(username, "")
-    } else {
-      alert("Choose an option to update the status of every job.")
     }
   }
 
@@ -101,7 +99,7 @@ export default function ViewJobs({ setFeature }: JobTableProps) {
           {/* Delete/Update/Change View */}
           <div className='text-sm breadcrumbs p-3'>
             <ul>
-              {jobs.some(job => job.checked == true) ? (
+              {jobs.some(job => job.checked == true) && (
                 <>
                   <li title='Delete Selected Jobs' className='mx-1'>
                     <button className='flex btn btn-xs' onClick={deleteSelectedJobs}>
@@ -116,8 +114,7 @@ export default function ViewJobs({ setFeature }: JobTableProps) {
                     </Button>
                   </li>
                 </>
-              ) : <></>
-              }
+              )}
               <li>
                 {/* UNIMPLEMENTED SEARCH FEATURE */}
                 {/* <input className='input input-sm input-bordered join-item' placeholder='🔎 Search' disabled /> */}

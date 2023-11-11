@@ -23,6 +23,20 @@ export async function getVersion() {
   return version
 }
 
+export async function getSettings(profileName) {
+  try {
+    const profileData = await fs.readFileSync(
+      `${filePath}/applyft/data/profile.${profileName}.json`,
+      'utf-8'
+    )
+    const profileDetails = await JSON.parse(profileData)
+
+    return profileDetails.settings
+  } catch (jsonError) {
+    console.error(jsonError)
+  }
+}
+
 export async function getChangeLog() {
   return fs.readFileSync(changelog)
 }
@@ -117,7 +131,7 @@ export async function getJobsByStatus(profileName: string, filter: string) {
 }
 
 export function createProfile(profileName: string) {
-  const defaultJson: string = `{"jobs": []}`
+  const defaultJson: string = `{"jobs": [], "settings": {"pomoDoro": {"mute": false, "autoStartBreak": true}}}`
 
   try {
     const curData = fs.readFileSync(`${filePath}/applyft/data/existingProfiles.json`, 'utf-8')

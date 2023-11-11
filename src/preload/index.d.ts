@@ -14,6 +14,7 @@ declare global {
       getJobsByStatus: (profileName: string, filter: string) => Job[]
       getVersion: () => string
       getChangeLog: () => Uint8Array
+      getSettings: (username) => string
     }
   }
 }

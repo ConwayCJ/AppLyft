@@ -126,6 +126,7 @@ app.whenReady().then(() => {
   ipcMain.handle('getJobs', getJobs)
   ipcMain.handle('getJobsByStatus', getJobsByStatus)
   ipcMain.handle('getVersion', getVersion)
+  ipcMain.handle('getSettings', getSettings)
   createWindow()
 
   app.on('activate', function () {
@@ -150,6 +151,10 @@ app.on('window-all-closed', () => {
 // code. You can also put them in separate files and require them here.
 async function getProfiles() {
   return jsonDataHandler.getProfiles()
+}
+
+async function getSettings(_event: Electron.IpcMainInvokeEvent, username: string) {
+  return jsonDataHandler.getSettings(username)
 }
 
 //slightly less pain

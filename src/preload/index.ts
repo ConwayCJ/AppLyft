@@ -19,6 +19,10 @@ const getVersion = () => {
   return ipcRenderer.invoke('getVersion')
 }
 
+const getSettings = (profileName: string) => {
+  return ipcRenderer.invoke('getSettings', profileName)
+}
+
 const getChangeLog = () => {
   return ipcRenderer.invoke('getChangeLog')
 }
@@ -77,7 +81,8 @@ const api = {
   updateSingleJob,
   getJobsByStatus,
   getVersion,
-  getChangeLog
+  getChangeLog,
+  getSettings
 }
 
 // Use `contextBridge` APIs to expose Electron APIs to

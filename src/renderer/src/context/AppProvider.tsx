@@ -7,6 +7,8 @@ const defaultAPI = {
   username: '',
   timeLeft: 0,
   setTimeLeft: (() => { }) as Dispatch<SetStateAction<number>>,
+  settings: {},
+  handleSetSettings: (() => { }) as Dispatch<SetStateAction<any>>,
   handleLoginLogout: (() => { }) as ((p: string | null) => void),
   allProfiles: electronApi.getProfiles,
   version: electronApi.getVersion,
@@ -18,6 +20,7 @@ const defaultAPI = {
     removeJobs: electronApi.removeJobs,
     updateJobs: electronApi.updateJobs,
     updateSingleJob: electronApi.updateSingleJob,
+    getSettings: electronApi.getSettings
   }
 }
 
@@ -29,6 +32,7 @@ export function AppProvider({ children }: any) {
   // state
   const [currentProfile, setCurrentProfile] = useState(defaultAPI.username)
   const [timeLeft, setTimeLeft] = useState(defaultAPI.timeLeft)
+  const [settings, setSettings] = useState({})
   // functions
 
   function handleLoginLogout(p: string | null) {
@@ -36,7 +40,14 @@ export function AppProvider({ children }: any) {
     setTimeLeft(0)
   }
 
+  async function handleSetSettings(username: string) {
+    const userSettings = await defaultAPI.methods.getSettings(username)
+    console.log(userSettings)
+    setSettings(userSettings)
+  }
+
   async function setVersion() {
+    // Set App title to curr version
     const version = await defaultAPI.version()
     document.title = 'AppLyft ' + version
   }
@@ -68,7 +79,9 @@ export function AppProvider({ children }: any) {
     methods: defaultAPI.methods,
     allProfiles: defaultAPI.allProfiles,
     version: defaultAPI.version,
-    changelog: defaultAPI.changelog
+    changelog: defaultAPI.changelog,
+    handleSetSettings: handleSetSettings,
+    settings: settings
 
   }
 

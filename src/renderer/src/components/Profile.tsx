@@ -1,15 +1,22 @@
 import Navigation from "./Navigation";
 import View from "./View";
 import Themes from "./Themes";
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import kofi from '../assets/kofi-logo.png'
+import useAppProvider from "@renderer/context/UseAppProvider";
 type ProfileProps = {
   logout: (p: string | null) => void,
 }
 
 export default function Profile({ logout }: ProfileProps) {
 
+  const { username, handleSetSettings } = useAppProvider()
+
   const [feature, setFeature] = useState('home')
+
+  useEffect(() => {
+    handleSetSettings(username)
+  }, [])
 
 
   return (
