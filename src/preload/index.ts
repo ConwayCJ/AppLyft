@@ -23,6 +23,11 @@ const getSettings = (profileName: string) => {
   return ipcRenderer.invoke('getSettings', profileName)
 }
 
+const updateSettings = (username: string, settings: string) => {
+  console.log('udpating setingdfa')
+  return ipcRenderer.send('updateSettings', username, settings)
+}
+
 const getChangeLog = () => {
   return ipcRenderer.invoke('getChangeLog')
 }
@@ -82,7 +87,8 @@ const api = {
   getJobsByStatus,
   getVersion,
   getChangeLog,
-  getSettings
+  getSettings,
+  updateSettings
 }
 
 // Use `contextBridge` APIs to expose Electron APIs to

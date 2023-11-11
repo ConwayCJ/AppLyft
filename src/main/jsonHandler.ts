@@ -37,6 +37,11 @@ export async function getSettings(profileName) {
   }
 }
 
+export async function updateSettings(username, settings) {
+  settings = { ...settings }
+  console.log(`Updating settings for: ${username}`, `new settings: ${settings}`)
+}
+
 export async function getChangeLog() {
   return fs.readFileSync(changelog)
 }

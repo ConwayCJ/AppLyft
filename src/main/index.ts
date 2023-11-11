@@ -184,6 +184,11 @@ async function getChangeLog() {
 /* DATA HANDLER/HELPERS */
 //------------------------
 
+// Write/update new setting to profile
+ipcMain.on('updateSettings', (_sender: Electron.IpcMainEvent, username: string, settings: any) => {
+  jsonDataHandler.updateSettings(username, settings)
+})
+
 // Create a new profile if doesn't exist
 ipcMain.on('createProfile', (_sender: Electron.IpcMainEvent, profileName: string) => {
   jsonDataHandler.createProfile(profileName)

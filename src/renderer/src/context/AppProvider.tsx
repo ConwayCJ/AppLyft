@@ -1,26 +1,27 @@
 import { createContext, useEffect, useState, Dispatch, SetStateAction } from "react"
 import "../assets/renderer.d.ts"
 
-const electronApi = window.api
+const api = window.api
 
 const defaultAPI = {
   username: '',
   timeLeft: 0,
   setTimeLeft: (() => { }) as Dispatch<SetStateAction<number>>,
-  settings: {},
   handleSetSettings: (() => { }) as Dispatch<SetStateAction<any>>,
   handleLoginLogout: (() => { }) as ((p: string | null) => void),
-  allProfiles: electronApi.getProfiles,
-  version: electronApi.getVersion,
-  changelog: electronApi.getChangeLog,
+  allProfiles: api.getProfiles,
+  version: api.getVersion,
+  changelog: api.getChangeLog,
+  settings: { jobs: [], pomoDoro: {} },
   methods: {
-    postJob: electronApi.postJob,
-    getJobs: electronApi.getJobs,
-    createProfile: electronApi.createProfile,
-    removeJobs: electronApi.removeJobs,
-    updateJobs: electronApi.updateJobs,
-    updateSingleJob: electronApi.updateSingleJob,
-    getSettings: electronApi.getSettings
+    postJob: api.postJob,
+    getJobs: api.getJobs,
+    createProfile: api.createProfile,
+    removeJobs: api.removeJobs,
+    updateJobs: api.updateJobs,
+    updateSingleJob: api.updateSingleJob,
+    getSettings: api.getSettings,
+    updateSettings: api.updateSettings
   }
 }
 
@@ -32,7 +33,7 @@ export function AppProvider({ children }: any) {
   // state
   const [currentProfile, setCurrentProfile] = useState(defaultAPI.username)
   const [timeLeft, setTimeLeft] = useState(defaultAPI.timeLeft)
-  const [settings, setSettings] = useState({})
+  const [settings, setSettings] = useState(defaultAPI.settings)
   // functions
 
   function handleLoginLogout(p: string | null) {
@@ -56,7 +57,6 @@ export function AppProvider({ children }: any) {
 
   // Handles the amount of time left
   useEffect(() => {
-
     const intervalId = setInterval(() => {
       if (timeLeft > 0) {
         setTimeLeft(timeLeft - 1)
@@ -81,8 +81,7 @@ export function AppProvider({ children }: any) {
     version: defaultAPI.version,
     changelog: defaultAPI.changelog,
     handleSetSettings: handleSetSettings,
-    settings: settings
-
+    settings: settings,
   }
 
   return (

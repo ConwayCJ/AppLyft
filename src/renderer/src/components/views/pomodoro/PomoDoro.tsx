@@ -1,11 +1,10 @@
 import PDTimer from "./PDTimer";
 import useAppProvider from "../../../context/UseAppProvider";
-import { useCallback, useRef } from "react";
+import { useCallback, useRef, useState } from "react";
 import { Button, Modal } from "react-daisyui";
 
 export default function PomoDoro() {
-  const { setTimeLeft } = useAppProvider()
-  const { settings } = useAppProvider()
+  const { setTimeLeft, settings, methods, username } = useAppProvider()
 
   const ref = useRef<HTMLDialogElement>(null);
   const handleShow = useCallback(() => {
@@ -14,21 +13,35 @@ export default function PomoDoro() {
 
   // const [muteAudio, setMuteAudio] = useState(false)
   // const [autoStartBreak, setAutoStartBreak] = useState(true)
-  console.log(settings)
+
 
   const Settings = () => {
 
+    const [PDSettings, setPDSettings] = useState(settings.pomoDoro)
 
-    const Setting = ({ label }: { label: string }) => {
+    const saveSettings = () => {
+      methods.updateSettings(username, { hi: "hi", yes: "yes" })
+    }
+
+    const handleUpdateSetting = (e, setting) => {
+      setPDSettings(prev => ({ ...prev, [setting]: !setting }))
+      console.log(PDSettings)
+    }
+
+    type SettingProps = {
+      label: string,
+      setting: string
+    }
+
+    const Setting = ({ label, setting }: SettingProps) => {
+
       return (
         <div className="flex items-center">
-          <input className="checkbox checkbox-xs checkbox-info mx-4" type="checkbox" />
+          <input defaultChecked={PDSettings[setting]} onChange={(e) => handleUpdateSetting(e, setting)} className="checkbox checkbox-xs checkbox-info mx-4" type="checkbox" />
           <label>{label}</label>
         </div>
       )
     }
-
-
 
     return (
       <Modal ref={ref}>
@@ -37,15 +50,14 @@ export default function PomoDoro() {
             x
           </Button>
         </form>
-        <Modal.Header className="font-bold font-primary">PomoDoro Settings</Modal.Header>
+        <Modal.Header className="font-bold text-primary m-0 p-0">PomoDoro Settings</Modal.Header>
+        <div className="divider"></div>
         <Modal.Body>
-          <Setting label="Auto Start Break" />
-          <Setting label="Mute Audio" />
-          <Setting label="Auto Start Break" />
-          <Setting label="Auto Start Break" />
+          <Setting label="Auto Start Break" setting="autoStartBreak" />
+          <Setting label="Mute Audio" setting="mute" />
         </Modal.Body>
         <Modal.Actions>
-          <form method="dialog">
+          <form onSubmit={saveSettings} method="dialog">
             <Button>Save</Button>
           </form>
         </Modal.Actions>
