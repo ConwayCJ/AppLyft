@@ -12,6 +12,7 @@
   - Added various UX to view jobs: update now will not let you submit when you have 0 jobs selected. Added more intuitive resizing to the end of the table.
   - Added "display" notes section in job details.
   - Updated modal styling for job details.
+  - Timer no longer causes weird re-renders/bugs when ticking down
 
 ### v0.6.3 (2023-11-06)
   - Created build, testing autoUpdater functionality

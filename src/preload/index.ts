@@ -24,8 +24,7 @@ const getSettings = (profileName: string) => {
 }
 
 const updateSettings = (username: string, settings: string) => {
-  console.log('udpating setingdfa')
-  return ipcRenderer.send('updateSettings', username, settings)
+  ipcRenderer.send('updateSettings', username, settings)
 }
 
 const getChangeLog = () => {

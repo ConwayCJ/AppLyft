@@ -1,5 +1,5 @@
 import TimerOptions from "./TimerOptions";
-import PDSettings from './PDSettings'
+import Settings from './Settings'
 import PDTimer from "./PDTimer";
 import Stats from "../stats/Stats";
 
@@ -10,7 +10,7 @@ export default function PomoDoro() {
         <div className="flex">
           <div>
             <h6 className="font-bold text-4xl text-secondary">PomoDoro</h6>
-            <PDSettings />
+            <Settings />
             <div>
               <PDTimer />
               <Stats />
