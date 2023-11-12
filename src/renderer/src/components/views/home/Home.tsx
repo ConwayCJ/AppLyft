@@ -4,6 +4,10 @@ import useAppProvider from "@renderer/context/UseAppProvider";
 export default function Home() {
   const { username } = useAppProvider()
 
+  // If timer is active, patch notes will get removed. useEffect removes timer
+
+
+
   return (
     <div className="w-full flex flex-col justify-between h-screen">
       <div className="w-full flex flex-col items-center py-6">

@@ -5,8 +5,6 @@ const api = window.api
 
 const defaultAPI = {
   username: '',
-  timeLeft: 0,
-  setTimeLeft: (() => { }) as Dispatch<SetStateAction<number>>,
   handleSetSettings: (() => { }) as Dispatch<SetStateAction<any>>,
   handleLoginLogout: (() => { }) as ((p: string | null) => void),
   allProfiles: api.getProfiles,
@@ -32,13 +30,11 @@ export const AppContext = createContext<AppProviderValue>(defaultAPI)
 export function AppProvider({ children }: any) {
   // state
   const [currentProfile, setCurrentProfile] = useState(defaultAPI.username)
-  const [timeLeft, setTimeLeft] = useState(defaultAPI.timeLeft)
   const [settings, setSettings] = useState(defaultAPI.settings)
   // functions
 
   function handleLoginLogout(p: string | null) {
     setCurrentProfile(p ? p : '')
-    setTimeLeft(0)
   }
 
   async function handleSetSettings(username: string) {
@@ -53,28 +49,15 @@ export function AppProvider({ children }: any) {
     document.title = 'AppLyft ' + version
   }
 
-  setVersion()
 
-  // Handles the amount of time left
   useEffect(() => {
-    const intervalId = setInterval(() => {
-      if (timeLeft > 0) {
-        setTimeLeft(timeLeft - 1)
-      } else {
-        clearInterval(intervalId)
-      }
-    }, 1000)
-
-    return () => clearInterval(intervalId)
-
-  }, [timeLeft]);
+    setVersion()
+  }, [])
 
   const api = {
     username: currentProfile,
     handleLoginLogout,
-    //pomoDoro timer state
-    timeLeft: timeLeft,
-    setTimeLeft: setTimeLeft,
+
     //backend state/state management
     methods: defaultAPI.methods,
     allProfiles: defaultAPI.allProfiles,

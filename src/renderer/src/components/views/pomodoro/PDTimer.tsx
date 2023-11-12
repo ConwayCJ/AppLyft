@@ -1,7 +1,7 @@
-import useAppProvider from "../../../context/UseAppProvider";
+import useTimerProvider from "@renderer/context/UseTimerProvider";
 
 export default function PDTimer() {
-  const { timeLeft } = useAppProvider()
+  const { timeLeft } = useTimerProvider()
 
   const dateObj = new Date(timeLeft * 1000);
   const minutes = dateObj.getUTCMinutes();

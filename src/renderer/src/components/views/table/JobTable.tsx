@@ -15,7 +15,7 @@ export default function JobTable({ jobs, checkJob, checkAll, setCheckAll, setJob
 
   const [reversed, setReversed] = useState(false)
   const [tableSize, setTableSize] = useState("md")
-
+  console.log('rerender')
   const TableHeader = useCallback(({ title, sortBy }: { title: string | null, sortBy?: string }) => {
 
     function handleSortJobs() {
@@ -66,6 +66,7 @@ export default function JobTable({ jobs, checkJob, checkAll, setCheckAll, setJob
       <table className={`table table-${tableSize} table-pin-rows`}>
         <thead className='text-info'>
           <tr>
+
             <th>
               {/* Checkall box */}
               <Checkbox

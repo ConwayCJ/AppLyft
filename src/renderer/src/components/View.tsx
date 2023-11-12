@@ -32,6 +32,7 @@ function View({ feature, setFeature }: ViewProps): JSX.Element {
         break
       case 'about':
         return <About />
+        break
       default:
         return <Home />
     }

@@ -5,6 +5,7 @@ import useAppProvider from '../../../context/UseAppProvider'
 import './NewJobForm.css'
 
 export default function NewJobForm() {
+  console.log('ree')
   const { username, methods } = useAppProvider()
   const defaultFormData = {
     title: "",
