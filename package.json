@@ -1,6 +1,6 @@
 {
   "name": "applyft",
-  "version": "0.6.31",
+  "version": "0.6.4",
   "main": "./out/main/index.js",
   "description": "Giving people tools to energize the job search.",
   "author": "DevBros",
