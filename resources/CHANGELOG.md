@@ -13,6 +13,7 @@
   - Added "display" notes section in job details.
   - Updated modal styling for job details.
   - Timer no longer causes weird re-renders/bugs when ticking down
+  - Creating a new profile now closes the drawer, state now updates correctly on profile created
 
 ### v0.6.3 (2023-11-06)
   - Created build, testing autoUpdater functionality

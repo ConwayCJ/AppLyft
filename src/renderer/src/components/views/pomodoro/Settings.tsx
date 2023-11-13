@@ -4,8 +4,9 @@ import useAppProvider from "@renderer/context/UseAppProvider"
 
 export default function Settings() {
   const { settings, methods, username } = useAppProvider()
-  const [PDSettings, setPDSettings] = useState(settings.pomoDoro)
+  const [PDSettings, setPDSettings] = useState(settings)
 
+  console.log(PDSettings)
   // modal ref
   const ref = useRef<HTMLDialogElement>(null)
   const handleShow = useCallback(() => {
