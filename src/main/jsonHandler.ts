@@ -167,8 +167,6 @@ export function updateSingleJob(job: Job, profile: string) {
     const jobData = fs.readFileSync(`${DATA_PATH}/profile.${profile}.json`, 'utf-8')
     const data = JSON.parse(jobData)
 
-    console.log(job)
-
     data.jobs = data.jobs.filter((jobToRemove: Job) => {
       return jobToRemove.id !== job.id
     })
@@ -177,5 +175,20 @@ export function updateSingleJob(job: Job, profile: string) {
     fs.writeFileSync(`${DATA_PATH}/profile.${profile}.json`, JSON.stringify(data))
   } catch (jsonError) {
     console.error(jsonError)
+  }
+}
+
+export function deleteProfile(profile:string){
+  try{
+    const profileData = fs.readFileSync(`${DATA_PATH}/existingProfiles.json`, 'utf-8')
+    const data = JSON.parse(profileData)
+
+    data.profiles = data.profiles.filter((p: string) => {
+      return p !== profile;
+    });
+
+    fs.writeFileSync(`${DATA_PATH}/existingProfiles.json`, JSON.stringify(data))
+  }catch(error){
+    console.error(error)
   }
 }

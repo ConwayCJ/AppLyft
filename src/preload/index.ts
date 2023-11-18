@@ -69,6 +69,10 @@ const updateSingleJob = (job: Job, profile: string) => {
   ipcRenderer.send('updateSingleJob', job, profile)
 }
 
+const deleteProfile = (profile:string) => {
+  ipcRenderer.send('deleteProfile', profile)
+}
+
 //
 ipcRenderer.on('update-notification', (_event, message) => {
   console.log(message)
@@ -87,7 +91,8 @@ const api = {
   getVersion,
   getChangeLog,
   getSettings,
-  updateSettings
+  updateSettings,
+  deleteProfile
 }
 
 // Use `contextBridge` APIs to expose Electron APIs to

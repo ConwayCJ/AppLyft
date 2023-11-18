@@ -194,6 +194,10 @@ ipcMain.on('createProfile', (_sender: Electron.IpcMainEvent, profileName: string
   jsonDataHandler.createProfile(profileName)
 })
 
+ipcMain.on('deleteProfile', (_sender:Electron.IpcMainEvent, profile: string) => {
+  jsonDataHandler.deleteProfile(profile)
+})
+
 // Add a new job to existing profile
 ipcMain.on('postJob', (_sender: Electron.IpcMainEvent, newJob: Job, profile: string) => {
   jsonDataHandler.addJob(newJob, profile)
